@@ -47,4 +47,13 @@ public class ControllerManager implements TimerListener {
 	public void stop() {
 		timer.stop();
 	}
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
+	
 }
