@@ -8,10 +8,10 @@ import lejos.util.TimerListener;
 public class ColorPoller implements TimerListener {
 	private ColorSensor cs;
 	private Timer poller;
-	private int poleRate;
+	private int poleRate = 30;
 	private int[] readings;
 
-	public ColorPoller(ColorSensor cs, int poleRate) {
+	public ColorPoller() {
 		this.cs = cs;
 		this.readings = new int[5];
 		this.poller = new Timer(poleRate, this);
