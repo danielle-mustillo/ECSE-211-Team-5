@@ -1,5 +1,8 @@
 package manager;
 
+import lejos.nxt.ColorSensor;
+import lejos.nxt.NXTRegulatedMotor;
+import lejos.nxt.UltrasonicSensor;
 import hardwareAbstraction.*;
 
 public class HardwareManager {
@@ -11,7 +14,7 @@ public class HardwareManager {
 	public UltrasonicMotor ultrasonicMotor;
 	public ColorPoller colorPoller;
 	public LinePoller linePoller;
-	public UltrasonicPoller ultrasonicPoller;
+	public UltrasonicPoller ultrasonicPoller;	
 	
 	public HardwareManager(Manager manager) {
 		this.manager = manager;
