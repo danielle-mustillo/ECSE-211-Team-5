@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import utilities.*;
 import controllers.State;
+import lejos.util.Timer;
 import lejos.util.TimerListener;
 import manager.*;
 
@@ -26,6 +27,7 @@ public class Navigation implements TimerListener {
 	private Manager manager;
 	private Odometer odo;
 	private Point nextDestination;
+	private Timer time;
 
 	private double[] pos;
 	private double dX;
@@ -39,6 +41,9 @@ public class Navigation implements TimerListener {
 		this.route = initializeRoute();
 		this.odo = manager.sm.odo;
 		this.pos = new double[3];
+		this.time = new Timer(100, this);
+		//start navigation right away
+		this.time.start();
 	}
 
 	// TODO an initializer of default points should be constructed here.
@@ -55,7 +60,7 @@ public class Navigation implements TimerListener {
 			// if navigation must be done
 			if (manager.cm.getState() == State.SEARCH
 					|| manager.cm.getState() == State.DROP_OFF) {
-				// update the changes in heading
+				// update the new headings to travel to
 				setupDeltaPositonAndHeading();
 				// see if we need to make a big turn
 				if (Math.abs(dH) > 5) {
@@ -67,8 +72,11 @@ public class Navigation implements TimerListener {
 					turnTo();
 				} else if (Math.abs(dX) > 1 || Math.abs(dY) > 1) {
 					//scan ahead only once facing the correct orientation, then travelTo that destination.
-					if (!scannedAhead)
+					if (!scannedAhead) {
+						pause();
 						manager.sm.obstacleAvoidance.scanAhead();
+						start();
+					}
 					travelTo();
 				} else {
 					//stop the motors, reset scanning state and get next destination. 
@@ -78,6 +86,14 @@ public class Navigation implements TimerListener {
 				}
 			}
 		}
+	}
+	
+	private void pause() {
+		this.time.stop();
+	}
+	
+	private void start() {
+		this.time.start();
 	}
 	
 	private void setupDeltaPositonAndHeading() {
