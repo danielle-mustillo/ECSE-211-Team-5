@@ -1,5 +1,6 @@
 package hardwareAbstraction;
 
+import utilities.Settings;
 import lejos.nxt.ColorSensor;
 import lejos.robotics.Color;
 import lejos.util.Timer;
@@ -12,7 +13,7 @@ public class ColorPoller implements TimerListener {
 	private int[] readings;
 
 	public ColorPoller() {
-		this.cs = cs;
+		this.cs = Settings.frontColorSensor;
 		this.readings = new int[5];
 		this.poller = new Timer(poleRate, this);
 	}
