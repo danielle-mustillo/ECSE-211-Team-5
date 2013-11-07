@@ -28,7 +28,7 @@ public class Odometer implements TimerListener {
 	public Odometer(Manager manager) {		
 		x = 0.0;
 		y = 0.0;
-		theta = Math.PI/2;
+		theta = 0.0;
 		oldDH = new double [2];
 		dDH = new double [2];
 		lock = new Object();
