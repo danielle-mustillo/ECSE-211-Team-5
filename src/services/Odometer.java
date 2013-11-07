@@ -76,11 +76,6 @@ public class Odometer implements TimerListener {
 		return pos;
 	}
 	
-	//TODO complete this stub.
-	public double[] getPosition(double[] pos) {
-		return pos;
-	}
-	
 	/**
 	 * returns the current heading of the robot
 	 * @return

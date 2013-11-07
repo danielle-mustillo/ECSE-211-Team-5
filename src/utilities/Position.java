@@ -15,7 +15,7 @@ public class Position extends Point {
 		this.y = Double.NaN;
 		this.theta = Double.NaN;
 	}
-	
+
 	public String toString() {
 		return "{x:" + x + ", y:" + y + ", theta:" + theta + "}";
 	}

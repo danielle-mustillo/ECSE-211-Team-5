@@ -29,7 +29,7 @@ public class Navigation implements TimerListener {
 	private Point nextDestination;
 	private Timer time;
 
-	private double[] pos;
+	private Position pos;
 	private double dX;
 	private double dY;
 	private double dH;
@@ -40,7 +40,7 @@ public class Navigation implements TimerListener {
 		this.manager = manager;
 		this.route = initializeRoute();
 		this.odo = manager.sm.odo;
-		this.pos = new double[3];
+		this.pos = new Position();
 		this.time = new Timer(100, this);
 		//start navigation right away
 		this.time.start();
@@ -97,15 +97,15 @@ public class Navigation implements TimerListener {
 	}
 	
 	private void setupDeltaPositonAndHeading() {
-		odo.getPosition(pos);
+		pos = odo.getPosition();
 
-		double currentX = pos[0];
-		double currentY = pos[1];
-		double currentTheta = pos[2];
+		double currentX = pos.x;
+		double currentY = pos.y;
+		double currentTheta = pos.theta;
 
 		// Distance between where we are and where we need to travel to
-		dX = nextDestination.getX() - currentX;
-		dY = nextDestination.getY() - currentY;
+		dX = nextDestination.x- currentX;
+		dY = nextDestination.y - currentY;
 
 		// the required theta to travel to our destination
 		double theta = Math.atan2(dY, dX) * 180.0 / Math.PI;
