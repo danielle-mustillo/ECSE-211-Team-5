@@ -25,4 +25,9 @@ public class ObstacleAvoidance {
 	public ObstacleAvoidance(Manager manager) {
 		
 	}
+	
+	//TODO complete this stub.
+	public void scanAhead() {
+		
+	}
 }
