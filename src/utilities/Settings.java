@@ -22,4 +22,6 @@ public class Settings {
 	
 	public static final String NXTSlaveName = "NXT";
 	
+	public static StartingCorner startingCorner;
+	
 }

@@ -103,14 +103,11 @@ public class Navigation implements TimerListener {
 		// the required theta to travel to our destination
 		double theta = Math.atan2(dY, dX);
 		
-		// adjust to [0, 360]
+		// adjust to [0, 2PI]
 		theta = Angle.principleAngle(theta);
-
-		// error in theta
-		dH = theta - currentPos.theta;
 		
-		// adjust to [0, 360]
-		dH = Angle.principleAngle(dH);
+		// set dH to the difference of theta and currentTheta adjust to [-PI, PI]
+		dH = Angle.minimumAngle(currentPos.theta, theta);
 	}
 
 	public void travelTo() {

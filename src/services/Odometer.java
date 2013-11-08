@@ -1,6 +1,5 @@
 package services;
 
-import lejos.nxt.NXTRegulatedMotor;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
 import manager.*;
@@ -127,7 +126,7 @@ public class Odometer implements TimerListener {
 		synchronized (lock) {
 			x = pos.x;
 			y = pos.y;
-			theta = pos.theta;
+			theta = Angle.principleAngle(pos.theta);
 		}
 	}
 	
@@ -141,7 +140,7 @@ public class Odometer implements TimerListener {
 		synchronized (lock) {
 			x += dx;
 			y += dy;
-			theta += dTheta;
+			theta = Angle.principleAngle(theta+dTheta);
 		}
 	}
 	

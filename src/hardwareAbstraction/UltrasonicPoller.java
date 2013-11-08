@@ -13,10 +13,11 @@ import lejos.util.TimerListener;
  * @author danielle
  */
 public class UltrasonicPoller implements TimerListener {
-	private UltrasonicSensor[] us = {utilities.Settings.leftUltrasonic, utilities.Settings.leftUltrasonic, utilities.Settings.leftUltrasonic};
+	private UltrasonicSensor[] us = {utilities.Settings.leftUltrasonic, utilities.Settings.centerUltrasonic, utilities.Settings.rightUltrasonic};
 	public int pollRate;
 	private Timer poller;
 	private int readings[][];
+	private boolean running = false;
 
 	// TODO figure out what exactly this constructor should be.
 	public UltrasonicPoller() {
@@ -47,6 +48,7 @@ public class UltrasonicPoller implements TimerListener {
 	public void start() {
 		this.poller = new Timer(pollRate, this);
 		this.poller.start();
+		running = true;
 	}
 
 	/**
@@ -55,7 +57,13 @@ public class UltrasonicPoller implements TimerListener {
 	 */
 	public void stop() {
 		this.poller = null;
+		running = false;
 	}
+	
+	public int getUSReading(int sensor) {
+		return 20;
+	}
+	
 
 	/**
 	 * gets the lowest reading in the ultrasonicPoller at that time. Readings
