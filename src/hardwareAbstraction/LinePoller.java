@@ -1,20 +1,112 @@
 package hardwareAbstraction;
 
-public class LinePoller {
+import lejos.nxt.ColorSensor;
+import lejos.nxt.Sound;
+import lejos.util.Timer;
+import lejos.util.TimerListener;
+import utilities.Settings;
 
-	private boolean rightSensorOnLine;
-	private boolean leftSensorOnLine;
+/**
+ * Detects grid lines with two rear floor facing color sensors
+ * other threads should call enteringLine to know when a new line has been detected
+ * @author Riley
+ *
+ */
+
+public class LinePoller implements TimerListener {
+
+	private final int UPDATE_PERIOD = 15;
+	private final int THRESHOLD = 40;
+	private boolean[] sensorOnLine;
+	private boolean[] sensorEnteringLine;
+	private ColorSensor[] sensor = new ColorSensor[2];
+	private Timer timer;
+	private int[][] readings;
+	private int left = 0;
+	private int right = 1;
 	
-	public int getFilteredData(boolean rightSensor) {
-		return 1;
+	public LinePoller() {
+		sensor[right] = Settings.rearRightColorSensor;
+		sensor[left] = Settings.rearLeftColorSensor;
+		readings = new int[2][4];
+		sensorOnLine = new boolean[]{false, false};
+		sensorEnteringLine = new boolean[]{false, false};
+		timer = new Timer(UPDATE_PERIOD, this);
+		sensor[right].setFloodlight(0);
+		sensor[left].setFloodlight(0);
 	}
 	
-	public boolean onLine(boolean rightSensor) {
-		return (rightSensor) ? rightSensorOnLine : leftSensorOnLine;
+	/**
+	 * Starts line polling
+	 */
+	public void start() {		
+		//Populate Readings Array
+		addReading(left, sensor[left].getRawLightValue()/2);
+		addReading(right, sensor[right].getRawLightValue()/2);
+		addReading(left, sensor[left].getRawLightValue()/2);
+		addReading(right, sensor[right].getRawLightValue()/2);
+		addReading(left, sensor[left].getRawLightValue()/2);
+		addReading(right, sensor[right].getRawLightValue()/2);
+		addReading(left, sensor[left].getRawLightValue()/2);
+		addReading(right, sensor[right].getRawLightValue()/2);
+		
+		timer.start();
 	}
 	
-	public boolean enteringLine(boolean rightSensor) {
-		return true;
+	public void timedOut() {
+		addReading(left, sensor[left].getRawLightValue()/2);
+		addReading(right, sensor[right].getRawLightValue()/2);
+		
+		detectLine(right);
+		detectLine(left);
+		
+	}
+	
+	private void addReading(int sensor, int reading) {
+		readings[sensor][3] = readings[sensor][2];
+		readings[sensor][2] = readings[sensor][1];
+		readings[sensor][1] = readings[sensor][0];
+		readings[sensor][0] = reading;
+	}
+	
+	/**
+	 * Filters and differences the data
+	 * @param sensor
+	 */
+	private void detectLine(int sensor) {
+		int result;
+		
+		// Smooth and difference
+		result = -readings[sensor][3] - readings[sensor][2] + readings[sensor][1] + readings[sensor][0];
+		
+		//if not currently on a line and filter result is less than -45 we just enter a line			
+		if(!sensorOnLine[sensor] && result < -THRESHOLD) {
+			sensorOnLine[sensor] = true;
+			sensorEnteringLine[sensor] = true;
+			//alert us with a beep that a line was detected
+			Sound.beep();
+		}
+		//if we are on a line and filter result > 45 we have now left the line
+		else if(sensorOnLine[sensor] && result > THRESHOLD) {
+			sensorOnLine[sensor] = false;
+			//in the event that no other thread was running at the time
+			sensorEnteringLine[sensor] = false;
+		}
+	}
+		
+	/**
+	 * Returns true if the sensor has just detected a black line
+	 * 
+	 * @param sensor | left = 0 & right = 1
+	 * @return
+	 */
+	public boolean enteringLine(int sensor) {
+		if(sensorEnteringLine[sensor]) {
+			//reset so the line is only counted once;
+			sensorEnteringLine[sensor] = false;
+			return true;
+		}
+		return false;
 	}
 	
 }

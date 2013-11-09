@@ -1,5 +1,8 @@
 package services;
 
+import controllers.State;
+import utilities.*;
+import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
 import manager.*;
@@ -23,7 +26,6 @@ public class Localization implements TimerListener {
 	private double angleA;
 	private double angleB;
 	
-	
 	private boolean lightLocalization;
 	private int rightLineCount;
 	private int leftLineCount;
@@ -38,45 +40,52 @@ public class Localization implements TimerListener {
 	 * Starts the localization process
 	 */
 	public void start() {
+		RConsole.println("Localizing");
 		//Retrieves center Ultrasonic reading
-		int usReading = updateUltrasonic() ;
+		int usReading = updateUltrasonic();
 		
 		//Currently facing a wall, use rising edge detection for both angles
 		if(usReading < THRESHOLD) {
 			rising = true;
+			RConsole.println("Rising");
 		} 
 		//currently not facing a wall, use falling edge, then rising edge
 		else if (usReading > THRESHOLD) {
 			rising = false;
+			RConsole.println("falling");
 		} 
 		//on the threshold, so start moving then try to start again
 		else {
+			RConsole.println("At threshold");
 			manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
 			manager.um.nap(50);
 			start();
 			return;
 		}
-		
+		RConsole.println("initializing");
 		angleA = Double.NaN;
 		angleB = Double.NaN;
-		lineDetectedHeadings[7] = Double.NaN;
+		lineDetectedHeadings[3] = Double.NaN;
+		RConsole.println("Starting");
 		timer.start();
 		
 	}
 	
 	public void stop() {
+		
 		timer.stop();
 	}
 	
 	public void timedOut() {
-		if(angleB == Double.NaN) {
+		RConsole.println("timedOut");
+		if(Double.isNaN(angleB)) {
 			ultrasonicLocalization();
-		} else if(lineDetectedHeadings[7] == Double.NaN) {
+		} else if(Double.isNaN(lineDetectedHeadings[3])) {
 			
 			if(!lightLocalization) {
-				if(manager.sm.odo.getTheta() > 50) {
+				if(manager.sm.odo.getTheta() > lineLocalizationStartingOrientation() + 0.2 ) {
 					manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
-				} else if(manager.sm.odo.getTheta() < 40) {
+				} else if(manager.sm.odo.getTheta() < lineLocalizationStartingOrientation() - 0.2 ) {
 					manager.hm.drive.setSpeeds(0, -ROTATION_SPEED);
 				} else {
 					manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
@@ -100,7 +109,7 @@ public class Localization implements TimerListener {
 	public void ultrasonicLocalization() {
 		int distance = updateUltrasonic();
 		
-		if(angleA == Double.NaN) {
+		if(Double.isNaN(angleA)) {
 			if(rising) {
 				manager.hm.drive.setSpeeds(0, -ROTATION_SPEED);
 				if(distance > THRESHOLD) {
@@ -116,7 +125,7 @@ public class Localization implements TimerListener {
 			}
 		} else {
 			manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
-			if(distance > THRESHOLD && Math.abs(angleA-manager.sm.odo.getTheta()) > 50) {
+			if(distance > THRESHOLD && Math.abs(angleA-manager.sm.odo.getTheta()) > 1) {
 				angleB = manager.sm.odo.getTheta();
 				updateTheta();
 			}
@@ -131,21 +140,33 @@ public class Localization implements TimerListener {
 		if(rising) {
 			//Depending on what angle is bigger, offset deltaTheta to the correct amount
 			if(angleA > angleB) {
-				deltaTheta += 225;
+				deltaTheta +=  5.0 * Math.PI / 4.0;
 			} else {
-				deltaTheta += 45;
+				deltaTheta +=  Math.PI / 4.0;
 			}
 		} else {
 			//Depending on what angle is bigger, offset deltaTheta to the correct amount
 			if(angleA > angleB) {
-				deltaTheta += 225;
+				deltaTheta +=  5.0 * Math.PI / 4.0;
 			} else {
-				deltaTheta += 45;
+				deltaTheta +=  Math.PI / 4.0;
 			}
+		}
+		
+		/*
+		 * Adjust for the starting corner
+		 */
+		if(Settings.startingCorner == StartingCorner.BOTTOM_RIGHT) {
+			deltaTheta -= Math.PI/2;
+		} else if (Settings.startingCorner == StartingCorner.TOP_RIGHT) {
+			deltaTheta -= Math.PI;
+		} else if (Settings.startingCorner == StartingCorner.TOP_LEFT) {
+			deltaTheta += Math.PI/2;
 		}
 		
 		//update the odometer
 		manager.sm.odo.adjustPosition(0, 0, deltaTheta);
+		manager.cm.setState(State.SEARCH);
 	}
 	
 	/**
@@ -156,8 +177,42 @@ public class Localization implements TimerListener {
 		checkLineSensor(false);
 	}
 	
+	/**
+	 * Updates the odometers position based on light localization results
+	 */
 	public void updatePosition() {
+		double thetaXminus = (lineDetectedHeadings[0] + lineDetectedHeadings[4]) / 2.0;
+		double thetaYminus = (lineDetectedHeadings[3] + lineDetectedHeadings[7]) / 2.0;
+		double thetaYplus = (lineDetectedHeadings[1] + lineDetectedHeadings[5]) / 2.0;
+		double thetaXplus = (lineDetectedHeadings[2] + lineDetectedHeadings[6]) / 2.0;
 		
+		double thetaX = thetaXminus - thetaXplus;
+		double thetaY = thetaYplus - thetaYminus;
+		
+		double x = -Settings.LS_OFFSET * Math.cos(thetaY/2.0);
+		double y = -Settings.LS_OFFSET * Math.cos(thetaX/2.0);
+		
+		double dThetaX = -Math.PI/2.0 + thetaX / 2.0 - thetaXminus;
+		double dThetaY = -Math.PI - thetaYminus - thetaY/2.0;
+		
+		double dTheta = (dThetaX + dThetaY) / 2.0;
+		
+		manager.sm.odo.adjustPosition(x, y, dTheta);
+	}
+	
+	/**
+	 * returns the desired starting angle for light localization
+	 */
+	public double lineLocalizationStartingOrientation() {
+		if(Settings.startingCorner == StartingCorner.BOTTOM_RIGHT) {
+			return 3.0 * Math.PI / 4.0;
+		} else if (Settings.startingCorner == StartingCorner.TOP_RIGHT) {
+			return 5.0 * Math.PI / 4.0;
+		} else if (Settings.startingCorner == StartingCorner.TOP_LEFT) {
+			return 7.0 * Math.PI / 4.0;
+		} else {
+			return Math.PI / 4.0;
+		}
 	}
 
 	
@@ -170,7 +225,7 @@ public class Localization implements TimerListener {
 	 * @param rightSensor -> true if the right sensor is to be checked, false if the left sensor is to be checked
 	 */
 	public void checkLineSensor(boolean rightSensor) {
-		if(manager.hm.linePoller.enteringLine(rightSensor)) {
+		if(manager.hm.linePoller.enteringLine((rightSensor) ? 1 : 0)) {
 			if(rightSensor && rightLineCount < 4) {
 				lineDetectedHeadings[rightLineCount] = manager.sm.odo.getTheta();
 				rightLineCount++;
