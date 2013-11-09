@@ -1,5 +1,6 @@
 package utilities;
 
+import lejos.nxt.LCD;
 import lejos.nxt.comm.LCPResponder;
 import lejos.nxt.comm.NXTCommConnector;
 import lejos.nxt.comm.RS485;
@@ -37,6 +38,7 @@ public class Responder {
 	 */
 	
 	public static void main(String[] args) {
+		LCD.drawString("Connecting", 1, 1);
 		ResponderTool resp = new ResponderTool(RS485.getConnector());
 		resp.start();
 		try {
@@ -44,6 +46,7 @@ public class Responder {
 		} catch (InterruptedException e) {
 			Communicator.catchBug("The responder failed in the Responder.java class " + e.getMessage());
 		}
+		LCD.drawString("Connected", 2, 2);
     }
 	
 }

@@ -50,13 +50,15 @@ public class Navigation implements TimerListener {
 
 	@Override
 	public void timedOut() {
-		nextDestination = route.peek();
-		if (nextDestination == null) {
-			// nothing is done
-		} else {
-			// if navigation must be done
-			if (manager.cm.getState() == State.SEARCH
-					|| manager.cm.getState() == State.DROP_OFF) {
+		if (manager.cm.getState() == State.SEARCH
+				|| manager.cm.getState() == State.DROP_OFF) {
+		
+			nextDestination = route.peek();
+			if (nextDestination == null) {
+				// nothing is done
+			} else {
+				// if navigation must be done
+			
 				// update the new headings to travel to
 				setupDeltaPositonAndHeading();
 				// see if we need to make a big turn

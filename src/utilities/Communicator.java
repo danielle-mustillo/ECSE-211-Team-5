@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import lejos.nxt.LCD;
 import lejos.nxt.UltrasonicSensor;
+import lejos.nxt.comm.RConsole;
 import lejos.nxt.comm.RS485;
 import lejos.nxt.remote.RemoteNXT;
 
@@ -31,14 +32,14 @@ public class Communicator {
 		}
 
 		LCD.clear();
-
+		
 		Settings.forkliftMotor = nxt.A;
-		Settings.clawMotor = nxt.B;
-		Settings.ultrasonicMotor = nxt.C;
-
-		Settings.rightUltrasonic = new UltrasonicSensor(nxt.S3);
-		Settings.centerUltrasonic = new UltrasonicSensor(nxt.S2);
-		Settings.rightUltrasonic = new UltrasonicSensor(nxt.S1);
+		Settings.clawMotor = nxt.C;
+		Settings.ultrasonicMotor = nxt.B;
+		RConsole.println("Connected");
+		Settings.leftUltrasonic = new UltrasonicSensor(nxt.S3);
+		Settings.centerUltrasonic = new UltrasonicSensor(nxt.S1);
+		Settings.rightUltrasonic = new UltrasonicSensor(nxt.S2);
 	}
 
 	/**

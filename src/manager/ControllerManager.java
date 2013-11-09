@@ -30,7 +30,7 @@ public class ControllerManager implements TimerListener {
 	}
 	
 	public void start() {
-		state = State.SEARCH;
+		state = State.LOCALIZING;
 		timer.start();
 	}
 	

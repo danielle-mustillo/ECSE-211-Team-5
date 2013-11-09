@@ -15,7 +15,7 @@ public class Drive {
 	
 	public static final double LEFT_RADIUS = 2.11;
 	public static final double RIGHT_RADIUS = 2.11;
-	public static final double WIDTH = 14.92;
+	public static final double WIDTH = 15.00;
 	
 	public Drive() {
 		leftMotor = Settings.leftDriveMotor;
