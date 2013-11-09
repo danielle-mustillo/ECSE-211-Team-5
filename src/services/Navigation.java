@@ -53,10 +53,11 @@ public class Navigation implements TimerListener {
 		if (manager.cm.getState() == State.SEARCH
 				|| manager.cm.getState() == State.DROP_OFF) {
 		
-			nextDestination = route.peek();
-			if (nextDestination == null) {
+			
+			if (route.empty()) {
 				// nothing is done
 			} else {
+				nextDestination = route.peek();
 				// if navigation must be done
 			
 				// update the new headings to travel to
