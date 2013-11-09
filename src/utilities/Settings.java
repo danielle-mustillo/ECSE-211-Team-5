@@ -3,6 +3,7 @@ package utilities;
 import lejos.nxt.ColorSensor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.UltrasonicSensor;
+import lejos.nxt.remote.RemoteMotor;
 
 public class Settings {
 
@@ -16,9 +17,10 @@ public class Settings {
 	
 	public static NXTRegulatedMotor leftDriveMotor;
 	public static NXTRegulatedMotor rightDriveMotor;
-	public static NXTRegulatedMotor forkliftMotor;
-	public static NXTRegulatedMotor ultrasonicMotor;
-	public static NXTRegulatedMotor clawMotor;
+	
+	public static RemoteMotor forkliftMotor;
+	public static RemoteMotor ultrasonicMotor;
+	public static RemoteMotor clawMotor;
 	
 	public static final String NXTSlaveName = "NXT";
 	
