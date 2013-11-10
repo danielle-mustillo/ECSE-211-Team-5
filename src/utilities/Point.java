@@ -9,6 +9,11 @@ public class Point  {
 		this.y = y;
 	}
 	
+	public Point(Point point) {
+		this.x = point.x;
+		this.y = point.y;
+	}
+	
 	public Point() {
 		this.x = Double.NaN;
 		this.y = Double.NaN;

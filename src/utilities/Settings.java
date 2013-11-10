@@ -34,5 +34,6 @@ public class Settings {
 	public static StartingCorner startingCorner;
 	
 	public static final double LS_OFFSET = 15.0;
+	public static final int maxBlockCapacity = 1;
 	
 }

@@ -1,5 +1,6 @@
 package controllers;
 
+import utilities.Settings;
 import hardwareAbstraction.Claw;
 import hardwareAbstraction.Forklift;
 import manager.Manager;
@@ -17,9 +18,14 @@ private Manager manager;
 	 * Maintains the singleton design of this system. 
 	 */
 	public void run() {
+		//pause the re-execution
+		manager.cm.setState(State.PAUSE);
 		Claw.grabObject();
 		Forklift.liftObject();
-		//TODO determine if the robot needs to drop off or search again. By default now it searches. 
-		manager.cm.setState(State.SEARCH);
+		manager.cm.setStored(manager.cm.getStored());
+		if(manager.cm.getStored() == Settings.maxBlockCapacity)
+			manager.cm.setState(State.DROP_OFF);
+		else
+			manager.cm.setState(State.SEARCH);
 	}
 }

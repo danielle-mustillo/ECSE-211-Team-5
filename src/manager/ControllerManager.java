@@ -18,6 +18,7 @@ public class ControllerManager implements TimerListener {
 
 	public Manager manager;
 	private State state; 
+	private int stored;
 	private Controller[] controllers; 
 	private Timer timer;
 	
@@ -25,6 +26,7 @@ public class ControllerManager implements TimerListener {
 	
 	public ControllerManager(Manager manager) {
 		this.manager = manager;
+		this.stored = 0;
 		this.timer = new Timer(UPDATE_PERIOD, this);
 		this.controllers = new Controller[]{new Search(manager), new Recognize(manager), new Collect(manager), new DropOff(manager), new WallFollower(manager)};
 	}
@@ -55,5 +57,15 @@ public class ControllerManager implements TimerListener {
 	public void setState(State state) {
 		this.state = state;
 	}
+
+	public int getStored() {
+		return stored;
+	}
+
+	public void setStored(int stored) {
+		this.stored = stored;
+	}
+	
+	
 	
 }

@@ -87,11 +87,11 @@ public class Navigation implements TimerListener {
 		}
 	}
 	
-	private void pause() {
+	public void pause() {
 		this.time.stop();
 	}
 	
-	private void start() {
+	public void start() {
 		this.time.start();
 	}
 	
@@ -175,4 +175,23 @@ public class Navigation implements TimerListener {
 		return 0;
 	}
 
+	//accessors and mutators
+	public Stack<Point> getRoute() {
+		return route;
+	}
+
+	public void setRoute(Stack<Point> route) {
+		this.route = route;
+	}
+	
+	//useful methods used within dropoff. 
+	public Stack<Point> exportAndResetRoute() {
+		Stack<Point> route = this.route;
+		this.route = initializeRoute();
+		return route;
+	}
+	
+	public void addToRoute(Point xy) {
+		this.route.push(xy);
+	}
 }
