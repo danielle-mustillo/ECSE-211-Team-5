@@ -18,14 +18,10 @@ import lejos.nxt.comm.NXTConnection;
  */
 public class BluetoothTransmission {
 	static DataInputStream stream; 
-	static int role;
-	static int startingCorner;
-	static Point[] redZoneCoords;
-	static Point[] greenZoneCoords;
 	
 	public static void getBluetoothData() {
-		greenZoneCoords = new Point[4];
-		redZoneCoords = new Point[4];
+		Settings.greenZoneCoords = new Point[4];
+		Settings.redZoneCoords = new Point[4];
 		stream = new DataInputStream(getConnection());
 		getInformation();
 	}
@@ -38,22 +34,33 @@ public class BluetoothTransmission {
 	private static void getInformation() {
 		//TODO verify the input of the coordinates with the server. I am assuming the coordinates are sent as a series of 8 integers. The order is unknown. 
 		try {
-			role = stream.readInt();
+			Settings.role = stream.readInt();
 			char useless = stream.readChar();
-			startingCorner = stream.readInt();
-			for(int i = 0; i < greenZoneCoords.length; i++) {
-				useless = stream.readChar();
-				int x = stream.readInt();
-				useless = stream.readChar();
-				int y = stream.readInt();
-				greenZoneCoords[i] = new Point(x,y);
+			int startingCorner = stream.readInt();
+			//TODO figure out which numbers correspond to which corners. And their values. 
+			switch(startingCorner) {
+			case 1 : Settings.startingCorner = StartingCorner.BOTTOM_LEFT; 
+			break;
+			case 2 : Settings.startingCorner = StartingCorner.BOTTOM_RIGHT; 
+			break;
+			case 3 : Settings.startingCorner = StartingCorner.TOP_LEFT; 
+			break;
+			case 4 : Settings.startingCorner = StartingCorner.TOP_RIGHT; 
+			break;
 			}
-			for(int i = 0; i < redZoneCoords.length; i++) {
+			for(int i = 0; i < Settings.greenZoneCoords.length; i++) {
 				useless = stream.readChar();
 				int x = stream.readInt();
 				useless = stream.readChar();
 				int y = stream.readInt();
-				redZoneCoords[i] = new Point(x,y);
+				Settings.greenZoneCoords[i] = new Point(x,y);
+			}
+			for(int i = 0; i < Settings.redZoneCoords.length; i++) {
+				useless = stream.readChar();
+				int x = stream.readInt();
+				useless = stream.readChar();
+				int y = stream.readInt();
+				Settings.redZoneCoords[i] = new Point(x,y);
 			}
 		} catch (IOException e) {
 			catchBug("Bluetooth recieve failed: " + e.getMessage());

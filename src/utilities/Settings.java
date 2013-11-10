@@ -28,7 +28,11 @@ public class Settings {
 	
 	public static final String NXTSlaveName = "NXT";
 	
+	public static int role;
+	public static Point[] redZoneCoords;
+	public static Point[] greenZoneCoords;
 	public static StartingCorner startingCorner;
+	
 	public static final double LS_OFFSET = 15.0;
 	
 }
