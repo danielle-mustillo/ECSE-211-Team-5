@@ -15,7 +15,6 @@ public class ColorPoller implements TimerListener {
 	public ColorPoller() {
 		this.cs = Settings.frontColorSensor;
 		this.readings = new int[5];
-		this.poller = new Timer(poleRate, this);
 	}
 	
 	public void start() {
@@ -24,6 +23,7 @@ public class ColorPoller implements TimerListener {
 	}
 	
 	public void stop() {
+		this.poller.stop();
 		this.poller = null;
 	}
 
