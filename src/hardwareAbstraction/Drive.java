@@ -43,9 +43,9 @@ public class Drive {
 	public void setSpeeds(double forwardSpeed, double rotationalSpeed) {
 		double leftSpeed, rightSpeed;
 
-		leftSpeed = (forwardSpeed + rotationalSpeed * WIDTH * Math.PI / 360.0) *
+		leftSpeed = -(forwardSpeed + rotationalSpeed * WIDTH * Math.PI / 360.0) *
 				180.0 / (LEFT_RADIUS * Math.PI);
-		rightSpeed = (forwardSpeed - rotationalSpeed * WIDTH * Math.PI / 360.0) *
+		rightSpeed = -(forwardSpeed - rotationalSpeed * WIDTH * Math.PI / 360.0) *
 				180.0 / (RIGHT_RADIUS * Math.PI);
 
 		
