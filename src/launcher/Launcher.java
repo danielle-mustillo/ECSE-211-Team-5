@@ -30,11 +30,16 @@ public class Launcher {
 		
 		Manager manager = new Manager();
 		
-		manager.sm.localization.start();
+		manager.hm.drive.setSpeeds(300, 0);
+		manager.um.nap(8000);
+		manager.hm.drive.stop();
+		RConsole.println(manager.sm.odo.getPosition().toString());
+		
+		/*manager.sm.localization.start();
 		
 		while(manager.cm.getState() == State.LOCALIZING) {
 			manager.um.nap(150);
-		}
+		}*/
 		
 		Button.waitForPress();
 	

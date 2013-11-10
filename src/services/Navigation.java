@@ -53,7 +53,6 @@ public class Navigation implements TimerListener {
 		if (manager.cm.getState() == State.SEARCH
 				|| manager.cm.getState() == State.DROP_OFF) {
 		
-			
 			if (route.empty()) {
 				// nothing is done
 			} else {
