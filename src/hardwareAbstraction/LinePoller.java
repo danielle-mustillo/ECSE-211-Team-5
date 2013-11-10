@@ -21,7 +21,7 @@ public class LinePoller implements TimerListener {
 	private boolean[] sensorEnteringLine;
 	private ColorSensor[] sensor = new ColorSensor[2];
 	private Timer timer;
-	private int[][] readings;
+	public int[][] readings;
 	private int left = 0;
 	private int right = 1;
 	

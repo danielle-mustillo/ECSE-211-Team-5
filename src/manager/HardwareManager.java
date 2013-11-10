@@ -1,8 +1,5 @@
 package manager;
 
-import lejos.nxt.ColorSensor;
-import lejos.nxt.NXTRegulatedMotor;
-import lejos.nxt.UltrasonicSensor;
 import hardwareAbstraction.*;
 
 public class HardwareManager {

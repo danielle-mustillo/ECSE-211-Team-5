@@ -11,6 +11,7 @@ public class ServiceManager {
 	public ObstacleAvoidance obstacleAvoidance;
 	public Mapper mapper;
 	public Localization localization;
+	public HardwareViewer hwView;
 	
 	public ServiceManager(Manager manager) {
 		this.manager = manager;
@@ -20,5 +21,6 @@ public class ServiceManager {
 		this.obstacleAvoidance = new ObstacleAvoidance(manager);
 		this.mapper = new Mapper(manager);
 		this.localization = new Localization(manager);
+		this.hwView = new HardwareViewer(manager);
 	}
 }
