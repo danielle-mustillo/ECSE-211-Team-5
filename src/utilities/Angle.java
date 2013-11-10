@@ -17,9 +17,9 @@ public class Angle {
 	 */
 	public static double principleAngle(double angle) {		
 		if (angle < 0.0)
-			angle = 2*Math.PI + (angle % Math.PI);
+			angle = 2*Math.PI + (angle % 2*Math.PI);
 		
-		return angle % Math.PI;
+		return angle % 2*Math.PI;
 	}
 	/**
 	 * Returns the minimum angle
