@@ -20,10 +20,14 @@ private Manager manager;
 	public void run() {
 		//pause the re-execution
 		manager.cm.setState(State.PAUSE);
+		
+		//grab and lift
 		Claw.grabObject();
 		Forklift.liftObject();
-		manager.cm.setStored(manager.cm.getStored());
-		if(manager.cm.getStored() == Settings.maxBlockCapacity)
+		
+		//update storage count and go to the required next step (searching or dropping off).
+		manager.cm.setStored(manager.cm.getStored() + 1);
+		if(manager.cm.getStored() >= Settings.maxBlockCapacity)
 			manager.cm.setState(State.DROP_OFF);
 		else
 			manager.cm.setState(State.SEARCH);

@@ -6,6 +6,11 @@ import utilities.Point;
 import utilities.Settings;
 import manager.Manager;
 
+/**
+ * This class will dropoff the block at the destination required. 
+ * It will navigate to the green zone location and drop off the block.
+ * @author danielle
+ */
 public class DropOff extends Controller {
 
 private Manager manager;
@@ -21,7 +26,7 @@ private Manager manager;
 		//store the route. 
 		Stack<Point> route = this.manager.sm.nav.exportAndResetRoute();
 		
-		//go to the end
+		//go to the green zone
 		this.manager.sm.nav.addToRoute(new Point(Settings.greenZoneCoords[0]));
 		
 		//go back to previous state
