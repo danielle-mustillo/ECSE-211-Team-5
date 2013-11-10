@@ -3,6 +3,7 @@
  */
 package launcher;
 
+import utilities.Point;
 import controllers.State;
 import lejos.nxt.Button;
 import lejos.nxt.comm.RConsole;
@@ -44,7 +45,12 @@ public class Launcher {
 		
 		while(manager.cm.getState() == State.LOCALIZING) {
 			manager.um.nap(150);
-		}*/
+		}
+		
+		manager.sm.nav.addToRoute(new Point(0,0));
+		manager.sm.nav.turnToComplete(0);
+		
+		*/
 		
 		Button.waitForPress();
 	

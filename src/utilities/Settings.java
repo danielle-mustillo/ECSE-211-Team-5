@@ -31,7 +31,7 @@ public class Settings {
 	public static int role;
 	public static Point[] redZoneCoords;
 	public static Point[] greenZoneCoords;
-	public static StartingCorner startingCorner;
+	public static StartingCorner startingCorner = StartingCorner.BOTTOM_LEFT;
 	
 	public static final double LS_OFFSET = 15.0;
 	public static final int maxBlockCapacity = 1;

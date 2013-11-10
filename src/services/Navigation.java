@@ -67,7 +67,7 @@ public class Navigation implements TimerListener {
 					// completing a turn, call the turnTo method
 					// otherwise we can adjust small angle errors by slowing
 					// one wheel down slightly
-					turnTo();
+					turnTo(dH);
 				} else if (Math.abs(dX) > 1 || Math.abs(dY) > 1) {
 					//scan ahead only once facing the correct orientation, then travelTo that destination.
 					if (!scannedAhead) {
@@ -132,7 +132,7 @@ public class Navigation implements TimerListener {
 
 	}
 
-	public void turnTo() {
+	public void turnTo(double dH) {
 
 		// if angle error greater than 0.6 deg
 		if (Math.abs(dH) >= 0.01) {
@@ -141,6 +141,21 @@ public class Navigation implements TimerListener {
 			// we have finished turning
 			manager.hm.drive.stop();
 		}
+	}
+	
+	
+	public void turnToComplete(double angle) {
+		
+		angle = Angle.principleAngle(angle);
+		// set dH to the difference of theta and currentTheta adjust to [-PI, PI]
+		double dH = Angle.minimumAngle(currentPos.theta, angle);
+		
+		while(Math.abs(dH) > 0.01) {
+			dH = Angle.minimumAngle(currentPos.theta, angle);
+			turnTo(dH);
+			manager.um.nap(100);
+		}
+		
 	}
 	
 	public int calculateRotationSpeed(double dH) {

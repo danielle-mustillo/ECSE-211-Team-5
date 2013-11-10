@@ -166,7 +166,7 @@ public class Localization implements TimerListener {
 		
 		//update the odometer
 		manager.sm.odo.adjustPosition(0, 0, deltaTheta);
-		manager.cm.setState(State.SEARCH);
+		RConsole.println(manager.sm.odo.getPosition().toString());
 	}
 	
 	/**
@@ -198,6 +198,8 @@ public class Localization implements TimerListener {
 		double dTheta = (dThetaX + dThetaY) / 2.0;
 		
 		manager.sm.odo.adjustPosition(x, y, dTheta);
+		RConsole.println(manager.sm.odo.getPosition().toString());
+		manager.cm.setState(State.SEARCH);
 	}
 	
 	/**
