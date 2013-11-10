@@ -207,6 +207,7 @@ public class Navigation implements TimerListener {
 	}
 	
 	public void addToRoute(Point xy) {
+		this.scannedAhead = false;
 		this.route.push(xy);
 	}
 }
