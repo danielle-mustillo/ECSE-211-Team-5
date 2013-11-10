@@ -60,10 +60,7 @@ public class HardwareViewer implements TimerListener {
 		int usL = usp.getUSReading(left);
 		int usC = usp.getUSReading(center);
 		int usR = usp.getUSReading(right);
-		RConsole.println("US poller readings:");
-		RConsole.println("\tLeft: " + usL);
-		RConsole.println("\tCent: " + usC);
-		RConsole.println("\tRight: " + usR);
+		RConsole.println(usL + ";" + usC + ";" + usR);
 	}
 	
 //	private void printLP() {
