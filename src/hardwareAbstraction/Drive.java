@@ -31,7 +31,7 @@ public class Drive {
 		leftTacho = leftMotor.getTachoCount();
 		rightTacho = rightMotor.getTachoCount();
 		
-		data[0] = (leftTacho * LEFT_RADIUS + rightTacho * RIGHT_RADIUS) *	Math.PI / 360.0;
+		data[0] = (leftTacho * LEFT_RADIUS + rightTacho * RIGHT_RADIUS) * Math.PI / 360.0;
 		data[1] = (leftTacho * LEFT_RADIUS - rightTacho * RIGHT_RADIUS) / WIDTH * Math.PI / 180.0;
 	}
 	

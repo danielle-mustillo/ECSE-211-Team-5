@@ -50,8 +50,8 @@ public class Odometer implements TimerListener {
 			theta -= dDH[1];
 			theta = Angle.principleAngle(theta);
 			
-			x -= dDH[0] * Math.cos(theta);
-			y -= dDH[0] * Math.sin(theta);
+			x += dDH[0] * Math.cos(theta);
+			y += dDH[0] * Math.sin(theta);
 		}
 		
 		//update old displacement and heading

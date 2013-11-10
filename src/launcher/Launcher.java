@@ -31,7 +31,12 @@ public class Launcher {
 		Manager manager = new Manager();
 		
 		manager.hm.drive.setSpeeds(300, 0);
-		manager.um.nap(8000);
+		int count = 0;
+		while(count < 80) {
+			RConsole.println(manager.sm.odo.getPosition().toString());
+			manager.um.nap(100);
+			count++;
+		}
 		manager.hm.drive.stop();
 		RConsole.println(manager.sm.odo.getPosition().toString());
 		
