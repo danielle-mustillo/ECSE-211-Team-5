@@ -1,6 +1,7 @@
 package services;
 
 import utilities.Point;
+import utilities.Position;
 import controllers.State;
 import manager.*;
 
@@ -38,7 +39,7 @@ public class ObstacleAvoidance {
 
 	public boolean scanAhead() {
 		// TODO note this may be necessary to avoid having the robot navigate while scanning. 
-//		manager.cm.setState(State.PAUSE);
+		manager.cm.setState(State.PAUSE);
 		
 		// TODO somehow move all the three ultrasonic sensors forward with slave brick. Waiting for ultrasonicMotor implementation. 
 		
@@ -59,14 +60,18 @@ public class ObstacleAvoidance {
 		}
 		else {
 			//TODO remove or add this depending if state is changed to pause at start of scanAhead(); 
-//			manager.cm.setState(State.SEARCH);
+			manager.cm.setState(State.SEARCH);
 			if(smallestReading > threshold + safetyThreshold)
 				return true;
 			else {
-				//put this point in the route stack as the next place to go. 
-				Point pos = manager.sm.odo.getPosition().getPoint();
-				//TODO calculate the new position to navigate to... summation of two points. To figure out. 
-				manager.sm.nav.addToRoute(pos /* + add a point here*/);
+				// Get current position
+				Position pos = manager.sm.odo.getPosition();
+				
+				// Compute position to head to, minus a safety margin.
+				Point next = pos.addDistanceToPosition(smallestReading - this.safetyThreshold);
+				
+				// Add this position to the stack, head to then next. 
+				manager.sm.nav.addToRoute(next);
 				return true;
 			}
 		}
