@@ -8,7 +8,7 @@ import lejos.nxt.comm.RS485;
 
 /**
  * The responder class responds to the LCP requests sent by the Communicator.java class. 
- * Uses by default Bluetooth without exception for a reliable, stable connection.
+ * Uses by default Bluetooth.
  * 
  * Slight modification for LeJOS samples
  * <p> 
