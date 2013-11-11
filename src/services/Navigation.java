@@ -39,8 +39,6 @@ public class Navigation implements TimerListener {
 		this.route = initializeRoute();
 		this.currentPos = new Position();
 		this.time = new Timer(UPDATE_PERIOD, this);
-		//start navigation right away
-		this.time.start();
 	}
 
 	// TODO an initializer of default points should be constructed here.

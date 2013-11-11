@@ -31,17 +31,7 @@ public class Launcher {
 		
 		Manager manager = new Manager();
 		
-		manager.hm.drive.setSpeeds(10, 0);
-		int count = 0;
-		while(count < 80) {
-			RConsole.println(manager.sm.odo.getPosition().toString());
-			manager.um.nap(100);
-			count++;
-		}
-		manager.hm.drive.stop();
-		RConsole.println(manager.sm.odo.getPosition().toString());
-		
-		/*manager.sm.localization.start();
+		manager.sm.localization.start();
 		
 		while(manager.cm.getState() == State.LOCALIZING) {
 			manager.um.nap(150);
@@ -49,8 +39,6 @@ public class Launcher {
 		
 		manager.sm.nav.addToRoute(new Point(0,0));
 		manager.sm.nav.turnToComplete(0);
-		
-		*/
 		
 		Button.waitForPress();
 	

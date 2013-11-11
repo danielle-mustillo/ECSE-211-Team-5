@@ -24,17 +24,11 @@ public class HardwareViewer implements TimerListener {
 	private Timer refresher;
 
 	public HardwareViewer(Manager manager) {
-		//get console
-		RConsole.openBluetooth(20000);
 		
 		//get hardware
 		this.usp = manager.hm.ultrasonicPoller;
 //		this.lp = manager.hm.linePoller;
-		
-		
-		//begin printing now
-		this.pollRate = 75;
-		this.start(pollRate);
+
 	}
 	
 	@Override

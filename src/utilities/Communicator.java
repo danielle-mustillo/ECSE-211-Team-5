@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import lejos.nxt.LCD;
 import lejos.nxt.UltrasonicSensor;
+import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.RConsole;
 import lejos.nxt.comm.RS485;
 import lejos.nxt.remote.RemoteNXT;
@@ -25,10 +26,16 @@ public class Communicator {
 	public Communicator(String slaveNXT) {
 		RemoteNXT nxt = null;
 		try {
-			nxt = new RemoteNXT(slaveNXT, RS485.getConnector());
+			nxt = new RemoteNXT(slaveNXT, Bluetooth.getConnector());
+			LCD.clear();
+            LCD.drawString("Connected",0,1);
+            Thread.sleep(2000);
 		} catch (IOException ioe) {
 			catchBug("RS485 Connection has Failed. See error: "
 					+ ioe.getMessage());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		LCD.clear();
@@ -36,10 +43,10 @@ public class Communicator {
 		Settings.forkliftMotor = nxt.A;
 		Settings.clawMotor = nxt.C;
 		Settings.ultrasonicMotor = nxt.B;
-		RConsole.println("Connected");
 		Settings.leftUltrasonic = new UltrasonicSensor(nxt.S3);
-		Settings.centerUltrasonic = new UltrasonicSensor(nxt.S1);
+		//Settings.centerUltrasonic = new UltrasonicSensor(nxt.S1);
 		Settings.rightUltrasonic = new UltrasonicSensor(nxt.S2);
+		RConsole.println("Connected");
 	}
 
 	/**

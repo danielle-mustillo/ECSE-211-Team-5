@@ -23,4 +23,9 @@ public class ServiceManager {
 		this.localization = new Localization(manager);
 		this.hwView = new HardwareViewer(manager);
 	}
+	
+	public void start() {
+		nav.start();
+		hwView.start(75);
+	}
 }

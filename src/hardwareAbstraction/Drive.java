@@ -13,9 +13,9 @@ public class Drive {
 	private NXTRegulatedMotor leftMotor;
 	private NXTRegulatedMotor rightMotor;
 	
-	public static final double LEFT_RADIUS = 2.11;
-	public static final double RIGHT_RADIUS = 2.11;
-	public static final double WIDTH = 15.00;
+	public static final double LEFT_RADIUS = 2.03;
+	public static final double RIGHT_RADIUS = 2.03;
+	public static final double WIDTH = 15.90;
 	
 	public Drive() {
 		leftMotor = Settings.leftDriveMotor;

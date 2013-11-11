@@ -26,7 +26,7 @@ public class Localization implements TimerListener {
 	private double angleA;
 	private double angleB;
 	
-	private boolean lightLocalization;
+	private boolean lineLocalization;
 	private int rightLineCount;
 	private int leftLineCount;
 	private double[] lineDetectedHeadings = new double[8]; 
@@ -77,22 +77,13 @@ public class Localization implements TimerListener {
 	}
 	
 	public void timedOut() {
-		RConsole.println("timedOut");
+		RConsole.println("localization");
 		if(Double.isNaN(angleB)) {
 			ultrasonicLocalization();
 		} else if(Double.isNaN(lineDetectedHeadings[3])) {
 			
-			if(!lightLocalization) {
-				if(manager.sm.odo.getTheta() > lineLocalizationStartingOrientation() + 0.2 ) {
-					manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
-				} else if(manager.sm.odo.getTheta() < lineLocalizationStartingOrientation() - 0.2 ) {
-					manager.hm.drive.setSpeeds(0, -ROTATION_SPEED);
-				} else {
-					manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
-					lightLocalization = true;
-					rightLineCount = 0;
-					leftLineCount = 4;					
-				}
+			if(!lineLocalization) {
+				prepareLineLocalization();
 			} else {
 				lineLocalization();
 			}
@@ -178,7 +169,7 @@ public class Localization implements TimerListener {
 	}
 	
 	/**
-	 * Updates the odometers position based on light localization results
+	 * Updates the odometers position based on line localization results
 	 */
 	public void updatePosition() {
 		double thetaXminus = (lineDetectedHeadings[0] + lineDetectedHeadings[4]) / 2.0;
@@ -202,8 +193,21 @@ public class Localization implements TimerListener {
 		manager.cm.setState(State.SEARCH);
 	}
 	
+	public void prepareLineLocalization() {
+		if(manager.sm.odo.getTheta() > lineLocalizationStartingOrientation() + 0.2 ) {
+			manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
+		} else if(manager.sm.odo.getTheta() < lineLocalizationStartingOrientation() - 0.2 ) {
+			manager.hm.drive.setSpeeds(0, -ROTATION_SPEED);
+		} else {
+			manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
+			lineLocalization = true;
+			rightLineCount = 0;
+			leftLineCount = 4;					
+		}
+	}
+	
 	/**
-	 * returns the desired starting angle for light localization
+	 * returns the desired starting angle for line localization
 	 */
 	public double lineLocalizationStartingOrientation() {
 		if(Settings.startingCorner == StartingCorner.BOTTOM_RIGHT) {

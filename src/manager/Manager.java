@@ -20,6 +20,8 @@ public class Manager {
 		this.cm = new ControllerManager(this);
 		RConsole.println("ControllerManager");
 		
+		//Start Services
+		this.sm.start();
 		
 	}
 }
