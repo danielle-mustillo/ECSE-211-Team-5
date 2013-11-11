@@ -1,5 +1,7 @@
 package services;
 
+import utilities.Point;
+import controllers.State;
 import manager.*;
 
 /**
@@ -24,37 +26,71 @@ public class ObstacleAvoidance {
 	private hardwareAbstraction.UltrasonicPoller poller;
 	private int threshold;
 	private int safetyThreshold;
+	private Manager manager;
 	
 	public ObstacleAvoidance(Manager manager) {
+		this.manager = manager;
 		poller = manager.hm.ultrasonicPoller;
+		//TODO test these values, find appropriate values for our robot. 
 		this.threshold=20;
 		this.safetyThreshold=5;
 	}
-	
-	//TODO complete this stub.
+
 	public boolean scanAhead() {
-		// TODO somehow move all the three ultrasonic sensors forward with slave brick. Waiting for feedback from RS485 to do this. 
+		// TODO note this may be necessary to avoid having the robot navigate while scanning. 
+//		manager.cm.setState(State.PAUSE);
 		
-		//reset pollers. 
-		poller.stop();
-		poller.start();
+		// TODO somehow move all the three ultrasonic sensors forward with slave brick. Waiting for ultrasonicMotor implementation. 
 		
-		// let the current heading readings propogate through the poller.
-		nap(poller.pollRate * 6);
+		this.resetUSP();
 		
-		int smallestReading = poller.getLowestReading();
+		int smallestReading = -1;
+		/* Only go forward when the data has propagated through. Only here for fail safe. */ 
+		do {
+			// let the current heading readings propagate through the poller.
+			nap(poller.pollRate * 6);
+		
+			smallestReading = poller.getLowestReading();
+		} while(smallestReading < 0);
+		
 		if(smallestReading < threshold) {
-			// TODO set the state
+			manager.cm.setState(State.RECOGNIZE);
 			return false;
 		}
-		else if(smallestReading > threshold + safetyThreshold)
-			return true;
 		else {
-			//TODO add point in navigation class. 
-			return true;
+			//TODO remove or add this depending if state is changed to pause at start of scanAhead(); 
+//			manager.cm.setState(State.SEARCH);
+			if(smallestReading > threshold + safetyThreshold)
+				return true;
+			else {
+				//put this point in the route stack as the next place to go. 
+				Point pos = manager.sm.odo.getPosition().getPoint();
+				//TODO calculate the new position to navigate to... summation of two points. To figure out. 
+				manager.sm.nav.addToRoute(pos /* + add a point here*/);
+				return true;
+			}
 		}
 	}
 	
+	/**
+	 * Scans with the central ultrasonic sensor. Used to verify if there is anything within this.threshold of robot.
+	 * @return	True if nothing is found, otherwise false
+	 */
+	
+	//TODO complete method stub. 
+	public boolean scan() {
+		this.resetUSP();
+		//scan center 
+		return true;
+	}
+	
+	/**
+	 * Useful method to reset pollers. Ensures only 
+	 */
+	private void resetUSP() {
+		poller.stop();
+		poller.start();
+	}
 	
 	
 	/** Helper method to avoid large try/catch blocks. Sleeps the current thread. 

@@ -22,4 +22,9 @@ public class Point  {
 	public String toString() {
 		return "{x:" + x + ", y:" + y + "}";
 	}
+	
+	//return a point object identical to the current point. Not passed by reference. 
+	public Point getPoint() {
+		return new Point(this.x, this.y);
+	}
 }
