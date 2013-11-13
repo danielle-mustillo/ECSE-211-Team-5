@@ -1,6 +1,7 @@
 package hardwareAbstraction;
 
 import utilities.Settings;
+import lejos.nxt.LCD;
 import lejos.nxt.UltrasonicSensor;
 import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
@@ -22,6 +23,8 @@ public class UltrasonicPoller implements TimerListener {
 	private int center = 1;
 	private int right = 2;
 	private int counter;
+	private long previousTime;
+	private long deltaTime;
 
 	// TODO figure out what exactly this constructor should be.
 	public UltrasonicPoller() {
@@ -29,12 +32,12 @@ public class UltrasonicPoller implements TimerListener {
 		us[center] = Settings.centerUltrasonic;
 		us[right] = Settings.rightUltrasonic;
 
-		this.pollRate = 25;
+		this.pollRate = 10;
 		this.readings = new int[3][5];
 		
-		us[left].off();
+		//us[left].off();
 		us[center].off();
-		us[right].off();
+		//us[right].off();
 		
 		start();
 	}
@@ -44,17 +47,37 @@ public class UltrasonicPoller implements TimerListener {
 	@Override
 	public void timedOut() {
 		
-		if(counter == left) {
-			pingUS(left);
+		long currentTime = System.currentTimeMillis();
+		
+		deltaTime += currentTime - previousTime;
+		previousTime = currentTime;
+				
+		pingUS(center);
+		
+		counter++;
+		
+		if(counter == 5) {
+			LCD.drawInt((int) getUSReading(center), 0, 6);
+			deltaTime = 0;
+		}
+		
+		//keep the counter between 0 - 2
+		counter = counter % 5;
+		
+		
+		/*if(counter == left) {
+			//pingUS(left);
 		} else if(counter == center) {
 			pingUS(center);
 		} else {
-			pingUS(right);
+			//pingUS(right);
 		}
 		
 		counter++;
 		//keep the counter between 0 - 2
-		counter = counter % 3;
+		counter = counter % 3;*/
+
+		//RConsole.println(String.valueOf(System.currentTimeMillis() - currentTime));
 	}
 
 	/**
@@ -72,6 +95,9 @@ public class UltrasonicPoller implements TimerListener {
 		this.poller = new Timer(pollRate, this);
 		this.poller.start();
 		running = true;
+		this.previousTime = System.currentTimeMillis();
+		
+		RConsole.println(String.valueOf(poller.getDelay()));
 	}
 
 	/**
@@ -155,7 +181,7 @@ public class UltrasonicPoller implements TimerListener {
 	 */
 	private void pingUS(int sensor) {
 		int distance;
-
+		
 		// do a ping
 		us[sensor].ping();
 		
@@ -164,7 +190,7 @@ public class UltrasonicPoller implements TimerListener {
 		
 		// there will be a delay here
 		distance = us[sensor].getDistance();
-
+		
 		addReading(sensor, distance);
 	}
 

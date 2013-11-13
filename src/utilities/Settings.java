@@ -16,7 +16,7 @@ public class Settings {
 	public static ColorSensor rearRightColorSensor = new ColorSensor(SensorPort.S3);
 	
 	public static UltrasonicSensor leftUltrasonic;
-	public static UltrasonicSensor centerUltrasonic = new UltrasonicSensor(SensorPort.S4);
+	public static UltrasonicSensor centerUltrasonic;
 	public static UltrasonicSensor rightUltrasonic;
 	
 	public static NXTRegulatedMotor leftDriveMotor = Motor.B;

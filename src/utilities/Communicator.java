@@ -26,7 +26,7 @@ public class Communicator {
 	public Communicator(String slaveNXT) {
 		RemoteNXT nxt = null;
 		try {
-			nxt = new RemoteNXT(slaveNXT, Bluetooth.getConnector());
+			nxt = new RemoteNXT(slaveNXT, RS485.getConnector());
 			LCD.clear();
             LCD.drawString("Connected",0,1);
             Thread.sleep(2000);
@@ -44,9 +44,9 @@ public class Communicator {
 		Settings.clawMotor = nxt.C;
 		Settings.ultrasonicMotor = nxt.B;
 		Settings.leftUltrasonic = new UltrasonicSensor(nxt.S3);
-		//Settings.centerUltrasonic = new UltrasonicSensor(nxt.S1);
+		Settings.centerUltrasonic = new UltrasonicSensor(nxt.S1);
 		Settings.rightUltrasonic = new UltrasonicSensor(nxt.S2);
-		RConsole.println("Connected");
+		
 	}
 
 	/**

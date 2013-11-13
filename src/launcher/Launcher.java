@@ -3,6 +3,7 @@
  */
 package launcher;
 
+import hardwareAbstraction.UltrasonicPoller;
 import utilities.Point;
 import controllers.State;
 import lejos.nxt.Button;
@@ -26,8 +27,9 @@ public class Launcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		RConsole.openUSB(20000);
+		//RConsole.openUSB(20000);
 		Button.waitForPress();
+		
 		
 		Manager manager = new Manager();
 		

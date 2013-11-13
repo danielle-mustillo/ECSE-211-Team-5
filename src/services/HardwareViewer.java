@@ -54,7 +54,7 @@ public class HardwareViewer implements TimerListener {
 		int usL = usp.getUSReading(left);
 		int usC = usp.getUSReading(center);
 		int usR = usp.getUSReading(right);
-		RConsole.println(usL + ";" + usC + ";" + usR);
+		//RConsole.println(usL + ";" + usC + ";" + usR);
 	}
 	
 //	private void printLP() {

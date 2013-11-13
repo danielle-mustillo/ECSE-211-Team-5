@@ -10,15 +10,15 @@ public class Manager {
 	public HardwareManager hm;	
 
 	public Manager() {
-		RConsole.println("initializing");
+		
 		this.um = new UtilityManager(this);
-		RConsole.println("um");
+		
 		this.hm = new HardwareManager(this);
-		RConsole.println("hm");
+		
 		this.sm = new ServiceManager(this);
-		RConsole.println("sm");
+		
 		this.cm = new ControllerManager(this);
-		RConsole.println("ControllerManager");
+		
 		
 		//Start Services
 		this.sm.start();

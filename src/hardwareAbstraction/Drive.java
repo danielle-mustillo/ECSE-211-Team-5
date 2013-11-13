@@ -20,6 +20,8 @@ public class Drive {
 	public Drive() {
 		leftMotor = Settings.leftDriveMotor;
 		rightMotor = Settings.rightDriveMotor;
+		leftMotor.setAcceleration(500);
+		rightMotor.setAcceleration(500);
 	}
 	
 	/**

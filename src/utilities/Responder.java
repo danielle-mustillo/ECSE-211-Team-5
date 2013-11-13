@@ -44,7 +44,7 @@ public class Responder {
 	
 	public static void main(String[] args) throws Exception {
 		LCD.drawString("Connecting", 1, 1);
-		ResponderTool resp = new ResponderTool(Bluetooth.getConnector());
+		ResponderTool resp = new ResponderTool(RS485.getConnector());
 		resp.start();
 		resp.join();
 		

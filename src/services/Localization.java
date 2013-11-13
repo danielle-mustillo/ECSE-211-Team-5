@@ -2,6 +2,8 @@ package services;
 
 import controllers.State;
 import utilities.*;
+import lejos.nxt.LCD;
+import lejos.nxt.Sound;
 import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
@@ -40,54 +42,69 @@ public class Localization implements TimerListener {
 	 * Starts the localization process
 	 */
 	public void start() {
-		RConsole.println("Localizing");
+		
 		//Retrieves center Ultrasonic reading
 		int usReading = updateUltrasonic();
 		
 		//Currently facing a wall, use rising edge detection for both angles
-		if(usReading < THRESHOLD) {
+		if(usReading < 4) {
+			manager.um.nap(120);
+			start();
+		}
+		
+		else if(usReading < THRESHOLD) {
 			rising = true;
-			RConsole.println("Rising");
+			
 		} 
 		//currently not facing a wall, use falling edge, then rising edge
 		else if (usReading > THRESHOLD) {
 			rising = false;
-			RConsole.println("falling");
+			
 		} 
 		//on the threshold, so start moving then try to start again
 		else {
-			RConsole.println("At threshold");
+			
 			manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
 			manager.um.nap(50);
 			start();
 			return;
 		}
-		RConsole.println("initializing");
+		
+		LCD.drawString("Initial: ", 0, 4);
+		LCD.drawInt(usReading, 10, 4);
+		
 		angleA = Double.NaN;
 		angleB = Double.NaN;
 		lineDetectedHeadings[3] = Double.NaN;
-		RConsole.println("Starting");
+		
 		timer.start();
 		
 	}
 	
-	public void stop() {
-		
+	public void stop() {	
 		timer.stop();
 	}
 	
+	/**
+	 * Controls Localization
+	 * Calls relevant methods depending on stage of localization 
+	 */
 	public void timedOut() {
-		RConsole.println("localization");
+		//Not finished Ultrasonic localization
 		if(Double.isNaN(angleB)) {
 			ultrasonicLocalization();
-		} else if(Double.isNaN(lineDetectedHeadings[3])) {
-			
+		} 
+		//not finished line localization
+		else if(Double.isNaN(lineDetectedHeadings[3])) {
+			//move to correct orientation for line localization
 			if(!lineLocalization) {
 				prepareLineLocalization();
 			} else {
 				lineLocalization();
 			}
-		} else {
+		} 
+		//localization complete, update position
+		else {
 			updatePosition();
 			stop();
 		}
@@ -104,12 +121,14 @@ public class Localization implements TimerListener {
 			if(rising) {
 				manager.hm.drive.setSpeeds(0, -ROTATION_SPEED);
 				if(distance > THRESHOLD) {
+					Sound.beep();
 					angleA = manager.sm.odo.getTheta();
 					manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
 				}
 			} else {
 				manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
 				if(distance < THRESHOLD) {
+					Sound.beep();
 					manager.hm.drive.stop();
 					angleA = manager.sm.odo.getTheta();
 				}
@@ -117,6 +136,7 @@ public class Localization implements TimerListener {
 		} else {
 			manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
 			if(distance > THRESHOLD && Math.abs(angleA-manager.sm.odo.getTheta()) > 1) {
+				Sound.beep();
 				angleB = manager.sm.odo.getTheta();
 				updateTheta();
 			}
@@ -157,7 +177,14 @@ public class Localization implements TimerListener {
 		
 		//update the odometer
 		manager.sm.odo.adjustPosition(0, 0, deltaTheta);
-		RConsole.println(manager.sm.odo.getPosition().toString());
+		
+		LCD.drawString("X: ", 0, 0);
+		LCD.drawString("Y: ", 0, 1);
+		LCD.drawString("H: ", 0, 2);
+		LCD.drawInt(0, 3, 0);
+		LCD.drawInt(0, 3, 1);
+		LCD.drawInt((int) manager.sm.odo.getTheta(), 3, 2);
+		
 	}
 	
 	/**
@@ -189,7 +216,17 @@ public class Localization implements TimerListener {
 		double dTheta = (dThetaX + dThetaY) / 2.0;
 		
 		manager.sm.odo.adjustPosition(x, y, dTheta);
-		RConsole.println(manager.sm.odo.getPosition().toString());
+
+		Position pos = manager.sm.odo.getPosition();
+		
+		LCD.drawString("X: ", 0, 0);
+		LCD.drawString("Y: ", 0, 1);
+		LCD.drawString("H: ", 0, 2);
+		LCD.drawInt((int) pos.x, 3, 0);
+		LCD.drawInt((int) pos.y, 3, 1);
+		LCD.drawInt((int) pos.theta, 3, 2);
+		
+		
 		manager.cm.setState(State.SEARCH);
 	}
 	

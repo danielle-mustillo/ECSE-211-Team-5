@@ -21,11 +21,11 @@ public class ServiceManager {
 		this.obstacleAvoidance = new ObstacleAvoidance(manager);
 		this.mapper = new Mapper(manager);
 		this.localization = new Localization(manager);
-		this.hwView = new HardwareViewer(manager);
+		//this.hwView = new HardwareViewer(manager);
 	}
 	
 	public void start() {
 		nav.start();
-		hwView.start(75);
+		//hwView.start(75);
 	}
 }
