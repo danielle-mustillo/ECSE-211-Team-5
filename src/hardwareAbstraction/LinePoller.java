@@ -2,6 +2,7 @@ package hardwareAbstraction;
 
 import lejos.nxt.ColorSensor;
 import lejos.nxt.Sound;
+import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
 import utilities.Settings;
@@ -32,8 +33,8 @@ public class LinePoller implements TimerListener {
 		sensorOnLine = new boolean[]{false, false};
 		sensorEnteringLine = new boolean[]{false, false};
 		timer = new Timer(UPDATE_PERIOD, this);
-		sensor[right].setFloodlight(0);
-		sensor[left].setFloodlight(0);
+		setFloodlight(left, 0);
+		setFloodlight(right, 0);
 	}
 	
 	/**
@@ -60,6 +61,8 @@ public class LinePoller implements TimerListener {
 		detectLine(right);
 		detectLine(left);
 		
+		RConsole.println("Left " + String.valueOf(readings[left][0]));
+		RConsole.println("Right " + String.valueOf(readings[right][0]));
 	}
 	
 	private void addReading(int sensor, int reading) {
@@ -107,6 +110,25 @@ public class LinePoller implements TimerListener {
 			return true;
 		}
 		return false;
+	}
+	
+	public void setFloodlight(int sensor, int color) {
+		this.sensor[sensor].setFloodlight(color);
+		do {
+			RConsole.println("Setting Flood light");
+			nap(75);
+		} while(this.sensor[sensor].getRawLightValue() == -1);
+	}
+	
+	/** Helper method to avoid large try/catch blocks. Sleeps the current thread. 
+	 * @param time int value which represents the sleep time
+	 */
+	public void nap(int time) {
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
