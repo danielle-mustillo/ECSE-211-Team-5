@@ -23,19 +23,8 @@ private Manager manager;
 		manager.cm.setState(State.PAUSE);
 		
 		//grab and lift
-		RConsole.println("grabbing object");
-		try {
-			Claw.grabObject();
-		} catch (ArrayIndexOutOfBoundsException e){
-			
-		}
-		RConsole.println("lifting object");
-		
-		try {
-			Forklift.liftObject();
-		} catch (ArrayIndexOutOfBoundsException e){
-			
-		}
+		Claw.grabObject();
+		Forklift.liftObject();
 		
 		//update storage count and go to the required next step (searching or dropping off).
 		RConsole.println("storage");
