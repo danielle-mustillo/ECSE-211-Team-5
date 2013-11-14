@@ -57,6 +57,7 @@ public class UltrasonicPoller implements TimerListener {
 		counter++;
 		
 		if(counter == 5) {
+			LCD.drawString("                          ", 0, 6);
 			LCD.drawInt((int) getUSReading(center), 0, 6);
 			deltaTime = 0;
 		}
