@@ -25,7 +25,11 @@ public class UltrasonicPoller implements TimerListener {
 	private int counter;
 	private long previousTime;
 	private long deltaTime;
-
+	
+	private Thread leftUS;
+	private Thread centerUS;
+	private Thread rightUS;
+	
 	// TODO figure out what exactly this constructor should be.
 	public UltrasonicPoller() {
 		us[left] = Settings.leftUltrasonic;
@@ -35,35 +39,37 @@ public class UltrasonicPoller implements TimerListener {
 		this.pollRate = 10;
 		this.readings = new int[3][5];
 		
-		//us[left].off();
+		us[left].off();
 		us[center].off();
-		//us[right].off();
+		us[right].off();
 		
-		start();
+		this.leftUS = new Thread(new LeftUS());
+		this.centerUS = new Thread(new CenterUS());
+		this.rightUS = new Thread(new RightUS());
+		
+		this.start();
 	}
 
 	/**Pings all three ultrasonic sensors and gets their values. Puts them into the readings array
 	 */
 	@Override
 	public void timedOut() {
+		leftUS.run();
+		centerUS.run();
+		rightUS.run();
 		
-		long currentTime = System.currentTimeMillis();
+		RConsole.println(toStringLastValues());
 		
-		deltaTime += currentTime - previousTime;
-		previousTime = currentTime;
-				
-		pingUS(center);
+//		counter++;
 		
-		counter++;
-		
-		if(counter == 5) {
-			LCD.drawString("                          ", 0, 6);
-			LCD.drawInt((int) getUSReading(center), 0, 6);
-			deltaTime = 0;
-		}
+//		if(counter == 5) {
+//			LCD.drawString("                          ", 0, 6);
+//			LCD.drawInt((int) getUSReading(center), 0, 6);
+//			deltaTime = 0;
+//		}
 		
 		//keep the counter between 0 - 2
-		counter = counter % 5;
+//		counter = counter % 5;
 		
 		
 		/*if(counter == left) {
@@ -80,6 +86,14 @@ public class UltrasonicPoller implements TimerListener {
 
 		//RConsole.println(String.valueOf(System.currentTimeMillis() - currentTime));
 	}
+	
+	private String toStringLastValues() {
+		String out = "";
+		out += " L: " + getUSReading(left);
+		out += " C: " + getUSReading(center);
+		out += " R: " + getUSReading(right);
+		return out;
+	}
 
 	/**
 	 * Starts this instance of the ultrasonic poller Stop must be called to stop
@@ -87,6 +101,7 @@ public class UltrasonicPoller implements TimerListener {
 	 */
 	public void start() {
 		counter = 0;
+		
 		//for filtering purposes
 		readings[2][4] = -1;
 		readings[2][3] = -1;
@@ -202,5 +217,29 @@ public class UltrasonicPoller implements TimerListener {
 		readings[sensor][2] = readings[sensor][1];
 		readings[sensor][1] = readings[sensor][0];
 		readings[sensor][0] = reading;
+	}
+	
+	public class LeftUS implements Runnable {
+
+		@Override
+		public void run() {
+			pingUS(left);			
+		}
+	}
+	
+	public class RightUS implements Runnable {
+
+		@Override
+		public void run() {
+			pingUS(right);	
+		}
+	}
+	
+	public class CenterUS implements Runnable {
+
+		@Override
+		public void run() {
+			pingUS(center);	
+		}
 	}
 }
