@@ -29,6 +29,7 @@ public class ControllerManager implements TimerListener {
 		this.stored = 0;
 		this.timer = new Timer(UPDATE_PERIOD, this);
 		this.controllers = new Controller[]{new Search(manager), new Recognize(manager), new Collect(manager), new DropOff(manager), new WallFollower(manager)};
+		start();
 	}
 	
 	public void start() {

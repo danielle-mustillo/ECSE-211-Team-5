@@ -30,9 +30,7 @@ public class Launcher {
 		RConsole.openUSB(20000);
 		Button.waitForPress();
 		
-		
 		Manager manager = new Manager();
-		
 		manager.sm.localization.start();
 		
 		while(manager.cm.getState() == State.LOCALIZING) {
@@ -44,6 +42,8 @@ public class Launcher {
 		manager.sm.nav.start();
 		manager.sm.nav.addToRoute(new Point(60,0));
 		manager.sm.nav.turnToComplete(0);
+		
+		manager.cm.setState(State.COLLECT);
 		
 		Button.waitForPress();
 	

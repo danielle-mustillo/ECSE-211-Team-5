@@ -40,8 +40,8 @@ public class Communicator {
 
 		LCD.clear();
 		
-		Settings.forkliftMotor = nxt.A;
-		Settings.clawMotor = nxt.C;
+		Settings.forkliftMotor = nxt.C;
+		Settings.clawMotor = nxt.A;
 		Settings.ultrasonicMotor = nxt.B;
 		Settings.leftUltrasonic = new UltrasonicSensor(nxt.S3);
 		Settings.centerUltrasonic = new UltrasonicSensor(nxt.S1);

@@ -3,6 +3,7 @@ package controllers;
 import utilities.Settings;
 import hardwareAbstraction.Claw;
 import hardwareAbstraction.Forklift;
+import lejos.nxt.comm.RConsole;
 import manager.Manager;
 
 public class Collect extends Controller {
@@ -22,10 +23,22 @@ private Manager manager;
 		manager.cm.setState(State.PAUSE);
 		
 		//grab and lift
-		Claw.grabObject();
-		Forklift.liftObject();
+		RConsole.println("grabbing object");
+		try {
+			Claw.grabObject();
+		} catch (ArrayIndexOutOfBoundsException e){
+			
+		}
+		RConsole.println("lifting object");
+		
+		try {
+			Forklift.liftObject();
+		} catch (ArrayIndexOutOfBoundsException e){
+			
+		}
 		
 		//update storage count and go to the required next step (searching or dropping off).
+		RConsole.println("storage");
 		manager.cm.setStored(manager.cm.getStored() + 1);
 		if(manager.cm.getStored() >= Settings.maxBlockCapacity)
 			manager.cm.setState(State.DROP_OFF);

@@ -5,7 +5,7 @@ import utilities.Settings;
 
 public class Forklift {
 	static RemoteMotor lift = Settings.forkliftMotor;
-	static int distance = 15; // 15 cm upwards. needs to be tested. 
+	static int distance = -45; // 45 cm upwards. needs to be tested. 
 	private static double radius = 1; //radius of "spool". Must be tested. 
 	
 	/**

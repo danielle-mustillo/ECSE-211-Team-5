@@ -15,9 +15,9 @@ public class Manager {
 		
 		this.hm = new HardwareManager(this);
 		
-		this.sm = new ServiceManager(this);
-		
 		this.cm = new ControllerManager(this);
+		
+		this.sm = new ServiceManager(this);
 		
 		
 		//Start Services
