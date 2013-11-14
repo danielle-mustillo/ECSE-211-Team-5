@@ -52,8 +52,7 @@ public class Navigation implements TimerListener {
 	public void timedOut() {
 		RConsole.println("Navigation timedOut");
 		RConsole.println(manager.cm.getState().name());
-		if (manager.cm.getState() == State.SEARCH
-				|| manager.cm.getState() == State.DROP_OFF) {
+		if (manager.cm.getState() == State.SEARCH || manager.cm.getState() == State.DROP_OFF) {
 		
 			if (route.empty()) {
 				// nothing is done
@@ -73,11 +72,12 @@ public class Navigation implements TimerListener {
 				} else if (Math.abs(dX) > 1 || Math.abs(dY) > 1) {
 					RConsole.println(""+Math.abs(dX)+" "+Math.abs(dY));
 					//scan ahead only once facing the correct orientation, then travelTo that destination.
+					//TODO comment back this code. Problematic code for the moment. 
 //					if (!scannedAhead) {
 //						manager.hm.drive.stop();
-//						pause();
+//						this.pause();
 //						manager.sm.obstacleAvoidance.scanAhead();
-//						start();
+//						this.start();
 //					}
 					travelTo();
 				} else {
@@ -203,11 +203,15 @@ public class Navigation implements TimerListener {
 		this.route = route;
 	}
 	
-	//useful methods used within dropoff. 
+	
+	/**
+	 * This method will export the route currently programmed and resets it to an empty route. 
+	 * @return
+	 */
 	public Stack<Point> exportAndResetRoute() {
-		Stack<Point> route = this.route;
-		this.route = initializeRoute();
-		return route;
+		Stack<Point> export = this.route;
+		this.route = new Stack<Point>();
+		return export;
 	}
 	
 	public void addToRoute(Point xy) {

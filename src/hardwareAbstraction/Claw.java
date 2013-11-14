@@ -1,6 +1,7 @@
 package hardwareAbstraction;
 
 import utilities.Settings;
+import lejos.nxt.comm.RConsole;
 import lejos.nxt.remote.RemoteMotor;
 
 public class Claw {
@@ -9,9 +10,27 @@ public class Claw {
 	
 	/**
 	 * This method grabs an object. Returns nothing
+	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed. 
 	 */
 	public static void grabObject() {
-		claw.rotate(value);
+		RConsole.println("grabbing object");
+		try {
+			claw.rotate(value);
+		} catch (ArrayIndexOutOfBoundsException e){
+			
+		}
 	}
-
+	
+	/**
+	 * This method releases an object. Returns nothing
+	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed. 
+	 */
+	public static void releaseObject() {
+		RConsole.println("releasing object");
+		try {
+			claw.rotate(-value);
+		} catch (ArrayIndexOutOfBoundsException e){
+			
+		}
+	}
 }

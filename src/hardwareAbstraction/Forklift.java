@@ -1,5 +1,6 @@
 package hardwareAbstraction;
 
+import lejos.nxt.comm.RConsole;
 import lejos.nxt.remote.RemoteMotor;
 import utilities.Settings;
 
@@ -9,12 +10,31 @@ public class Forklift {
 	private static double radius = 1; //radius of "spool". Must be tested. 
 	
 	/**
-	 * This method lifts an object. Returns nothing
+	 * This method lifts an object. Returns nothing.
+	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed. 
 	 */
 	public static void liftObject() {
-		lift.rotate(convertDistanceToAngle(distance));
+		RConsole.println("lifting object");
+		try {
+			lift.rotate(convertDistanceToAngle(distance));
+		} catch (ArrayIndexOutOfBoundsException e){
+		
+		}
 	}
 	
+	/**
+	 * This method lowers an object. Returns nothing.
+	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed. 
+	 */
+	public static void lowerObject() {
+		RConsole.println("lowering object");
+		try {
+			lift.rotate(-convertDistanceToAngle(distance));
+		} catch (ArrayIndexOutOfBoundsException e){
+		
+		}
+	}
+
 	/**
 	 * This method turns a distance into an angle for the robot to turn. Takes as parameter the distance you want to lift. 
 	 * It is essential the radius of this class be calibrated. The radius is the radius of the "spool" the string winds onto.
