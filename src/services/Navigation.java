@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import utilities.*;
 import controllers.State;
+import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
 import manager.*;
@@ -35,6 +36,7 @@ public class Navigation implements TimerListener {
 	private boolean scannedAhead;
 
 	public Navigation(Manager manager) {
+		RConsole.println("Navigation initialized");
 		this.manager = manager;
 		this.route = initializeRoute();
 		this.currentPos = new Position();
@@ -48,6 +50,8 @@ public class Navigation implements TimerListener {
 
 	@Override
 	public void timedOut() {
+		RConsole.println("Navigation timedOut");
+		RConsole.println(manager.cm.getState().name());
 		if (manager.cm.getState() == State.SEARCH
 				|| manager.cm.getState() == State.DROP_OFF) {
 		
@@ -67,13 +71,14 @@ public class Navigation implements TimerListener {
 					// one wheel down slightly
 					turnTo(dH);
 				} else if (Math.abs(dX) > 1 || Math.abs(dY) > 1) {
+					RConsole.println(""+Math.abs(dX)+" "+Math.abs(dY));
 					//scan ahead only once facing the correct orientation, then travelTo that destination.
-					if (!scannedAhead) {
-						manager.hm.drive.stop();
-						pause();
-						manager.sm.obstacleAvoidance.scanAhead();
-						start();
-					}
+//					if (!scannedAhead) {
+//						manager.hm.drive.stop();
+//						pause();
+//						manager.sm.obstacleAvoidance.scanAhead();
+//						start();
+//					}
 					travelTo();
 				} else {
 					//stop the motors, reset scanning state and get next destination. 
@@ -90,6 +95,7 @@ public class Navigation implements TimerListener {
 	}
 	
 	public void start() {
+		RConsole.println("Navigation started");
 		this.time.start();
 	}
 	
