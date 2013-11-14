@@ -31,7 +31,6 @@ private Stack<Point> route;
 	 */
 	public void run() {
 		//upon initialization,
-		RConsole.println("drop_off");
 		if(!initialized) {
 			manager.cm.setState(State.DROP_OFF);
 			
@@ -48,7 +47,7 @@ private Stack<Point> route;
 			 */
 			
 			// when the robot gets to the greenZone, 
-			if(manager.sm.nav.getRoute().peek() == null) {
+			if(manager.sm.nav.getRoute().empty()) {
 				//drop off the block
 				Forklift.lowerObject();
 				Claw.releaseObject();

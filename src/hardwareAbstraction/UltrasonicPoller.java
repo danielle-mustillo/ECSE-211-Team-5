@@ -58,9 +58,6 @@ public class UltrasonicPoller implements TimerListener {
 		leftUS.run();
 		centerUS.run();
 		rightUS.run();
-		
-		RConsole.println(toStringLastValues());
-		
 //		counter++;
 		
 //		if(counter == 5) {

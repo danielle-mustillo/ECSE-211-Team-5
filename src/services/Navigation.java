@@ -50,8 +50,6 @@ public class Navigation implements TimerListener {
 
 	@Override
 	public void timedOut() {
-		RConsole.println("Navigation timedOut");
-		RConsole.println(manager.cm.getState().name());
 		if (manager.cm.getState() == State.SEARCH || manager.cm.getState() == State.DROP_OFF) {
 		
 			if (route.empty()) {

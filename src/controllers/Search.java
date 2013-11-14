@@ -20,7 +20,7 @@ public class Search extends Controller  {
 	 * This method will check the route in navigation and add a coordinate in the route. Allows the Navigation to always have "something to do" when nothing interesting is found
 	 */
 	private void defaultRouter() {
-		if(manager.sm.nav.getRoute().peek() == null) {
+		if(manager.sm.nav.getRoute().empty()) {
 			switch(this.defaultPath) {
 			case 0 : manager.sm.nav.addToRoute(new Point(180,0));
 			break;

@@ -31,11 +31,11 @@ public class Launcher {
 		Button.waitForPress();
 		
 		Manager manager = new Manager();
-		manager.sm.localization.start();
-		
-		while(manager.cm.getState() == State.LOCALIZING) {
-			manager.um.nap(150);
-		}
+//		manager.sm.localization.start();
+//		
+//		while(manager.cm.getState() == State.LOCALIZING) {
+//			manager.um.nap(150);
+//		}
 		
 		manager.cm.setState(State.SEARCH);
 		
