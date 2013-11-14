@@ -50,7 +50,8 @@ public class UltrasonicPoller implements TimerListener {
 		this.start();
 	}
 
-	/**Pings all three ultrasonic sensors and gets their values. Puts them into the readings array
+	/**
+	 * Pings all three ultrasonic sensors and gets their values. Puts them into the readings array
 	 */
 	@Override
 	public void timedOut() {
