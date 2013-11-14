@@ -27,7 +27,7 @@ public class Launcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//RConsole.openUSB(20000);
+		RConsole.openUSB(20000);
 		Button.waitForPress();
 		
 		
