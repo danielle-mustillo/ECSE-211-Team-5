@@ -33,6 +33,8 @@ public class Localization implements TimerListener {
 	private int leftLineCount;
 	private double[] lineDetectedHeadings = new double[8]; 
 	
+	public boolean corrected = false;
+	
 	public Localization(Manager manager) {
 		this.manager = manager;
 		this.timer = new Timer(UPDATE_PERIOD, this);
@@ -90,23 +92,32 @@ public class Localization implements TimerListener {
 	 * Calls relevant methods depending on stage of localization 
 	 */
 	public void timedOut() {
-		//Not finished Ultrasonic localization
+		// ultrasonic localization complete. 
 		if(Double.isNaN(angleB)) {
 			ultrasonicLocalization();
 		} 
-		//not finished line localization
-		else if(Double.isNaN(lineDetectedHeadings[3])) {
-			//move to correct orientation for line localization
-			if(!lineLocalization) {
-				prepareLineLocalization();
-			} else {
-				lineLocalization();
-			}
-		} 
-		//localization complete, update position
+//		//not finished line localization
+//		else if(Double.isNaN(lineDetectedHeadings[3])) {
+//			//move to correct orientation for line localization
+//			if(!lineLocalization) {
+//				prepareLineLocalization();
+//			} else {
+//				lineLocalization();
+//			}
+//		} 
+//		//localization complete, update position
+//		else {
+//			updatePosition();
+//			stop();
+//		}
+		//test stub :)
 		else {
-			updatePosition();
-			stop();
+			if(Math.abs(manager.sm.odo.getTheta()) > 0.1 )
+				manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
+			else {
+				manager.hm.drive.setSpeeds(0,0);
+				stop();
+			}
 		}
 	}
 	
@@ -139,6 +150,7 @@ public class Localization implements TimerListener {
 				Sound.beep();
 				angleB = manager.sm.odo.getTheta();
 				updateTheta();
+				manager.hm.drive.setSpeeds(0, 0);
 			}
 		}
 	}
@@ -174,6 +186,8 @@ public class Localization implements TimerListener {
 		} else if (Settings.startingCorner == StartingCorner.TOP_LEFT) {
 			deltaTheta += Math.PI/2;
 		}
+		
+		RConsole.println(""+manager.sm.odo.getTheta());
 		
 		//update the odometer
 		manager.sm.odo.adjustPosition(0, 0, deltaTheta);
