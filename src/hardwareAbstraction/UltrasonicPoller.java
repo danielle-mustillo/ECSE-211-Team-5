@@ -61,6 +61,7 @@ public class UltrasonicPoller implements TimerListener {
 		leftUS.run();
 		centerUS.run();
 		rightUS.run();
+		RConsole.println(toStringLastValues());
 		// counter++;
 
 		// if(counter == 5) {
@@ -110,9 +111,11 @@ public class UltrasonicPoller implements TimerListener {
 	/**
 	 * Resets the ultrasonic sensor values to the default -1 values. The
 	 * ultrasonic sensor will never return negative values during normal
-	 * operation.
+	 * operation. Stops the polling during this operation to avoid overwriting
+	 * good data.
 	 */
 	public void resetUSP() {
+		poller.stop();
 		int i = 0;
 		for (int[] sensor : readings) {
 			int j = 0;
@@ -122,6 +125,7 @@ public class UltrasonicPoller implements TimerListener {
 			}
 			++i;
 		}
+		poller.start();
 	}
 
 	/**
@@ -129,13 +133,10 @@ public class UltrasonicPoller implements TimerListener {
 	 * this by checking for any negative numbers in the readings.
 	 */
 	public boolean isSetup() {
-		for (int[] sensor : readings) {
-			for (int reading : sensor) {
-				if (reading < 0)
-					return false;
-			}
-		}
-		return true;
+		if (readings[2][4] == -1)
+			return false;
+		else
+			return true;
 	}
 
 	/**

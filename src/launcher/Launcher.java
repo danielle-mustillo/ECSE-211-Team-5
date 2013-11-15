@@ -36,14 +36,14 @@ public class Launcher {
 //		while(manager.cm.getState() == State.LOCALIZING) {
 //			manager.um.nap(150);
 //		}
-		
-		manager.cm.setState(State.SEARCH);
-		
-		manager.sm.nav.start();
-		manager.sm.nav.addToRoute(new Point(60,0));
-		manager.sm.nav.turnToComplete(0);
-		
-		manager.cm.setState(State.COLLECT);
+//		
+//		manager.cm.setState(State.SEARCH);
+//		
+//		manager.sm.nav.start();
+//		manager.sm.nav.addToRoute(new Point(60,0));
+//		manager.sm.nav.turnToComplete(0);
+//		
+//		manager.cm.setState(State.COLLECT);
 		
 		Button.waitForPress();
 	
