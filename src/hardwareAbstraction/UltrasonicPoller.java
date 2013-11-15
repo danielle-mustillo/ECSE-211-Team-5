@@ -7,14 +7,16 @@ import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
 
-/**This class serves as a higher level abstraction of a ultrasonic sensor. It is
+/**
+ * This class serves as a higher level abstraction of a ultrasonic sensor. It is
  * wrapped in a poller class which will now handle the returned values and the
  * polling of that sensor
  * <p>
+ * 
  * @author danielle, Riley
  */
 public class UltrasonicPoller implements TimerListener {
-	private UltrasonicSensor[] us =  new UltrasonicSensor[3];
+	private UltrasonicSensor[] us = new UltrasonicSensor[3];
 	public int pollRate;
 	private Timer poller;
 	private int readings[][];
@@ -25,11 +27,11 @@ public class UltrasonicPoller implements TimerListener {
 	private int counter;
 	private long previousTime;
 	private long deltaTime;
-	
+
 	private Thread leftUS;
 	private Thread centerUS;
 	private Thread rightUS;
-	
+
 	// TODO figure out what exactly this constructor should be.
 	public UltrasonicPoller() {
 		us[left] = Settings.leftUltrasonic;
@@ -38,54 +40,50 @@ public class UltrasonicPoller implements TimerListener {
 
 		this.pollRate = 10;
 		this.readings = new int[3][5];
-		
+
 		us[left].off();
 		us[center].off();
 		us[right].off();
-		
+
 		this.leftUS = new Thread(new LeftUS());
 		this.centerUS = new Thread(new CenterUS());
 		this.rightUS = new Thread(new RightUS());
-		
+
 		this.start();
 	}
 
 	/**
-	 * Pings all three ultrasonic sensors and gets their values. Puts them into the readings array
+	 * Pings all three ultrasonic sensors and gets their values. Puts them into
+	 * the readings array
 	 */
 	@Override
 	public void timedOut() {
 		leftUS.run();
 		centerUS.run();
 		rightUS.run();
-//		counter++;
-		
-//		if(counter == 5) {
-//			LCD.drawString("                          ", 0, 6);
-//			LCD.drawInt((int) getUSReading(center), 0, 6);
-//			deltaTime = 0;
-//		}
-		
-		//keep the counter between 0 - 2
-//		counter = counter % 5;
-		
-		
-		/*if(counter == left) {
-			//pingUS(left);
-		} else if(counter == center) {
-			pingUS(center);
-		} else {
-			//pingUS(right);
-		}
-		
-		counter++;
-		//keep the counter between 0 - 2
-		counter = counter % 3;*/
+		// counter++;
 
-		//RConsole.println(String.valueOf(System.currentTimeMillis() - currentTime));
+		// if(counter == 5) {
+		// LCD.drawString("                          ", 0, 6);
+		// LCD.drawInt((int) getUSReading(center), 0, 6);
+		// deltaTime = 0;
+		// }
+
+		// keep the counter between 0 - 2
+		// counter = counter % 5;
+
+		/*
+		 * if(counter == left) { //pingUS(left); } else if(counter == center) {
+		 * pingUS(center); } else { //pingUS(right); }
+		 * 
+		 * counter++; //keep the counter between 0 - 2 counter = counter % 3;
+		 */
+
+		// RConsole.println(String.valueOf(System.currentTimeMillis() -
+		// currentTime));
 	}
-	
-	//For debugging purposes. 
+
+	// For debugging purposes.
 	private String toStringLastValues() {
 		String out = "";
 		out += " L: " + getUSReading(left);
@@ -100,37 +98,41 @@ public class UltrasonicPoller implements TimerListener {
 	 */
 	public void start() {
 		counter = 0;
-		
-		//for filtering purposes
+
+		// for filtering purposes
 		this.resetUSP();
 		this.poller = new Timer(pollRate, this);
 		this.poller.start();
 		running = true;
 		this.previousTime = System.currentTimeMillis();
 	}
-	
+
 	/**
-	 * Resets the ultrasonic sensor values to the default -1 values. The ultrasonic sensor will never return negative values during normal operation.
+	 * Resets the ultrasonic sensor values to the default -1 values. The
+	 * ultrasonic sensor will never return negative values during normal
+	 * operation.
 	 */
 	public void resetUSP() {
 		int i = 0;
-		for(int[] sensor : readings) {
+		for (int[] sensor : readings) {
 			int j = 0;
-			for(int reading : sensor) {
+			for (int reading : sensor) {
 				readings[i][j] = -1;
 				++j;
 			}
 			++i;
-		}		
+		}
 	}
-	
+
 	/**
-	 * Checks if the ultrasonic sensor has collected atleast 5 values. It does this by checking for any negative numbers in the readings. 
+	 * Checks if the ultrasonic sensor has collected atleast 5 values. It does
+	 * this by checking for any negative numbers in the readings.
 	 */
 	public boolean isSetup() {
-		for(int[] sensor : readings) {
-			for(int reading : sensor) {
-				if(reading < 0) return false;
+		for (int[] sensor : readings) {
+			for (int reading : sensor) {
+				if (reading < 0)
+					return false;
 			}
 		}
 		return true;
@@ -144,46 +146,49 @@ public class UltrasonicPoller implements TimerListener {
 		this.poller = null;
 		running = false;
 	}
-	
+
 	/**
 	 * Returns the filtered data for the sensor (median filtering)
+	 * 
 	 * @param sensor
 	 * @return
 	 */
 	public int getUSReading(int sensor) {
-		
-		// makes sure readings array is full of values so we have enough to filter with
-		if(readings[2][4] > -1) {
-			
-			//initialize vars
+
+		// makes sure readings array is full of values so we have enough to
+		// filter with
+		if (readings[2][4] > -1) {
+
+			// initialize vars
 			int size = 5;
 			int[] usReadingsSorted = new int[5];
-			//Copy array
+			// Copy array
 			System.arraycopy(readings[sensor], 0, usReadingsSorted, 0, 5);
 
-			//sort the values: lowest to highest
-			for(int i=0; i<size; i++) {
-				for(int j=i+1; j<size;j++) {
-					if(usReadingsSorted[i] > usReadingsSorted[j]) {
+			// sort the values: lowest to highest
+			for (int i = 0; i < size; i++) {
+				for (int j = i + 1; j < size; j++) {
+					if (usReadingsSorted[i] > usReadingsSorted[j]) {
 						int temp = usReadingsSorted[i];
 						usReadingsSorted[i] = usReadingsSorted[j];
-						usReadingsSorted[j] = temp;					
+						usReadingsSorted[j] = temp;
 					}
 				}
 			}
-			
-			//return the median
-			return usReadingsSorted[2];			
-			
+
+			// return the median
+			return usReadingsSorted[2];
+
 		} else {
 			return readings[sensor][0];
 		}
 	}
-	
+
 	/**
 	 * gets the lowest reading in the ultrasonicPoller at that time. Readings
 	 * are not taken temporarily as they are not needed;
 	 * <p>
+	 * 
 	 * @return The smallest reading of the last 5 polls.
 	 */
 	public int getLowestReading() {
@@ -195,14 +200,14 @@ public class UltrasonicPoller implements TimerListener {
 		}
 
 		// calculate median value by sorting the readings
-		int minValue = readings[0][0]; //get a value to start
+		int minValue = readings[0][0]; // get a value to start
 		for (int usReadings[] : readings) {
 			int i = 0;
-			for(int reading : usReadings) {
-				if(minValue > reading)
+			for (int reading : usReadings) {
+				if (minValue > reading)
 					minValue = reading;
 				++i;
-				}
+			}
 		}
 
 		// start the readings again if the robot was taking readings before.
@@ -211,26 +216,29 @@ public class UltrasonicPoller implements TimerListener {
 		return minValue;
 
 	}
-	
+
 	/**
 	 * Pings ultrasonic sensor and records the result in readings
 	 */
 	private void pingUS(int sensor) {
 		int distance;
-		
+
 		// do a ping
 		us[sensor].ping();
-		
+
 		// wait for the ping to complete
-		try { Thread.sleep(20); } catch (InterruptedException e) {}
-		
+		try {
+			Thread.sleep(20);
+		} catch (InterruptedException e) {
+		}
+
 		// there will be a delay here
 		distance = us[sensor].getDistance();
-		
+
 		addReading(sensor, distance);
 	}
 
-	//helper method. 
+	// helper method.
 	private void addReading(int sensor, int reading) {
 		readings[sensor][4] = readings[sensor][3];
 		readings[sensor][3] = readings[sensor][2];
@@ -238,28 +246,28 @@ public class UltrasonicPoller implements TimerListener {
 		readings[sensor][1] = readings[sensor][0];
 		readings[sensor][0] = reading;
 	}
-	
+
 	public class LeftUS implements Runnable {
 
 		@Override
 		public void run() {
-			pingUS(left);			
+			pingUS(left);
 		}
 	}
-	
+
 	public class RightUS implements Runnable {
 
 		@Override
 		public void run() {
-			pingUS(right);	
+			pingUS(right);
 		}
 	}
-	
+
 	public class CenterUS implements Runnable {
 
 		@Override
 		public void run() {
-			pingUS(center);	
+			pingUS(center);
 		}
 	}
 }
