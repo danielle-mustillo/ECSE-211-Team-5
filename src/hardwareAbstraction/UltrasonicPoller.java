@@ -109,6 +109,9 @@ public class UltrasonicPoller implements TimerListener {
 		this.previousTime = System.currentTimeMillis();
 	}
 	
+	/**
+	 * Resets the ultrasonic sensor values to the default -1 values. The ultrasonic sensor will never return negative values during normal operation.
+	 */
 	public void resetUSP() {
 		int i = 0;
 		for(int[] sensor : readings) {
@@ -118,8 +121,19 @@ public class UltrasonicPoller implements TimerListener {
 				++j;
 			}
 			++i;
+		}		
+	}
+	
+	/**
+	 * Checks if the ultrasonic sensor has collected atleast 5 values. It does this by checking for any negative numbers in the readings. 
+	 */
+	public boolean isSetup() {
+		for(int[] sensor : readings) {
+			for(int reading : sensor) {
+				if(reading < 0) return false;
+			}
 		}
-			
+		return true;
 	}
 
 	/**
