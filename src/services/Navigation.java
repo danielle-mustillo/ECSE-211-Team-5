@@ -158,6 +158,8 @@ public class Navigation implements TimerListener {
 			manager.um.nap(100);
 		}
 		
+		manager.hm.drive.stop();
+		
 	}
 	
 	public int calculateRotationSpeed(double dH) {

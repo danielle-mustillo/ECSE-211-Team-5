@@ -38,9 +38,9 @@ public class Launcher {
 			manager.um.nap(150);
 		}
 		
-		manager.sm.nav.addToRoute(new Point(60,0));
+		//manager.sm.nav.addToRoute(new Point(60,0));
 		manager.sm.nav.turnToComplete(0);
-		manager.cm.setState(State.SEARCH);
+		//manager.cm.setState(State.SEARCH);
 		
 //		manager.sm.nav.start();
 //		manager.cm.setState(State.RECOGNIZE);
