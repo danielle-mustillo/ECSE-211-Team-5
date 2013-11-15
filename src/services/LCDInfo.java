@@ -1,5 +1,6 @@
 package services;
 
+import utilities.Angle;
 import utilities.Position;
 import lejos.nxt.LCD;
 import lejos.util.Timer;
@@ -33,7 +34,7 @@ public class LCDInfo implements TimerListener{
 		LCD.drawString("H: ", 0, 2);
 		LCD.drawInt((int)(pos.x * 10), 3, 0);
 		LCD.drawInt((int)(pos.y * 10), 3, 1);
-		LCD.drawInt((int)pos.theta, 3, 2);
+		LCD.drawInt(Angle.radToDeg(pos.theta), 3, 2);
 	}
 
 }

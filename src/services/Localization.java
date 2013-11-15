@@ -175,7 +175,7 @@ public class Localization implements TimerListener {
 		} else {
 			//Depending on what angle is bigger, offset deltaTheta to the correct amount
 			if(angleA > angleB) {
-				deltaTheta +=  4.0 * Math.PI / 4.0;
+				deltaTheta +=  4.45 * Math.PI / 4.0;
 			} else {
 				deltaTheta +=  0.8 * Math.PI / 4.0;
 			}

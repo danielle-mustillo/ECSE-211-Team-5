@@ -36,4 +36,8 @@ public class Angle {
 		else
 			return d - 2*Math.PI;
 	}
+	
+	public static int radToDeg(double rad) {
+		return (int) (rad * 180 / Math.PI);
+	}
 }
