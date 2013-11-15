@@ -165,8 +165,12 @@ public class Navigation implements TimerListener {
 	public int calculateRotationSpeed(double dH) {
 		if (Math.abs(dH) > 0.01) {
 			// if error positive and greater than 0.2 rad -> max speed CCW
-			if (dH > 0.15) {
+			if (dH > 0.3) {
 				return -MAX_ROTATE_SPEED;
+			}
+			// positive error, between .05 and .15 , so turn slow CCW to prevent overshoot
+			else if (dH > .15) {
+				return -MAX_ROTATE_SPEED / 2;
 			}
 			// positive error, between .05 and .15 , so turn slow CCW to prevent overshoot
 			else if (dH > .05) {
@@ -178,11 +182,15 @@ public class Navigation implements TimerListener {
 			}
 			
 			// if error negative and greater than 0.2 rad -> max speed CW
-			if (dH < 0.15) {
+			if (dH < -0.3) {
 				return MAX_ROTATE_SPEED;
 			}
 			// negative error, between .05 and .15 , so turn slow CW to prevent overshoot
-			else if (dH < .05) {
+			else if (dH < -.15) {
+				return MAX_ROTATE_SPEED / 2;
+			}
+			// negative error, between .05 and .15 , so turn slow CW to prevent overshoot
+			else if (dH < -.05) {
 				return MAX_ROTATE_SPEED / 6;
 			}
 			// negative error, but close to 0, so turn slow CW to prevent overshoot
