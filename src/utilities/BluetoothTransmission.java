@@ -25,6 +25,7 @@ public class BluetoothTransmission {
 		Settings.redZoneCoords = new Point[2];
 		stream = getConnection();
 		getInformation();
+		close();
 	}
 	
 	private static DataInputStream getConnection() {
@@ -33,6 +34,13 @@ public class BluetoothTransmission {
 		NXTConnection conn = Bluetooth.waitForConnection();
 		LCD.drawString("BT Connected", 0, 1);
 		return conn.openDataInputStream();
+	}
+	
+	private static void close() {
+		try {
+			stream.close();
+		} catch (IOException e) {
+		}
 	}
 	
 	private static void getInformation() {

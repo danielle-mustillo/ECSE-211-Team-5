@@ -1,13 +1,15 @@
 package hardwareAbstraction;
 
+import lejos.nxt.LCD;
 import lejos.nxt.comm.RConsole;
 import lejos.nxt.remote.RemoteMotor;
 import utilities.Settings;
 
 public class Forklift {
 	static RemoteMotor lift = Settings.forkliftMotor;
-	static int liftHeight = -15; // 15 cm upwards. Should be ok
-	static int scanHeight = -10; // 10 cm upwards. Needs to be tested. 
+	static int liftHeight = 15; // 15 cm upwards. Should be ok
+	static int scanHeight = 10; // 10 cm upwards. Needs to be tested. 
+	static int scanHeightLow = 7; // 7 cm upwards. Needs to be tested. 
 	private static double radius = 1; //radius of "spool". Must be tested. 
 	public static ForkliftState state = ForkliftState.GROUND; //sensor starts on the ground.
 	/**
@@ -24,12 +26,7 @@ public class Forklift {
 			lowerObject();
 		}
 		state = ForkliftState.LIFT_HEIGHT;
-		try {
-			lift.setSpeed(100);
-			lift.rotate(convertDistanceToAngle(liftHeight));
-		} catch (ArrayIndexOutOfBoundsException e) {
-
-		}
+		changeHeight(scanHeight);
 	}
 	
 	/**
@@ -43,29 +40,22 @@ public class Forklift {
 		if (state == ForkliftState.GROUND)
 			return;
 		state = ForkliftState.GROUND;
-		try {
-			lift.setSpeed(100);
-			lift.rotate(-convertDistanceToAngle(liftHeight));
-		} catch (ArrayIndexOutOfBoundsException e){ }
+		changeHeight(liftHeight);
 	}
 	
 	/**
 	 * This method will raise the forklift to allow the color sensor to identify the block. 
 	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed.
 	 */
-	public static void setScanHeight() {
+	public static int setScanHeight() {
 		RConsole.println("lifting to scan height");
 		if (state == ForkliftState.LIFT_HEIGHT)
 			lowerObject();
 		if (state == ForkliftState.SCAN_HEIGHT)
-			return;
+			return 0;
 		state = ForkliftState.SCAN_HEIGHT;
-		try {
-			lift.setSpeed(100);
-			lift.rotate(convertDistanceToAngle(scanHeight));
-		} catch (ArrayIndexOutOfBoundsException e){
 		
-		}
+		return changeHeight(scanHeight);
 	}
 	
 	/**
@@ -79,12 +69,43 @@ public class Forklift {
 		if (state == ForkliftState.GROUND)
 			return;
 		state = ForkliftState.GROUND;
+		changeHeight(scanHeight);
+	}
+	
+	public static int setHeight(ForkliftState s) {
+		int height;
+		
+		if (s == ForkliftState.LIFT_HEIGHT) {
+			height = liftHeight;
+		} else if(s == ForkliftState.SCAN_HEIGHT ) {
+			height = scanHeight;
+		} else if(s == ForkliftState.SCAN_HEIGHT_LOW ) {
+			height = scanHeightLow;
+		} else {
+			height = 0;
+		}
+		
+		state = s;
+		return changeHeight(height);
+	}
+	
+	/**
+	 * Changes the height of the forklift
+	 * Won't return until the height is reached
+	 * @param newHeight
+	 */
+	private static int changeHeight(int newHeight) {
+		int rotation = convertDistanceToAngle(newHeight);
+		int naptime = rotation*11;
+		
 		try {
 			lift.setSpeed(100);
-			lift.rotate(-convertDistanceToAngle(scanHeight));
+			lift.rotateTo(-rotation);
 		} catch (ArrayIndexOutOfBoundsException e){
 		
 		}
+		
+		return naptime;
 	}
 
 	/**
@@ -95,10 +116,10 @@ public class Forklift {
 	 * @return
 	 */
 	private static int convertDistanceToAngle(int distance) {
-		return (int)( (distance * 360) / (2 * Math.PI * radius) );
+		return (int)( (distance * 180) / (Math.PI * radius) );
 	}
 	
 	public enum ForkliftState {
-		GROUND, SCAN_HEIGHT, LIFT_HEIGHT;
+		GROUND, SCAN_HEIGHT, LIFT_HEIGHT, SCAN_HEIGHT_LOW;
 	}
 }

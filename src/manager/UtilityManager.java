@@ -12,7 +12,7 @@ public class UtilityManager {
 	public UtilityManager(Manager manager) {
 		this.manager = manager;
 		
-		BluetoothTransmission.getBluetoothData();
+		//BluetoothTransmission.getBluetoothData();
 		this.comLink = new Communicator(Settings.NXTSlaveName);
 		this.map = new Map();
 	}

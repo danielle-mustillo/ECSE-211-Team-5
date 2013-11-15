@@ -1,5 +1,6 @@
 package services;
 
+import hardwareAbstraction.Forklift;
 import controllers.State;
 import utilities.*;
 import lejos.nxt.LCD;
@@ -44,6 +45,9 @@ public class Localization implements TimerListener {
 	 * Starts the localization process
 	 */
 	public void start() {
+		
+		//Ensure the Center ultrasonic is at a good height and wait till it is done
+		manager.um.nap(Forklift.setHeight(Forklift.ForkliftState.SCAN_HEIGHT_LOW));
 		
 		//Retrieves center Ultrasonic reading
 		int usReading = updateUltrasonic();
@@ -171,9 +175,9 @@ public class Localization implements TimerListener {
 		} else {
 			//Depending on what angle is bigger, offset deltaTheta to the correct amount
 			if(angleA > angleB) {
-				deltaTheta +=  5.0 * Math.PI / 4.0;
+				deltaTheta +=  4.8 * Math.PI / 4.0;
 			} else {
-				deltaTheta +=  Math.PI / 4.0;
+				deltaTheta +=  0.8 * Math.PI / 4.0;
 			}
 		}
 		

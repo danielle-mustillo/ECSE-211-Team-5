@@ -29,7 +29,7 @@ private boolean isInPosition;
 	public void run() {
 		//setup the recognize parameters at the start, only does this once. 
 		if (!isSetup) {
-<<<<<<< HEAD
+
 			RConsole.println("Setting up");
 			this.isSetup = true;
 			this.isInPosition = false;
@@ -47,7 +47,7 @@ private boolean isInPosition;
 			
 			//now return to previous state.
 			manager.cm.setState(State.RECOGNIZE);
-=======
+
 			// if not at scan height, set it to that
 			if(manager.hm.forklift.state == Forklift.ForkliftState.LIFT_HEIGHT) {
 				manager.cm.setState(State.PAUSE);
@@ -66,7 +66,7 @@ private boolean isInPosition;
 		//if the color poller has finally collected enough values. 
 		if(manager.hm.colorPoller.isSetup()) {
 			// TODO we might not even need this code anymore!!!!!!!
->>>>>>> Fixed bluetooth and Got it working
+
 		}
 		
 		if (!this.isInPosition) {

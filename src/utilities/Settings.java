@@ -30,7 +30,7 @@ public class Settings {
 	
 	public static int role;
 	public static Point[] redZoneCoords;
-	public static Point[] greenZoneCoords; //TODO remove once BT is working.
+	public static Point[] greenZoneCoords = new Point[2]; //TODO remove once BT is working.
 	public static StartingCorner startingCorner = StartingCorner.BOTTOM_LEFT;
 	
 	public static final double LS_OFFSET = 15.0;

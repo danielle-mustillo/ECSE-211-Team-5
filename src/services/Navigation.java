@@ -168,11 +168,11 @@ public class Navigation implements TimerListener {
 			}
 			// positive error, between .05 and .15 , so turn slow CCW to prevent overshoot
 			else if (dH > .05) {
-				return -MAX_ROTATE_SPEED / 4;
+				return -MAX_ROTATE_SPEED / 6;
 			}
 			// positive error, but close to 0, so turn slow CCW to prevent overshoot
-			else if (dH > 0) {
-				return -MAX_ROTATE_SPEED / 8;
+			else if (dH > 0.01) {
+				return -MAX_ROTATE_SPEED / 16;
 			}
 			
 			// if error negative and greater than 0.2 rad -> max speed CW
@@ -181,11 +181,11 @@ public class Navigation implements TimerListener {
 			}
 			// negative error, between .05 and .15 , so turn slow CW to prevent overshoot
 			else if (dH < .05) {
-				return MAX_ROTATE_SPEED / 4;
+				return MAX_ROTATE_SPEED / 6;
 			}
 			// negative error, but close to 0, so turn slow CW to prevent overshoot
-			else if (dH < 0) {
-				return MAX_ROTATE_SPEED / 8;
+			else if (dH < -0.01) {
+				return MAX_ROTATE_SPEED / 16;
 			}
 		}
 		//if this point is reached, dH is basically zero (<0.6deg)
