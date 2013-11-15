@@ -85,6 +85,7 @@ public class UltrasonicPoller implements TimerListener {
 		//RConsole.println(String.valueOf(System.currentTimeMillis() - currentTime));
 	}
 	
+	//For debugging purposes. 
 	private String toStringLastValues() {
 		String out = "";
 		out += " L: " + getUSReading(left);
@@ -101,17 +102,24 @@ public class UltrasonicPoller implements TimerListener {
 		counter = 0;
 		
 		//for filtering purposes
-		readings[2][4] = -1;
-		readings[2][3] = -1;
-		readings[2][2] = -1;
-		readings[2][1] = -1;
-		readings[2][0] = -1;
+		this.resetUSP();
 		this.poller = new Timer(pollRate, this);
 		this.poller.start();
 		running = true;
 		this.previousTime = System.currentTimeMillis();
-		
-		RConsole.println(String.valueOf(poller.getDelay()));
+	}
+	
+	public void resetUSP() {
+		int i = 0;
+		for(int[] sensor : readings) {
+			int j = 0;
+			for(int reading : sensor) {
+				readings[i][j] = -1;
+				++j;
+			}
+			++i;
+		}
+			
 	}
 
 	/**
