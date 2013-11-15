@@ -21,12 +21,11 @@ public class UltrasonicPoller implements TimerListener {
 	private Timer poller;
 	private int readings[][];
 	private boolean running = false;
+	
 	private int left = 0;
 	private int center = 1;
 	private int right = 2;
 	private int counter;
-	private long previousTime;
-	private long deltaTime;
 
 	private Thread leftUS;
 	private Thread centerUS;
@@ -34,20 +33,20 @@ public class UltrasonicPoller implements TimerListener {
 
 	// TODO figure out what exactly this constructor should be.
 	public UltrasonicPoller() {
-//		us[left] = Settings.leftUltrasonic;
+		us[left] = Settings.leftUltrasonic;
 		us[center] = Settings.centerUltrasonic;
-//		us[right] = Settings.rightUltrasonic;
+		us[right] = Settings.rightUltrasonic;
 
 		this.pollRate = 100;
 		this.readings = new int[3][5];
 
-//		us[left].off();
+		us[left].off();
 		us[center].off();
-//		us[right].off();
+		us[right].off();
 
-//		this.leftUS = new Thread(new LeftUS());
+		this.leftUS = new Thread(new LeftUS());
 		this.centerUS = new Thread(new CenterUS());
-//		this.rightUS = new Thread(new RightUS());
+		this.rightUS = new Thread(new RightUS());
 
 		this.start();
 	}
@@ -58,38 +57,36 @@ public class UltrasonicPoller implements TimerListener {
 	 */
 	@Override
 	public void timedOut() {
-//		leftUS.run();
-		centerUS.run();
-//		rightUS.run();
-		RConsole.println(toStringLastValues());
-		// counter++;
-
-		// if(counter == 5) {
-		// LCD.drawString("                          ", 0, 6);
-		// LCD.drawInt((int) getUSReading(center), 0, 6);
-		// deltaTime = 0;
-		// }
-
-		// keep the counter between 0 - 2
-		// counter = counter % 5;
-
 		/*
-		 * if(counter == left) { //pingUS(left); } else if(counter == center) {
-		 * pingUS(center); } else { //pingUS(right); }
-		 * 
-		 * counter++; //keep the counter between 0 - 2 counter = counter % 3;
+		 * If the ultrasonics are facing forward, poll only one at a time.
+		 * Else poll them all simultaneously. 
 		 */
-
-		// RConsole.println(String.valueOf(System.currentTimeMillis() -
-		// currentTime));
+		if(UltrasonicMotor.isForward) {
+			switch(counter) {
+			case 0 : leftUS.run();
+			break;
+			case 1 : centerUS.run();
+			break;
+			case 2 : rightUS.run();
+			break;
+			}
+			counter += 1;
+			counter = counter % 3;
+		}
+		else {
+			leftUS.run();
+			centerUS.run();
+			rightUS.run();
+			RConsole.println(toStringLastValues());
+		}
 	}
 
 	// For debugging purposes.
 	private String toStringLastValues() {
 		String out = "";
-//		out += " L: " + getUSReading(left);
+		out += " L: " + getUSReading(left);
 		out += " C: " + getUSReading(center);
-//		out += " R: " + getUSReading(right);
+		out += " R: " + getUSReading(right);
 		return out;
 	}
 
