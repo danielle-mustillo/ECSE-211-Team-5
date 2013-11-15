@@ -9,7 +9,7 @@ public class Forklift {
 	static int liftHeight = -15; // 15 cm upwards. Should be ok
 	static int scanHeight = -10; // 10 cm upwards. Needs to be tested. 
 	private static double radius = 1; //radius of "spool". Must be tested. 
-	private static ForkliftState state = ForkliftState.GROUND; //sensor starts on the ground.
+	public static ForkliftState state = ForkliftState.GROUND; //sensor starts on the ground.
 	/**
 	 * This method lifts an object. Returns nothing.
 	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed. 
