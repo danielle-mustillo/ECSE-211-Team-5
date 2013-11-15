@@ -9,21 +9,26 @@ public class Forklift {
 	static int liftHeight = -15; // 15 cm upwards. Should be ok
 	static int scanHeight = -10; // 10 cm upwards. Needs to be tested. 
 	private static double radius = 1; //radius of "spool". Must be tested. 
-	public static boolean atScanHeight = false;
-	public static boolean atLiftHeight = false;
-	
+	private static ForkliftState state = ForkliftState.GROUND; //sensor starts on the ground.
 	/**
 	 * This method lifts an object. Returns nothing.
 	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed. 
 	 */
 	public static void liftObject() {
 		RConsole.println("lifting object");
-		atLiftHeight = true;
+		// reset the forklift to ground state.
+		if (state == ForkliftState.SCAN_HEIGHT) {
+			resetScanHeight();
+		}
+		if (state == ForkliftState.LIFT_HEIGHT) {
+			lowerObject();
+		}
+		state = ForkliftState.LIFT_HEIGHT;
 		try {
 			lift.setSpeed(100);
 			lift.rotate(convertDistanceToAngle(liftHeight));
-		} catch (ArrayIndexOutOfBoundsException e){
-		
+		} catch (ArrayIndexOutOfBoundsException e) {
+
 		}
 	}
 	
@@ -32,14 +37,16 @@ public class Forklift {
 	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed. 
 	 */
 	public static void lowerObject() {
-		RConsole.println("lowering object");
-		atLiftHeight = false;
+		RConsole.println("lowering to default position");
+		if (state == ForkliftState.SCAN_HEIGHT)
+			resetScanHeight();
+		if (state == ForkliftState.GROUND)
+			return;
+		state = ForkliftState.GROUND;
 		try {
 			lift.setSpeed(100);
 			lift.rotate(-convertDistanceToAngle(liftHeight));
-		} catch (ArrayIndexOutOfBoundsException e){
-		
-		}
+		} catch (ArrayIndexOutOfBoundsException e){ }
 	}
 	
 	/**
@@ -48,7 +55,11 @@ public class Forklift {
 	 */
 	public static void setScanHeight() {
 		RConsole.println("lifting to scan height");
-		atScanHeight = true;
+		if (state == ForkliftState.LIFT_HEIGHT)
+			lowerObject();
+		if (state == ForkliftState.SCAN_HEIGHT)
+			return;
+		state = ForkliftState.SCAN_HEIGHT;
 		try {
 			lift.setSpeed(100);
 			lift.rotate(convertDistanceToAngle(scanHeight));
@@ -63,7 +74,11 @@ public class Forklift {
 	 */
 	public static void resetScanHeight() {
 		RConsole.println("lowering to default height");
-		atLiftHeight = false;
+		if (state == ForkliftState.LIFT_HEIGHT)
+			lowerObject();
+		if (state == ForkliftState.GROUND)
+			return;
+		state = ForkliftState.GROUND;
 		try {
 			lift.setSpeed(100);
 			lift.rotate(-convertDistanceToAngle(scanHeight));
@@ -71,8 +86,6 @@ public class Forklift {
 		
 		}
 	}
-	
-	
 
 	/**
 	 * This method turns a distance into an angle for the robot to turn. Takes as parameter the distance you want to lift. 
@@ -83,5 +96,9 @@ public class Forklift {
 	 */
 	private static int convertDistanceToAngle(int distance) {
 		return (int)( (distance * 360) / (2 * Math.PI * radius) );
+	}
+	
+	public enum ForkliftState {
+		GROUND, SCAN_HEIGHT, LIFT_HEIGHT;
 	}
 }
