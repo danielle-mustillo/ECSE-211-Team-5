@@ -14,7 +14,9 @@ public class Search extends Controller  {
 	}
 	
 	public void run() {
+		
 		defaultRouter();
+		
 	}
 	/**
 	 * This method will check the route in navigation and add a coordinate in the route. Allows the Navigation to always have "something to do" when nothing interesting is found
