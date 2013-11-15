@@ -34,20 +34,20 @@ public class UltrasonicPoller implements TimerListener {
 
 	// TODO figure out what exactly this constructor should be.
 	public UltrasonicPoller() {
-		us[left] = Settings.leftUltrasonic;
+//		us[left] = Settings.leftUltrasonic;
 		us[center] = Settings.centerUltrasonic;
-		us[right] = Settings.rightUltrasonic;
+//		us[right] = Settings.rightUltrasonic;
 
-		this.pollRate = 10;
+		this.pollRate = 100;
 		this.readings = new int[3][5];
 
-		us[left].off();
+//		us[left].off();
 		us[center].off();
-		us[right].off();
+//		us[right].off();
 
-		this.leftUS = new Thread(new LeftUS());
+//		this.leftUS = new Thread(new LeftUS());
 		this.centerUS = new Thread(new CenterUS());
-		this.rightUS = new Thread(new RightUS());
+//		this.rightUS = new Thread(new RightUS());
 
 		this.start();
 	}
@@ -58,9 +58,9 @@ public class UltrasonicPoller implements TimerListener {
 	 */
 	@Override
 	public void timedOut() {
-		leftUS.run();
+//		leftUS.run();
 		centerUS.run();
-		rightUS.run();
+//		rightUS.run();
 		RConsole.println(toStringLastValues());
 		// counter++;
 
@@ -87,9 +87,9 @@ public class UltrasonicPoller implements TimerListener {
 	// For debugging purposes.
 	private String toStringLastValues() {
 		String out = "";
-		out += " L: " + getUSReading(left);
+//		out += " L: " + getUSReading(left);
 		out += " C: " + getUSReading(center);
-		out += " R: " + getUSReading(right);
+//		out += " R: " + getUSReading(right);
 		return out;
 	}
 
@@ -101,11 +101,9 @@ public class UltrasonicPoller implements TimerListener {
 		counter = 0;
 
 		// for filtering purposes
-		this.resetUSP();
 		this.poller = new Timer(pollRate, this);
 		this.poller.start();
 		running = true;
-		this.previousTime = System.currentTimeMillis();
 	}
 
 	/**
@@ -113,19 +111,17 @@ public class UltrasonicPoller implements TimerListener {
 	 * ultrasonic sensor will never return negative values during normal
 	 * operation. Stops the polling during this operation to avoid overwriting
 	 * good data.
+	 * @bug throws null pointer exception. Has potentially been fixed. Needs to be tested.
 	 */
 	public void resetUSP() {
-		poller.stop();
-		int i = 0;
-		for (int[] sensor : readings) {
-			int j = 0;
-			for (int reading : sensor) {
+		this.stop();
+		for (int i = 0; i < readings.length; ++i) {
+			for (int j = 0; j < readings[1].length; ++j) {
+				RConsole.println("" + i + "," + j);
 				readings[i][j] = -1;
-				++j;
 			}
-			++i;
 		}
-		poller.start();
+		this.start();
 	}
 
 	/**
@@ -246,6 +242,18 @@ public class UltrasonicPoller implements TimerListener {
 		readings[sensor][2] = readings[sensor][1];
 		readings[sensor][1] = readings[sensor][0];
 		readings[sensor][0] = reading;
+	}
+	
+	/**
+	 * Computes the average values read by a sensor
+	 * @param sensor	The integer value corresponding to the ultrasonic sensor
+	 * @return The average integer value, in integer value.
+	 */
+	public int computeAverage(int sensor) {
+		int sum = 0;
+		for(int i = 0; i < readings[sensor].length; i++)
+			sum += readings[sensor][i];
+		return (sum / readings[sensor].length);
 	}
 
 	public class LeftUS implements Runnable {

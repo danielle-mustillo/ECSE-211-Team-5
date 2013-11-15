@@ -1,5 +1,6 @@
 package manager;
 
+import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
 import controllers.*;
@@ -38,7 +39,7 @@ public class ControllerManager implements TimerListener {
 	}
 	
 	public void timedOut() {
-		
+		RConsole.println("" + getState().name());
 		if(state == State.SEARCH) controllers[0].run();
 		else if(state == State.RECOGNIZE) controllers[1].run();
 		else if(state == State.COLLECT) controllers[2].run();
