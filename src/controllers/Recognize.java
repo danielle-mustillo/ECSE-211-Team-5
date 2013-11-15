@@ -16,27 +16,29 @@ private Stack<Point> prevRoute;
 private int lowValue;
 private int highValue;
 private final int middle = 1;
-private boolean navigating;;
+private boolean isInPosition;
 	
 	public Recognize(Manager manager) {
 		this.manager = manager;
 		this.isSetup = false;
-		this.lowValue = -1;
-		this.highValue = -1;
-		this.navigating = false;
+		this.lowValue = -1; // reading when the forklift is down
+		this.highValue = -1; // reading when the forklift is up.
+		this.isInPosition = false;
 	}
 	
 	public void run() {
+		//setup the recognize parameters at the start, only does this once. 
 		if (!isSetup) {
 			RConsole.println("Setting up");
 			this.isSetup = true;
+			this.isInPosition = false;
+			
 			//set navigation to do nothing for the moment. 
 			this.prevRoute = manager.sm.nav.getRoute();
 			manager.sm.nav.setRoute(new Stack<Point>());
 			
-			// reset forklift
+			// lower forklift if raised
 			manager.cm.setState(State.PAUSE);
-			RConsole.println("Lowering Forklift");
 			Forklift.lowerObject();
 			
 			// reset ultrasonic sensor
@@ -44,39 +46,44 @@ private boolean navigating;;
 			
 			//now return to previous state.
 			manager.cm.setState(State.RECOGNIZE);
-
-		}
-		//if not navigating
-		if(manager.sm.nav.getRoute().empty()) {
-			this.navigating = false;
-			RConsole.println("Route is empty, see if the robot needs to correct its navigation");
-			int midReading = manager.hm.ultrasonicPoller.getUSReading(middle);
-			
-			//check if the robot must be corrected (if the midreading is not initialized and the low value has not been taken), do that if so.
-			if(midReading != -1 && lowValue == -1) {
-				//correct to about 20 cm.
-				if(midReading < 19 || midReading > 21 && !this.navigating) {
-					RConsole.println("The robot is trying to get to the object");
-					Position currentPos = manager.sm.odo.getPosition();
-					manager.sm.nav.addToRoute(currentPos.addDistanceToPosition(20 - midReading));
-					//end this if statement now, don't execute next if statement.
-				}
-			}
 		}
 		
+		if (!this.isInPosition) {
+				RConsole.println("See if the robot needs to correct its navigation");
+				int midReading = manager.hm.ultrasonicPoller
+						.getUSReading(middle);
+
+				// check if the robot must move to 20 cm from the object, but only when the first reading is taken.
+				if (midReading != -1) {
+					// if not 20 cm from the object, then correct the robot to
+					// be 20 from object
+					if (midReading < 19 || midReading > 21) {
+						RConsole.println("The robot is trying to get to the object");
+						Position currentPos = manager.sm.odo.getPosition();
+						manager.sm.nav.addToRoute(currentPos
+								.addDistanceToPosition(20 - midReading)); //TODO debug this method. 
+					}
+					this.isInPosition = true;
+				}
+				
+			}
+		
+		//once in position, route is empty. 
 		if(manager.sm.nav.getRoute().empty()) {	
 			//once the us is setup, get the low and high values. 
 			if(manager.hm.ultrasonicPoller.isSetup()) {
 				RConsole.print("Ultrasonic is setup, ");
 				if (lowValue == -1) {
+					// set low value. Reset the USP and raise the forklift. 
 					RConsole.println("Setting lowValue");
 					this.lowValue = manager.hm.ultrasonicPoller.computeAverage(middle);
+					manager.hm.ultrasonicPoller.resetUSP();
 					Forklift.setScanHeight();
 				} else {
 					RConsole.println("Setting highValue");
 					this.highValue = manager.hm.ultrasonicPoller.computeAverage(middle);
 					
-					//if a block, the difference of the low and high values will be low. Otherwise it will be huge. 
+					//if an obstacle, the difference of the low and high values will be low. Otherwise it will be huge. 
 					if(this.highValue - this.lowValue > 50) { //if a styrofoam block
 						RConsole.println("Collection executed now.");
 						manager.cm.setState(State.COLLECT);
@@ -85,19 +92,12 @@ private boolean navigating;;
 						RConsole.println("Wall Follower now");
 						manager.cm.setState(State.WALL_FOLLOWER);
 					}
+					//restore previous state before this execution 
+					manager.sm.nav.setRoute(this.prevRoute);
+					this.isSetup = false;
+	
 				}
 			}
 		}
-		
-		//TODO figure out if we still need the colorPoller or not. 
-		// start the color poller 
-//		manager.hm.colorPoller.start();
-		//if the color poller has finally collected enough values. 
-//		if(manager.hm.colorPoller.isSetup()) {
-//			// TODO we might not even need this code anymore!!!!!!!
-//		}
-		
-		
-		
 	}
 }
