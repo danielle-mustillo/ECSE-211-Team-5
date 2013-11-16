@@ -177,7 +177,7 @@ public class Localization implements TimerListener {
 			if(angleA > angleB) {
 				deltaTheta +=  4.45 * Math.PI / 4.0;
 			} else {
-				deltaTheta +=  0.8 * Math.PI / 4.0;
+				deltaTheta +=  0.45 * Math.PI / 4.0;
 			}
 		}
 		
@@ -236,15 +236,7 @@ public class Localization implements TimerListener {
 		
 		manager.sm.odo.adjustPosition(x, y, dTheta);
 
-		Position pos = manager.sm.odo.getPosition();
-		
-		LCD.drawString("X: ", 0, 0);
-		LCD.drawString("Y: ", 0, 1);
-		LCD.drawString("H: ", 0, 2);
-		LCD.drawInt((int) pos.x, 3, 0);
-		LCD.drawInt((int) pos.y, 3, 1);
-		LCD.drawInt((int) pos.theta, 3, 2);
-		
+		Position pos = manager.sm.odo.getPosition();	
 		
 		manager.cm.setState(State.SEARCH);
 	}
