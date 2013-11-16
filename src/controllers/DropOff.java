@@ -2,6 +2,7 @@ package controllers;
 
 import hardwareAbstraction.Claw;
 import hardwareAbstraction.Forklift;
+import hardwareAbstraction.Forklift.ForkliftState;
 
 import java.util.Stack;
 
@@ -49,10 +50,11 @@ private Stack<Point> route;
 			// when the robot gets to the greenZone, 
 			if(manager.sm.nav.getRoute().empty()) {
 				//drop off the block
-				Forklift.lowerObject();
+				Forklift.setHeight(ForkliftState.GROUND);
 				Claw.releaseObject();
 				
 				//go back to previous state
+				this.initialized = false;
 				this.manager.sm.nav.setRoute(route);
 				this.manager.cm.setState(State.SEARCH);
 			}

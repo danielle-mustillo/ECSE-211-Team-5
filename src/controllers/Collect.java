@@ -3,6 +3,7 @@ package controllers;
 import utilities.Settings;
 import hardwareAbstraction.Claw;
 import hardwareAbstraction.Forklift;
+import hardwareAbstraction.Forklift.ForkliftState;
 import lejos.nxt.comm.RConsole;
 import manager.Manager;
 
@@ -24,7 +25,13 @@ private Manager manager;
 		
 		//grab and lift
 		Claw.grabObject();
-		Forklift.liftObject();
+		int sleep = Forklift.setHeight(ForkliftState.LIFT_HEIGHT);
+		
+		try {
+			Thread.sleep(sleep);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 		//update storage count and go to the required next step (searching or dropping off).
 		RConsole.println("storage");
@@ -34,4 +41,5 @@ private Manager manager;
 		else
 			manager.cm.setState(State.SEARCH);
 	}
+	
 }

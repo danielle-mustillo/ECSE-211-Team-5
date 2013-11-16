@@ -7,6 +7,7 @@ public class Search extends Controller  {
 
 	private Manager manager;
 	private int defaultPath;
+	private final int middle = 1;
 	
 	public Search(Manager manager) {
 		this.defaultPath = 0;
@@ -14,8 +15,8 @@ public class Search extends Controller  {
 	}
 	
 	public void run() {
-		
 		defaultRouter();
+		int reading = manager.hm.ultrasonicPoller.getUSReading(middle);
 		
 	}
 	/**

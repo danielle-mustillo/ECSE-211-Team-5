@@ -5,6 +5,7 @@ import java.util.Stack;
 import utilities.Point;
 import utilities.Position;
 import hardwareAbstraction.Forklift;
+import hardwareAbstraction.Forklift.ForkliftState;
 import lejos.nxt.comm.RConsole;
 import manager.Manager;
 
@@ -29,7 +30,8 @@ private boolean isInPosition;
 	public void run() {
 		//setup the recognize parameters at the start, only does this once. 
 		if (!isSetup) {
-
+			manager.cm.setState(State.PAUSE);
+			
 			RConsole.println("Setting up");
 			this.isSetup = true;
 			this.isInPosition = false;
@@ -39,8 +41,8 @@ private boolean isInPosition;
 			manager.sm.nav.setRoute(new Stack<Point>());
 			
 			// lower forklift if raised
-			manager.cm.setState(State.PAUSE);
-			Forklift.lowerObject();
+			
+			Forklift.setHeight(ForkliftState.GROUND);
 			
 			// reset ultrasonic sensor
 			manager.hm.ultrasonicPoller.resetUSP();
@@ -49,14 +51,14 @@ private boolean isInPosition;
 			manager.cm.setState(State.RECOGNIZE);
 
 			// if not at scan height, set it to that
-			if(manager.hm.forklift.state == Forklift.ForkliftState.LIFT_HEIGHT) {
+			if(Forklift.state == Forklift.ForkliftState.LIFT_HEIGHT) {
 				manager.cm.setState(State.PAUSE);
-				Forklift.lowerObject();
+				Forklift.setHeight(ForkliftState.GROUND);
 				manager.cm.setState(State.RECOGNIZE);
 			}
-			if (manager.hm.forklift.state != Forklift.ForkliftState.SCAN_HEIGHT) {
+			if (Forklift.state != Forklift.ForkliftState.SCAN_HEIGHT) {
 				manager.cm.setState(State.PAUSE);
-				Forklift.setScanHeight();
+				Forklift.setHeight(ForkliftState.SCAN_HEIGHT);
 				manager.cm.setState(State.RECOGNIZE);
 			}
 			//TODO figure out if we still need the colorPoller or not. 
@@ -66,7 +68,6 @@ private boolean isInPosition;
 		//if the color poller has finally collected enough values. 
 		if(manager.hm.colorPoller.isSetup()) {
 			// TODO we might not even need this code anymore!!!!!!!
-
 		}
 		
 		if (!this.isInPosition) {
@@ -99,7 +100,7 @@ private boolean isInPosition;
 					RConsole.println("Setting lowValue");
 					this.lowValue = manager.hm.ultrasonicPoller.computeAverage(middle);
 					manager.hm.ultrasonicPoller.resetUSP();
-					Forklift.setScanHeight();
+					Forklift.setHeight(ForkliftState.SCAN_HEIGHT);
 				} else {
 					RConsole.println("Setting highValue");
 					this.highValue = manager.hm.ultrasonicPoller.computeAverage(middle);
@@ -116,7 +117,6 @@ private boolean isInPosition;
 					//restore previous state before this execution 
 					manager.sm.nav.setRoute(this.prevRoute);
 					this.isSetup = false;
-	
 				}
 			}
 		}
