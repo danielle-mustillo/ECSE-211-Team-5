@@ -25,7 +25,7 @@ public class Navigation implements TimerListener {
 	private Timer time;
 	private final int UPDATE_PERIOD = 100;
 	private final int MAX_FORWARD_SPEED = 8;
-	private final int MAX_ROTATE_SPEED = 45;
+	private final int MAX_ROTATE_SPEED = 35;
 
 	private Stack<Point> route;
 	private Position currentPos;
@@ -50,7 +50,7 @@ public class Navigation implements TimerListener {
 
 	@Override
 	public void timedOut() {
-		if (manager.cm.getState() == State.SEARCH || manager.cm.getState() == State.DROP_OFF || manager.cm.getState() == State.RECOGNIZE) {
+		if (manager.cm.getState() == State.SEARCH || manager.cm.getState() == State.DROP_OFF || manager.cm.getState() == State.RECOGNIZE || manager.cm.getState() == State.TESTING) {
 			RConsole.println(""+manager.cm.getState().name());
 			if (route.empty()) {
 				// nothing is done
@@ -155,7 +155,7 @@ public class Navigation implements TimerListener {
 		while(Math.abs(dH) > 0.01) {
 			dH = Angle.minimumAngle(currentPos.theta, angle);
 			turnTo(dH);
-			manager.um.nap(100);
+			manager.um.nap(70);
 		}
 		
 		manager.hm.drive.stop();

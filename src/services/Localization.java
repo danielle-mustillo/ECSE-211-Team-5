@@ -5,7 +5,6 @@ import controllers.State;
 import utilities.*;
 import lejos.nxt.LCD;
 import lejos.nxt.Sound;
-import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
 import manager.*;
@@ -47,7 +46,7 @@ public class Localization implements TimerListener {
 	public void start() {
 		
 		//Ensure the Center ultrasonic is at a good height and wait till it is done
-		manager.um.nap(Forklift.setHeight(Forklift.ForkliftState.SCAN_HEIGHT_LOW));
+		//manager.um.nap(Forklift.setHeight(Forklift.ForkliftState.SCAN_HEIGHT_LOW));
 		
 		//Retrieves center Ultrasonic reading
 		int usReading = updateUltrasonic();
@@ -89,6 +88,7 @@ public class Localization implements TimerListener {
 	
 	public void stop() {	
 		timer.stop();
+		manager.hm.drive.stop();
 	}
 	
 	/**
@@ -101,28 +101,19 @@ public class Localization implements TimerListener {
 			ultrasonicLocalization();
 		} 
 //		//not finished line localization
-//		else if(Double.isNaN(lineDetectedHeadings[3])) {
-//			//move to correct orientation for line localization
-//			if(!lineLocalization) {
-//				prepareLineLocalization();
-//			} else {
-//				lineLocalization();
-//			}
-//		} 
-//		//localization complete, update position
-//		else {
-//			updatePosition();
-//			stop();
-//		}
-		//test stub :)
-		else {
-			if(Math.abs(manager.sm.odo.getTheta()) > 0.1 )
-				manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
-			else {
-				manager.hm.drive.setSpeeds(0,0);
-				stop();
-				manager.cm.setState(State.SEARCH);
+		else if(leftLineCount < 4 || rightLineCount < 4) {
+			//move to correct orientation for line localization
+			if(!lineLocalization) {
+				prepareLineLocalization();
+			} else {
+				lineLocalization();
 			}
+		} 
+		//localization complete, update position
+		else {
+			stop();
+			updatePosition();
+			manager.cm.setState(State.SEARCH);
 		}
 	}
 	
@@ -192,17 +183,8 @@ public class Localization implements TimerListener {
 			deltaTheta += Math.PI/2;
 		}
 		
-		RConsole.println(""+manager.sm.odo.getTheta());
-		
 		//update the odometer
 		manager.sm.odo.adjustPosition(0, 0, deltaTheta);
-		
-		LCD.drawString("X: ", 0, 0);
-		LCD.drawString("Y: ", 0, 1);
-		LCD.drawString("H: ", 0, 2);
-		LCD.drawInt(0, 3, 0);
-		LCD.drawInt(0, 3, 1);
-		LCD.drawInt((int) manager.sm.odo.getTheta(), 3, 2);
 		
 	}
 	
@@ -218,7 +200,9 @@ public class Localization implements TimerListener {
 	 * Updates the odometers position based on line localization results
 	 */
 	public void updatePosition() {
-		double thetaXminus = (lineDetectedHeadings[0] + lineDetectedHeadings[4]) / 2.0;
+		
+		double thetaXminus = (lineDetectedHeadings[0] + lineDetectedHeadings[4]) / 2.0
+							 + ( (lineDetectedHeadings[4] < Math.PI) ? Math.PI : 0 );  //Correction term
 		double thetaYminus = (lineDetectedHeadings[3] + lineDetectedHeadings[7]) / 2.0;
 		double thetaYplus = (lineDetectedHeadings[1] + lineDetectedHeadings[5]) / 2.0;
 		double thetaXplus = (lineDetectedHeadings[2] + lineDetectedHeadings[6]) / 2.0;
@@ -235,10 +219,8 @@ public class Localization implements TimerListener {
 		double dTheta = (dThetaX + dThetaY) / 2.0;
 		
 		manager.sm.odo.adjustPosition(x, y, dTheta);
-
-		Position pos = manager.sm.odo.getPosition();	
 		
-		manager.cm.setState(State.SEARCH);
+		
 	}
 	
 	public void prepareLineLocalization() {
@@ -288,6 +270,5 @@ public class Localization implements TimerListener {
 				leftLineCount++;
 			}
 		}
-	}
-	
+	}	
 }

@@ -21,6 +21,6 @@ public class HardwareManager {
 		this.ultrasonicMotor = new UltrasonicMotor();
 		this.colorPoller = new ColorPoller();
 		this.linePoller = new LinePoller();
-		this.ultrasonicPoller = new UltrasonicPoller();
+		this.ultrasonicPoller = new UltrasonicPoller(manager);
 	}
 }

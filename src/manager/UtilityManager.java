@@ -27,4 +27,18 @@ public class UtilityManager {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Converts an array to string
+	 * @param arr
+	 * @return
+	 */
+	public String arrayToString(double[] arr) {
+		String output = "[";
+		for (int i=0; i< arr.length; i++) {
+			output += String.valueOf(arr[i]) + ", ";
+		}
+		
+		return output + "]";
+	}
 }

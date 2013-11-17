@@ -1,11 +1,13 @@
 package hardwareAbstraction;
 
+import controllers.State;
 import utilities.Settings;
 import lejos.nxt.LCD;
 import lejos.nxt.UltrasonicSensor;
 import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
+import manager.Manager;
 
 /**
  * This class serves as a higher level abstraction of a ultrasonic sensor. It is
@@ -30,9 +32,11 @@ public class UltrasonicPoller implements TimerListener {
 	private Thread leftUS;
 	private Thread centerUS;
 	private Thread rightUS;
+	
+	private Manager manager;
 
 	// TODO figure out what exactly this constructor should be.
-	public UltrasonicPoller() {
+	public UltrasonicPoller(Manager manager) {
 		us[left] = Settings.leftUltrasonic;
 		us[center] = Settings.centerUltrasonic;
 		us[right] = Settings.rightUltrasonic;
@@ -48,6 +52,8 @@ public class UltrasonicPoller implements TimerListener {
 		this.centerUS = new Thread(new CenterUS());
 		this.rightUS = new Thread(new RightUS());
 
+		this.manager = manager;
+		
 		this.start();
 	}
 
@@ -57,27 +63,36 @@ public class UltrasonicPoller implements TimerListener {
 	 */
 	@Override
 	public void timedOut() {
+		
 		/*
-		 * If the ultrasonics are facing forward, poll only one at a time.
-		 * Else poll them all simultaneously. 
+		 * Ensures minimal lag for ultrasonic localization 
 		 */
-		if(UltrasonicMotor.isForward) {
-			switch(counter) {
-			case 0 : leftUS.run();
-			break;
-			case 1 : centerUS.run();
-			break;
-			case 2 : rightUS.run();
-			break;
+		if(manager.cm.getState() != State.LOCALIZING) {
+		
+			/*
+			 * If the ultrasonics are facing forward, poll only one at a time.
+			 * Else poll them all simultaneously. 
+			 */
+			if(UltrasonicMotor.isForward) {
+				switch(counter) {
+				case 0 : leftUS.run();
+				break;
+				case 1 : centerUS.run();
+				break;
+				case 2 : rightUS.run();
+				break;
+				}
+				counter += 1;
+				counter = counter % 3;
 			}
-			counter += 1;
-			counter = counter % 3;
-		}
-		else {
-			leftUS.run();
+			else {
+				leftUS.run();
+				centerUS.run();
+				rightUS.run();
+				RConsole.println(toStringLastValues());
+			}
+		} else {
 			centerUS.run();
-			rightUS.run();
-			RConsole.println(toStringLastValues());
 		}
 	}
 

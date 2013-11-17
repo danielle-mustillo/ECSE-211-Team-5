@@ -17,7 +17,7 @@ import utilities.Settings;
 public class LinePoller implements TimerListener {
 
 	private final int UPDATE_PERIOD = 15;
-	private final int THRESHOLD = 40;
+	private final int THRESHOLD = 50;
 	private boolean[] sensorOnLine;
 	private boolean[] sensorEnteringLine;
 	private ColorSensor[] sensor = new ColorSensor[2];
@@ -35,6 +35,8 @@ public class LinePoller implements TimerListener {
 		timer = new Timer(UPDATE_PERIOD, this);
 		setFloodlight(left, 0);
 		setFloodlight(right, 0);
+		
+		start();
 	}
 	
 	/**
@@ -60,9 +62,6 @@ public class LinePoller implements TimerListener {
 		
 		detectLine(right);
 		detectLine(left);
-		
-		RConsole.println("Left " + String.valueOf(readings[left][0]));
-		RConsole.println("Right " + String.valueOf(readings[right][0]));
 	}
 	
 	private void addReading(int sensor, int reading) {
@@ -115,7 +114,6 @@ public class LinePoller implements TimerListener {
 	public void setFloodlight(int sensor, int color) {
 		this.sensor[sensor].setFloodlight(color);
 		do {
-			RConsole.println("Setting Flood light");
 			nap(75);
 		} while(this.sensor[sensor].getRawLightValue() == -1);
 	}
