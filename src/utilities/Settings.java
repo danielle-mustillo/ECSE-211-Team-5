@@ -34,6 +34,9 @@ public class Settings {
 	public static StartingCorner startingCorner = StartingCorner.BOTTOM_LEFT;
 	
 	public static final double LS_OFFSET = 15.0;
+	public static final double LS_WIDTH = 11.5;
+	public static final double LS_LENGTH = 13.5;
+	public static final double TILE_SIZE = 30.48;
 	public static final int maxBlockCapacity = 1;
 	
 }

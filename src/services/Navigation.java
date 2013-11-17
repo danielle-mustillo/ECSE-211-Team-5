@@ -51,7 +51,7 @@ public class Navigation implements TimerListener {
 	@Override
 	public void timedOut() {
 		if (manager.cm.getState() == State.SEARCH || manager.cm.getState() == State.DROP_OFF || manager.cm.getState() == State.RECOGNIZE || manager.cm.getState() == State.TESTING) {
-			RConsole.println(""+manager.cm.getState().name());
+			
 			if (route.empty()) {
 				// nothing is done
 			} else {
@@ -60,6 +60,7 @@ public class Navigation implements TimerListener {
 			
 				// update the new headings to travel to
 				setupDeltaPositonAndHeading();
+				
 				// see if we need to make a big turn
 				if (Math.abs(dH) > 0.1) {
 					// if we need to turn more than 0.2 rads or 0.1 for
@@ -68,7 +69,7 @@ public class Navigation implements TimerListener {
 					// one wheel down slightly
 					turnTo(dH);
 				} else if (Math.abs(dX) > 1 || Math.abs(dY) > 1) {
-					RConsole.println(""+Math.abs(dX)+" "+Math.abs(dY));
+					//RConsole.println(""+Math.abs(dX)+" "+Math.abs(dY));
 					//scan ahead only once facing the correct orientation, then travelTo that destination.
 					//TODO comment back this code. Problematic code for the moment. 
 //					if (!scannedAhead) {
@@ -124,7 +125,7 @@ public class Navigation implements TimerListener {
 		double distanceToTravel = (dX * Math.cos(currentPos.theta))
 								+ (dY * Math.sin(currentPos.theta));
 		// high speed
-		if (distanceToTravel > 1) {
+		if (distanceToTravel > 3) {
 			manager.hm.drive.setSpeeds(MAX_FORWARD_SPEED, dL);
 		}
 		// close to target so go really slow, so that we don't overshoot

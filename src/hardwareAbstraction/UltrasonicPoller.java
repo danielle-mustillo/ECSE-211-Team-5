@@ -152,6 +152,7 @@ public class UltrasonicPoller implements TimerListener {
 	 * start reading again.
 	 */
 	public void stop() {
+		this.poller.stop();
 		this.poller = null;
 		running = false;
 	}

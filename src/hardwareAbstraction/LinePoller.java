@@ -86,7 +86,7 @@ public class LinePoller implements TimerListener {
 			sensorOnLine[sensor] = true;
 			sensorEnteringLine[sensor] = true;
 			//alert us with a beep that a line was detected
-			Sound.beep();
+			
 		}
 		//if we are on a line and filter result > 45 we have now left the line
 		else if(sensorOnLine[sensor] && result > THRESHOLD) {
