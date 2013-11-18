@@ -57,8 +57,8 @@ public class OdometryCorrection implements TimerListener  {
 				lastPos = manager.sm.odo.getPosition();
 			} else {
 				lineDetected(manager.sm.odo.getPosition(), lastPos, right);
-				lastPos = null;
-				lastSensor = -1;
+				lastPos = manager.sm.odo.getPosition();
+				lastSensor = left;
 			}
 		}
 		
@@ -71,8 +71,8 @@ public class OdometryCorrection implements TimerListener  {
 				lastPos = manager.sm.odo.getPosition();
 			} else {
 				lineDetected(lastPos, manager.sm.odo.getPosition(), left);
-				lastPos = null;
-				lastSensor = -1;
+				lastPos = manager.sm.odo.getPosition();
+				lastSensor = right;
 			}
 		}
 		
