@@ -72,12 +72,23 @@ public class Navigation implements TimerListener {
 					//RConsole.println(""+Math.abs(dX)+" "+Math.abs(dY));
 					//scan ahead only once facing the correct orientation, then travelTo that destination.
 					//TODO comment back this code. Problematic code for the moment. 
-//					if (!scannedAhead) {
-//						manager.hm.drive.stop();
-//						this.pause();
-//						manager.cm.setState(State.RECOGNIZE);
-//						this.start();
+//				if (!scannedAhead) {
+//					manager.hm.drive.stop();
+//					this.pause();
+//					UltrasonicMotor.setForwardPosition();
+//					try {
+//						Thread.sleep(manager.hm.ultrasonicPoller.pollRate * 6);
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
 //					}
+//					int lowest = manager.hm.ultrasonicPoller.getLowestReading();
+//					if(lowest < 20)
+//						manager.cm.setState(State.RECOGNIZE);
+//					else if (lowest < 30)
+//						route.push(manager.sm.odo.getPosition().addDistanceToPosition(lowest - threshold));
+//					else
+//						manager.cm.setState(State.SEARCH);
+//					this.start();
 					travelTo();
 				} else {
 					//stop the motors, reset scanning state and get next destination. 
