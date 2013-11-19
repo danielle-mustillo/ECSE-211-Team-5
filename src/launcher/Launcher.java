@@ -27,7 +27,7 @@ public class Launcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		RConsole.openBluetooth(20000);
+//		RConsole.openUSB(20000);
 		
 		
 		Manager manager = new Manager();
@@ -38,16 +38,16 @@ public class Launcher {
 			manager.um.nap(150);
 		}*/
 		
-		manager.sm.odoCorrection.start();
-		manager.hm.ultrasonicPoller.stop();
+//		manager.sm.odoCorrection.start();
+		manager.hm.ultrasonicPoller.start();
 		
-		manager.cm.setState(State.TESTING);
+		manager.cm.setState(State.SEARCH);
 		
 		manager.sm.nav.addToRoute(new Point(15,15));
-		manager.sm.nav.addToRoute(new Point(45,15));
-		manager.sm.nav.addToRoute(new Point(45,165));
-		manager.sm.nav.addToRoute(new Point(15,165));
-		manager.sm.nav.addToRoute(new Point(15,15));
+//		manager.sm.nav.addToRoute(new Point(45,15));
+//		manager.sm.nav.addToRoute(new Point(45,165));
+//		manager.sm.nav.addToRoute(new Point(15,165));
+//		manager.sm.nav.addToRoute(new Point(15,15));
 		
 		
 		//manager.sm.nav.addToRoute(new Point(60,0));

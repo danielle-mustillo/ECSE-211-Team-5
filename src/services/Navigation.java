@@ -1,9 +1,12 @@
 package services;
 
+import hardwareAbstraction.UltrasonicMotor;
+
 import java.util.Stack;
 
 import utilities.*;
 import controllers.State;
+import lejos.nxt.Sound;
 import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
@@ -50,17 +53,20 @@ public class Navigation implements TimerListener {
 
 	@Override
 	public void timedOut() {
-		if (manager.cm.getState() == State.SEARCH || manager.cm.getState() == State.DROP_OFF || manager.cm.getState() == State.RECOGNIZE || manager.cm.getState() == State.TESTING) {
-			
+		if (manager.cm.getState() == State.SEARCH
+				|| manager.cm.getState() == State.DROP_OFF
+				|| manager.cm.getState() == State.RECOGNIZE
+				|| manager.cm.getState() == State.TESTING) {
+
 			if (route.empty()) {
 				// nothing is done
 			} else {
 				nextDestination = route.peek();
 				// if navigation must be done
-			
+
 				// update the new headings to travel to
 				setupDeltaPositonAndHeading();
-				
+
 				// see if we need to make a big turn
 				if (Math.abs(dH) > 0.1) {
 					// if we need to turn more than 0.2 rads or 0.1 for
@@ -69,32 +75,44 @@ public class Navigation implements TimerListener {
 					// one wheel down slightly
 					turnTo(dH);
 				} else if (Math.abs(dX) > 1 || Math.abs(dY) > 1) {
-					//RConsole.println(""+Math.abs(dX)+" "+Math.abs(dY));
-					//scan ahead only once facing the correct orientation, then travelTo that destination.
-					//TODO comment back this code. Problematic code for the moment. 
-//				if (!scannedAhead) {
-//					manager.hm.drive.stop();
-//					this.pause();
-//					UltrasonicMotor.setForwardPosition();
-//					try {
-//						Thread.sleep(manager.hm.ultrasonicPoller.pollRate * 6);
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-//					int lowest = manager.hm.ultrasonicPoller.getLowestReading();
-//					if(lowest < 20)
-//						manager.cm.setState(State.RECOGNIZE);
-//					else if (lowest < 30)
-//						route.push(manager.sm.odo.getPosition().addDistanceToPosition(lowest - threshold));
-//					else
-//						manager.cm.setState(State.SEARCH);
-//					this.start();
-					travelTo();
-				} else {
-					//stop the motors, reset scanning state and get next destination. 
-					manager.hm.drive.stop();
-					scannedAhead = false;
-					route.pop();
+					// RConsole.println(""+Math.abs(dX)+" "+Math.abs(dY));
+					// scan ahead only once facing the correct orientation, then
+					// travelTo that destination.
+					// TODO comment back this code. Problematic code for the
+					// moment.
+					if (!scannedAhead) {
+						manager.hm.drive.stop();
+						this.pause();
+						UltrasonicMotor.setForwardPosition();
+						try {
+							Thread.sleep(manager.hm.ultrasonicPoller.pollRate * 6);
+						} catch (InterruptedException e) {
+						}
+						UltrasonicMotor.setDefaultPosition();
+						Sound.beep();
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+						}
+						int lowest = manager.hm.ultrasonicPoller
+								.getLowestReading();
+						Sound.beep();
+						if (lowest < 20)
+							manager.cm.setState(State.RECOGNIZE);
+						else if (lowest < 30)
+							route.push(manager.sm.odo.getPosition().addDistanceToPosition(lowest - 5));
+						Sound.beep();
+						this.start();
+						Sound.beep();
+						scannedAhead = true;
+						travelTo();
+					} else {
+						// stop the motors, reset scanning state and get next
+						// destination.
+						manager.hm.drive.stop();
+						scannedAhead = false;
+						route.pop();
+					}
 				}
 			}
 		}

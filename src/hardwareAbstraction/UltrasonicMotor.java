@@ -12,8 +12,11 @@ public class UltrasonicMotor {
 	 */
 	public static void setDefaultPosition() {
 		isForward = false;
-		Settings.ultrasonicMotor.setSpeed(200);
-		Settings.ultrasonicMotor.rotate(45);
+		try {
+			Settings.ultrasonicMotor.setSpeed(200);
+			Settings.ultrasonicMotor.rotate(45);
+		} catch (ArrayIndexOutOfBoundsException e) {
+		}
 	}
 	
 	/**
@@ -23,8 +26,11 @@ public class UltrasonicMotor {
 	 */
 	public static void setForwardPosition() {
 		isForward = true;
-		Settings.ultrasonicMotor.setSpeed(200);
-		Settings.ultrasonicMotor.rotate(-45);
+		try {
+			Settings.ultrasonicMotor.setSpeed(200);
+			Settings.ultrasonicMotor.rotate(-45);
+		} catch (ArrayIndexOutOfBoundsException e) {
+		}
 	}
 
 }
