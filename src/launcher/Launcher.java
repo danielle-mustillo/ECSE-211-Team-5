@@ -27,19 +27,31 @@ public class Launcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//RConsole.openUSB(20000);
+		RConsole.openBluetooth(20000);
 		
 		
 		Manager manager = new Manager();
 		Button.waitForPress();
-		manager.sm.localization.start();
+		/*manager.sm.localization.start();
 		
 		while(manager.cm.getState() == State.LOCALIZING) {
 			manager.um.nap(150);
-		}
+		}*/
+		
+		manager.sm.odoCorrection.start();
+		manager.hm.ultrasonicPoller.stop();
+		
+		manager.cm.setState(State.TESTING);
+		
+		manager.sm.nav.addToRoute(new Point(15,15));
+		manager.sm.nav.addToRoute(new Point(45,15));
+		manager.sm.nav.addToRoute(new Point(45,165));
+		manager.sm.nav.addToRoute(new Point(15,165));
+		manager.sm.nav.addToRoute(new Point(15,15));
+		
 		
 		//manager.sm.nav.addToRoute(new Point(60,0));
-		manager.sm.nav.turnToComplete(0);
+		
 		//manager.cm.setState(State.SEARCH);
 		
 //		manager.sm.nav.start();
