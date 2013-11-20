@@ -24,15 +24,9 @@ private Manager manager;
 		manager.cm.setState(State.PAUSE);
 		
 		//grab and lift
-		Claw.grabObject();
-		int sleep = Forklift.setHeight(ForkliftState.LIFT_HEIGHT);
-		
-		try {
-			Thread.sleep(sleep);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
+		sleep(Claw.grabObject());
+		sleep(Forklift.setHeight(ForkliftState.LIFT_HEIGHT));
+
 		//update storage count and go to the required next step (searching or dropping off).
 		RConsole.println("storage");
 		manager.cm.setStored(manager.cm.getStored() + 1);
@@ -40,6 +34,12 @@ private Manager manager;
 			manager.cm.setState(State.DROP_OFF);
 		else
 			manager.cm.setState(State.SEARCH);
+	}
+	
+	public static void sleep(int num) {
+		try {
+		Thread.sleep(num);
+		} catch(InterruptedException e) {}
 	}
 	
 }

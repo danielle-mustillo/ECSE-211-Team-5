@@ -10,6 +10,7 @@ import hardwareAbstraction.ColorPoller.ObjectDetected;
 import hardwareAbstraction.Forklift;
 import hardwareAbstraction.Forklift.ForkliftState;
 import hardwareAbstraction.UltrasonicPoller.USPosition;
+import lejos.nxt.Sound;
 import lejos.nxt.comm.RConsole;
 import manager.Manager;
 
@@ -21,14 +22,15 @@ private Stack<Point> prevRoute;
 private int lowValue;
 private int highValue;
 private final int middle = 1;
-private boolean isInPosition;
+private boolean inPosition;
+
 	
 	public Recognize(Manager manager) {
 		this.manager = manager;
 		this.isSetup = false;
 		this.lowValue = -1; // reading when the forklift is down
 		this.highValue = -1; // reading when the forklift is up.
-		this.isInPosition = false;
+		this.inPosition = false;
 	}
 	
 	public void run() {
@@ -36,7 +38,7 @@ private boolean isInPosition;
 		if (!isSetup) {
 			//ensure the robot only sets up once and does nothing else until its done setting up.
 			this.isSetup = true;
-			this.isInPosition = false;
+			this.inPosition = false;
 			manager.cm.setState(State.PAUSE);
 			
 			/*
@@ -50,28 +52,35 @@ private boolean isInPosition;
 			 * after this, the robot will face directly towards the robot.
 			 */
 			//10 centimeters separate the side sensors and the center sensor.
-			final int sensorOffset = 10; 
-			double angle = Math.tan( sensorOffset / lowestValue);
-			if(lowestSensor == USPosition.LEFT)
-				manager.sm.nav.turnToComplete(manager.sm.odo.getTheta() - angle);
-			if(lowestSensor == USPosition.RIGHT)
-				manager.sm.nav.turnToComplete(manager.sm.odo.getTheta() + angle);
+//			final int sensorOffset = 10; 
+//			double angle = Math.tan( sensorOffset / lowestValue);
 			
+			//TODO this is bugged. TurnToComplete does not work. 
+//			if(lowestSensor == USPosition.LEFT)
+//				manager.sm.nav.turnToComplete(manager.sm.odo.getTheta() - angle);
+//			if(lowestSensor == USPosition.RIGHT)
+//				manager.sm.nav.turnToComplete(manager.sm.odo.getTheta() + angle);
+//			
 			
 			RConsole.println("Setting up");
 			
 			
 			//set navigation to do nothing for the moment. 
-			this.prevRoute = manager.sm.nav.getRoute();
-			manager.sm.nav.setRoute(new Stack<Point>());
+//			this.prevRoute = manager.sm.nav.getRoute();
+//			manager.sm.nav.setRoute(new Stack<Point>());
 			
 			// Sample object
-			Forklift.setHeight(ForkliftState.GROUND);
-			Claw.grabObject();
+			sleep(Forklift.setHeight(ForkliftState.GROUND));
+			sleep(Claw.grabObject());
 			
 			// start the colorSensor to determine what hte block is. 
 			manager.hm.colorPoller.start();
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+			}
 			manager.cm.setState(State.RECOGNIZE);
+			inPosition = true;
 			
 //			// reset ultrasonic sensor
 //			manager.hm.ultrasonicPoller.resetUSP();
@@ -95,12 +104,22 @@ private boolean isInPosition;
 			
 		}
 		//if the color poller has finally collected enough values. 
-		if(manager.hm.colorPoller.isSetup()) {
+		if(manager.hm.colorPoller.isSetup() && inPosition) {
+			sleep(5000);
+			Sound.beepSequence();
+			inPosition = false;
+			sleep(Claw.releaseObject());
 			ObjectDetected object = manager.hm.colorPoller.getObjectReading();
-			if(object == ObjectDetected.BLUE_BLOCK)
+			if(object == ObjectDetected.BLUE_BLOCK) {
+				Sound.beepSequence();
+				Position currentPos = manager.sm.odo.getPosition();
+				manager.sm.nav.addToRoute(currentPos.addDistanceToPosition(20)); 
 				manager.cm.setState(State.COLLECT);
+			}
 			else
+				Sound.beepSequenceUp();
 				manager.cm.setState(State.SEARCH); //TODO change to wall follower. 
+			
 		}
 		
 //		if (!this.isInPosition) {
@@ -153,5 +172,11 @@ private boolean isInPosition;
 //				}
 //			}
 //		}
+	}
+	
+	public static void sleep(int num) {
+		try {
+		Thread.sleep(num);
+		} catch(InterruptedException e) {}
 	}
 }

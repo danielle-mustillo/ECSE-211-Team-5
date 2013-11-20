@@ -3,10 +3,15 @@
  */
 package launcher;
 
+import hardwareAbstraction.Claw;
+import hardwareAbstraction.Forklift;
+import hardwareAbstraction.Forklift.ForkliftState;
+import hardwareAbstraction.UltrasonicMotor;
 import hardwareAbstraction.UltrasonicPoller;
 import utilities.Point;
 import controllers.State;
 import lejos.nxt.Button;
+import lejos.nxt.Sound;
 import lejos.nxt.comm.RConsole;
 import manager.Manager;
 
@@ -27,7 +32,7 @@ public class Launcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		RConsole.openUSB(20000);
+//		RConsole.openBluetooth(20000);
 		
 		
 		Manager manager = new Manager();
@@ -40,10 +45,13 @@ public class Launcher {
 		
 //		manager.sm.odoCorrection.start();
 		manager.hm.ultrasonicPoller.start();
+		manager.sm.nav.start();
+//		manager.sm.nav.turnToComplete(Math.PI);
+		
 		
 		manager.cm.setState(State.SEARCH);
 		
-		manager.sm.nav.addToRoute(new Point(15,15));
+//		manager.sm.nav.addToRoute(new Point(15,15));
 //		manager.sm.nav.addToRoute(new Point(45,15));
 //		manager.sm.nav.addToRoute(new Point(45,165));
 //		manager.sm.nav.addToRoute(new Point(15,165));
@@ -54,7 +62,7 @@ public class Launcher {
 		
 		//manager.cm.setState(State.SEARCH);
 		
-//		manager.sm.nav.start();
+		
 //		manager.cm.setState(State.RECOGNIZE);
 //		manager.sm.nav.addToRoute(new Point(60,0));
 //		manager.sm.nav.turnToComplete(0);

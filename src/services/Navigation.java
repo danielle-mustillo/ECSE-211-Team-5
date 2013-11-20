@@ -81,11 +81,13 @@ public class Navigation implements TimerListener {
 					// TODO comment back this code. Problematic code for the
 					// moment.
 					if (!scannedAhead) {
+						manager.cm.setState(State.PAUSE);
+						Sound.beep();
 						RConsole.println("Scanning Ahead");
 						scannedAhead = true;
+						
 						manager.hm.drive.stop();
-						this.pause();
-						UltrasonicMotor.setForwardPosition();
+						sleep(UltrasonicMotor.setForwardPosition());
 						/*
 						 * TODO this must be calibrated to the delay experienced
 						 * on the ultrasonic sensor. I want to make sure that 5
@@ -93,29 +95,33 @@ public class Navigation implements TimerListener {
 						 * sensor. Therefore 5 seconds should be long enough
 						 * (until we can test otherwise).
 						 */
-						try {
-							Thread.sleep(5000);
-						} catch (InterruptedException e) {
-						}
+						
 						int lowest = manager.hm.ultrasonicPoller.getLowestReading();
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						UltrasonicMotor.setDefaultPosition();
-						this.start();
+						sleep(UltrasonicMotor.setDefaultPosition());
+						
+						
 						if (lowest < 20) {
 							RConsole.println("Read less than 20");
-							Sound.beepSequenceUp();
+//							Sound.beepSequenceUp();
 							//TODO comment this back in when recognize works. 
-//							manager.cm.setState(State.RECOGNIZE);
+							manager.cm.setState(State.RECOGNIZE);
+							Sound.twoBeeps();
+							
 						}
 						else if (lowest < 30) {
 							RConsole.println("Read less than 30");
 							RConsole.println("Pushing the following to the stack" + manager.sm.odo.getPosition().addDistanceToPosition(lowest - 5));
 							route.push(manager.sm.odo.getPosition().addDistanceToPosition(lowest - 5));
+							manager.cm.setState(State.SEARCH);
+							Sound.beepSequence();
 						} else {
+							manager.cm.setState(State.SEARCH);
+							Sound.beep();
 							// do no processing, just continue along doing nothing. 
 						}
 					} else {
@@ -282,5 +288,12 @@ public class Navigation implements TimerListener {
 	public void addToRoute(Point xy) {
 		this.scannedAhead = false;
 		this.route.push(xy);
+	}
+	
+	private void sleep(int time){
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+		}
 	}
 }

@@ -16,8 +16,6 @@ public class Search extends Controller  {
 	
 	public void run() {
 		defaultRouter();
-		int reading = manager.hm.ultrasonicPoller.getUSReading(middle);
-		
 	}
 	/**
 	 * This method will check the route in navigation and add a coordinate in the route. Allows the Navigation to always have "something to do" when nothing interesting is found
@@ -25,7 +23,7 @@ public class Search extends Controller  {
 	private void defaultRouter() {
 		if(manager.sm.nav.getRoute().empty()) {
 			switch(this.defaultPath) {
-			case 0 : manager.sm.nav.addToRoute(new Point(180,0));
+			case 0 : manager.sm.nav.addToRoute(new Point(60,60));
 			break;
 			case 1 : manager.sm.nav.addToRoute(new Point(180,60));
 			break;
