@@ -21,8 +21,8 @@ public class Position extends Point {
 	}
 
 	/**
-	 * This method assumes the robot is at this position. It adds a distance to
-	 * the position, generating a new position. Useful when the robot needs to
+	 * This method assumes the robot is at this position presently. It adds a distance to
+	 * the position, generating a new {@link Point} object. This is useful when the robot needs to
 	 * travel somewhere in a straight line ahead of it. Formula used for newX
 	 * position is x + deltaX where deltaX is distance * cos(theta). Theta is
 	 * discarded due to logical reasons (the angle the robot ends up at its
