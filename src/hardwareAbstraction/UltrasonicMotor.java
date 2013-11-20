@@ -10,13 +10,15 @@ public class UltrasonicMotor {
 	 * pointing away from the center of the robot. Therefore, it will be at an
 	 * angle when viewed from the front of the robot.
 	 */
-	public static void setDefaultPosition() {
+	public static int setDefaultPosition() {
 		isForward = false;
 		try {
+			Settings.ultrasonicMotor.setAcceleration(200);
 			Settings.ultrasonicMotor.setSpeed(200);
-			Settings.ultrasonicMotor.rotate(45);
+			Settings.ultrasonicMotor.rotateTo(45, true);
 		} catch (ArrayIndexOutOfBoundsException e) {
-		}
+		} 
+		return 2000;
 	}
 	
 	/**
@@ -24,13 +26,15 @@ public class UltrasonicMotor {
 	 * pointing directly ahead, in line with the centre ultrasonic sensor. Therefore, it will be at an
 	 * angle when viewed from the front of the robot.
 	 */
-	public static void setForwardPosition() {
+	public static int setForwardPosition() {
 		isForward = true;
 		try {
+			Settings.ultrasonicMotor.setAcceleration(200);
 			Settings.ultrasonicMotor.setSpeed(200);
 			Settings.ultrasonicMotor.rotate(-45);
 		} catch (ArrayIndexOutOfBoundsException e) {
-		}
+		} 
+		return 2000;
 	}
 
 }

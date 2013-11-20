@@ -12,27 +12,31 @@ public class Claw {
 	 * This method grabs an object. Returns nothing
 	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed. 
 	 */
-	public static void grabObject() {
+	public static int grabObject() {
 		RConsole.println("grabbing object");
 		try {
+			claw.setAcceleration(200);
 			claw.setSpeed(150);
-			claw.rotate(value);
+			claw.rotateTo(0, true);
 		} catch (ArrayIndexOutOfBoundsException e){
 			
 		}
+		return 2000;
 	}
 	
 	/**
 	 * This method releases an object. Returns nothing
 	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed. 
 	 */
-	public static void releaseObject() {
+	public static int releaseObject() {
 		RConsole.println("releasing object");
 		try {
+			claw.setAcceleration(200);
 			claw.setSpeed(150);
-			claw.rotate(-value);
+			claw.rotateTo(-value, true);
 		} catch (ArrayIndexOutOfBoundsException e){
 			
 		}
+		return 2000;
 	}
 }
