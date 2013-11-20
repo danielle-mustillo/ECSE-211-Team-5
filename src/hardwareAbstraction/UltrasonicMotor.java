@@ -31,7 +31,7 @@ public class UltrasonicMotor {
 		try {
 			Settings.ultrasonicMotor.setAcceleration(200);
 			Settings.ultrasonicMotor.setSpeed(200);
-			Settings.ultrasonicMotor.rotate(-45);
+			Settings.ultrasonicMotor.rotateTo(-45, true);
 		} catch (ArrayIndexOutOfBoundsException e) {
 		} 
 		return 2000;
