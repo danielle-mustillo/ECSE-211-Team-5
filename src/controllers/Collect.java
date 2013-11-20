@@ -1,5 +1,9 @@
 package controllers;
 
+import java.util.Stack;
+
+import utilities.Point;
+import utilities.Position;
 import utilities.Settings;
 import hardwareAbstraction.Claw;
 import hardwareAbstraction.Forklift;
@@ -10,6 +14,8 @@ import manager.Manager;
 public class Collect extends Controller {
 
 private Manager manager;
+private Stack<Point> oldRoute;
+private static boolean setup = false;
 	
 	public Collect(Manager manager) {
 		this.manager = manager;
@@ -20,20 +26,48 @@ private Manager manager;
 	 * Maintains the singleton design of this system. 
 	 */
 	public void run() {
-		//pause the re-execution
-		manager.cm.setState(State.PAUSE);
-		
-		//grab and lift
-		sleep(Claw.grabObject());
-		sleep(Forklift.setHeight(ForkliftState.LIFT_HEIGHT));
+		/*
+		 * Setup will stop the robot, add a new destination closer to the object to pick it up
+		 */
+		if (!setup) {
+			setup = true;
 
-		//update storage count and go to the required next step (searching or dropping off).
-		RConsole.println("storage");
-		manager.cm.setStored(manager.cm.getStored() + 1);
-		if(manager.cm.getStored() >= Settings.maxBlockCapacity)
-			manager.cm.setState(State.DROP_OFF);
-		else
-			manager.cm.setState(State.SEARCH);
+			// stop navigation for the moment.
+			oldRoute = manager.sm.nav.getRoute();
+			manager.sm.nav.setRoute(new Stack<Point>());
+			manager.hm.drive.stop();
+
+			// setup claw and navigate towards the block
+			sleep(Claw.releaseObject());
+			Position currentPos = manager.sm.odo.getPosition();
+			
+			//navigate towards block
+			final int clawOffset = Settings.clawToUSDistance;
+			int distance = manager.hm.ultrasonicPoller.getUSReading(1) - clawOffset < 0 ? 0 : manager.hm.ultrasonicPoller.getUSReading(1) - clawOffset;
+			manager.sm.nav.addToRoute(currentPos.addDistanceToPosition(distance));
+		}
+		/*
+		 * Once the robot is in position to pickup the object, it will then grab the object and lift it. 
+		 * It will then pass on control to DropOff.java or Search.java depending on if the block "hopper" is full. 
+		 */
+		if (manager.sm.nav.getRoute().empty()) {
+			// grab and lift
+			sleep(Claw.grabObject());
+			sleep(Forklift.setHeight(ForkliftState.LIFT_HEIGHT));
+
+			// update storage count and go to the required next step (searching
+			// or dropping off).
+			manager.cm.setStored(manager.cm.getStored() + 1);
+			// reset old route and add next destination to it
+			manager.sm.nav.setRoute(oldRoute);
+			if (manager.cm.getStored() >= Settings.maxBlockCapacity)
+				manager.cm.setState(State.DROP_OFF);
+			else
+				manager.cm.setState(State.SEARCH);
+			
+			//clean up method.
+			setup = false;
+		}
 	}
 	
 	public static void sleep(int num) {
