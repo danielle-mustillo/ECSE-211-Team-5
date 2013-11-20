@@ -113,10 +113,10 @@ public class Navigation implements TimerListener {
 							Sound.twoBeeps();
 							
 						}
-						else if (lowest < 30) {
+						else if (lowest < 50) {
 							RConsole.println("Read less than 30");
 							RConsole.println("Pushing the following to the stack" + manager.sm.odo.getPosition().addDistanceToPosition(lowest - 5));
-							route.push(manager.sm.odo.getPosition().addDistanceToPosition(lowest - 5));
+							route.push(manager.sm.odo.getPosition().addDistanceToPosition(lowest - Settings.clawToUSDistance));
 							manager.cm.setState(State.SEARCH);
 							Sound.beepSequence();
 						} else {
@@ -134,7 +134,8 @@ public class Navigation implements TimerListener {
 					// destination.
 					manager.hm.drive.stop();
 					scannedAhead = false;
-					route.pop();
+					if(!route.empty())
+						route.pop();
 				}
 
 			}

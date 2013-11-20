@@ -43,6 +43,8 @@ public class Launcher {
 			manager.um.nap(150);
 		}*/
 		
+		sleep(Forklift.setHeight(ForkliftState.SCAN_HEIGHT_LOW));
+		
 //		manager.sm.odoCorrection.start();
 		manager.hm.ultrasonicPoller.start();
 		manager.sm.nav.start();
@@ -71,6 +73,13 @@ public class Launcher {
 		
 		Button.waitForPress();
 	
+	}
+	
+	private static void sleep(int time){
+		try {
+		Thread.sleep(time);
+		} catch (InterruptedException e) {
+		}
 	}
 
 }

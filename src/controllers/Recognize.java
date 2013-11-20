@@ -17,20 +17,9 @@ import manager.Manager;
 public class Recognize extends Controller {
 
 private Manager manager;
-private boolean isSetup;
-private Stack<Point> prevRoute;
-private int lowValue;
-private int highValue;
-private final int middle = 1;
-private boolean inPosition;
 
-	
 	public Recognize(Manager manager) {
 		this.manager = manager;
-		this.isSetup = false;
-		this.lowValue = -1; // reading when the forklift is down
-		this.highValue = -1; // reading when the forklift is up.
-		this.inPosition = false;
 	}
 	
 	public void run() {
