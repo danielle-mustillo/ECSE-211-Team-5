@@ -224,7 +224,42 @@ public class UltrasonicPoller implements TimerListener {
 		if (takingReadings)
 			start();
 		return minValue;
+	}
+	
+	/**
+	 * This method gets the number representation of the US with the lowest value out of all the ultrasonic sensor. 
+	 * So if the center has the lowest reading, 
+	 */
+	public USPosition getLowestSensor() {
+		boolean takingReadings = false;
+		if (this.poller != null) {
+			stop();
+			takingReadings = true;
+		}
 
+		// calculate median value by sorting the readings
+		int minValue = readings[0][0]; // get a value to start
+		int sensor = 0;
+		int smallestSensor = 0;
+		for (int usReadings[] : readings) {
+			for (int reading : usReadings) {
+				if (minValue > reading) {
+					minValue = reading;
+					smallestSensor = sensor;
+				}
+			}
+			sensor++;
+		}
+
+		// start the readings again if the robot was taking readings before.
+		if (takingReadings)
+			start();
+		if(smallestSensor == left)
+			return USPosition.LEFT;
+		else if(smallestSensor == center)
+			return USPosition.CENTER;
+		else
+			return USPosition.RIGHT;
 	}
 
 	/**
@@ -291,5 +326,9 @@ public class UltrasonicPoller implements TimerListener {
 		public void run() {
 			pingUS(center);
 		}
+	}
+	
+	public enum USPosition {
+		LEFT, CENTER, RIGHT
 	}
 }
