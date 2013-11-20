@@ -77,6 +77,14 @@ public class ColorPoller implements TimerListener {
 			return false;
 		else
 			return true;
-
+	}
+	
+	public ObjectDetected getObjectReading() {
+		double average = ( readings[4] + readings[3] + readings[2] + readings[1] + readings[0] ) / 5;
+		return average <= 0.9  ? ObjectDetected.OBSTACLE : ObjectDetected.BLUE_BLOCK;
+	}
+	
+	public enum ObjectDetected {
+		OBSTACLE, BLUE_BLOCK
 	}
 }
