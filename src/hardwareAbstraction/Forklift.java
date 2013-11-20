@@ -12,68 +12,78 @@ public class Forklift {
 	static int scanHeightLow = 7; // 7 cm upwards. Needs to be tested. 
 	private static double radius = 1; //radius of "spool". Must be tested. 
 	public static ForkliftState state = ForkliftState.GROUND; //sensor starts on the ground.
-	/**
-	 * This method lifts an object. Returns nothing.
-	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed. 
-	 */
-	public static void liftObject() {
-		RConsole.println("lifting object");
-		// reset the forklift to ground state.
-		if (state == ForkliftState.SCAN_HEIGHT) {
-			resetScanHeight();
-		}
-		if (state == ForkliftState.LIFT_HEIGHT) {
-			lowerObject();
-		}
-		state = ForkliftState.LIFT_HEIGHT;
-		changeHeight(scanHeight);
-	}
+//	/**
+//	 * This method lifts an object. Returns nothing.
+//	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed. 
+//	 */
+//	public static void liftObject() {
+//		RConsole.println("lifting object");
+//		// reset the forklift to ground state.
+//		if (state == ForkliftState.SCAN_HEIGHT) {
+//			resetScanHeight();
+//		}
+//		if (state == ForkliftState.LIFT_HEIGHT) {
+//			lowerObject();
+//		}
+//		state = ForkliftState.LIFT_HEIGHT;
+//		changeHeight(scanHeight);
+//	}
+//	
+//	/**
+//	 * This method lowers an object. Returns nothing.
+//	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed. 
+//	 */
+//	public static void lowerObject() {
+//		RConsole.println("lowering to default position");
+//		if (state == ForkliftState.SCAN_HEIGHT)
+//			resetScanHeight();
+//		if (state == ForkliftState.GROUND)
+//			return;
+//		state = ForkliftState.GROUND;
+//		changeHeight(liftHeight);
+//	}
 	
-	/**
-	 * This method lowers an object. Returns nothing.
-	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed. 
-	 */
-	public static void lowerObject() {
-		RConsole.println("lowering to default position");
-		if (state == ForkliftState.SCAN_HEIGHT)
-			resetScanHeight();
-		if (state == ForkliftState.GROUND)
-			return;
-		state = ForkliftState.GROUND;
-		changeHeight(liftHeight);
-	}
+//	/**
+//	 * This method will raise the forklift to allow the color sensor to identify the block. 
+//	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed.
+//	 */
+//	public static int setScanHeight() {
+//		RConsole.println("lifting to scan height");
+//		if (state == ForkliftState.LIFT_HEIGHT)
+//			lowerObject();
+//		if (state == ForkliftState.SCAN_HEIGHT)
+//			return 0;
+//		state = ForkliftState.SCAN_HEIGHT;
+//		
+//		return changeHeight(scanHeight);
+//	}
 	
-	/**
-	 * This method will raise the forklift to allow the color sensor to identify the block. 
-	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed.
-	 */
-	public static int setScanHeight() {
-		RConsole.println("lifting to scan height");
-		if (state == ForkliftState.LIFT_HEIGHT)
-			lowerObject();
-		if (state == ForkliftState.SCAN_HEIGHT)
-			return 0;
-		state = ForkliftState.SCAN_HEIGHT;
-		
-		return changeHeight(scanHeight);
-	}
-	
-	/**
-	 * This method will lower the forklift after identifying the block. 
-	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed.
-	 */
-	public static void resetScanHeight() {
-		RConsole.println("lowering to default height");
-		if (state == ForkliftState.LIFT_HEIGHT)
-			lowerObject();
-		if (state == ForkliftState.GROUND)
-			return;
-		state = ForkliftState.GROUND;
-		changeHeight(scanHeight);
-	}
+//	/**
+//	 * This method will lower the forklift after identifying the block. 
+//	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed.
+//	 */
+//	public static void resetScanHeight() {
+//		RConsole.println("lowering to default height");
+//		if (state == ForkliftState.LIFT_HEIGHT)
+//			lowerObject();
+//		if (state == ForkliftState.GROUND)
+//			return;
+//		state = ForkliftState.GROUND;
+//		changeHeight(scanHeight);
+//	}
 	
 	public static int setHeight(ForkliftState s) {
 		int height;
+		int oldHeight;
+		
+		if(state == ForkliftState.GROUND)
+			oldHeight = 0;
+		else if(state == ForkliftState.LIFT_HEIGHT)
+			oldHeight = liftHeight;
+		else if(state == ForkliftState.SCAN_HEIGHT)
+			oldHeight = scanHeight;
+		else
+			oldHeight = scanHeightLow;
 		
 		if (s == ForkliftState.LIFT_HEIGHT) {
 			height = liftHeight;
@@ -86,7 +96,7 @@ public class Forklift {
 		}
 		
 		state = s;
-		return changeHeight(height);
+		return changeHeight(height, oldHeight);
 	}
 	
 	/**
@@ -94,13 +104,14 @@ public class Forklift {
 	 * Won't return until the height is reached
 	 * @param newHeight
 	 */
-	private static int changeHeight(int newHeight) {
+	private static int changeHeight(int newHeight, int oldHeight) {
 		int rotation = convertDistanceToAngle(newHeight);
-		int naptime = rotation*11;
+		int naptime = Math.abs(newHeight - oldHeight) * 400;
 		
 		try {
-			lift.setSpeed(100);
-			lift.rotateTo(-rotation);
+			lift.setAcceleration(1000);
+			lift.setSpeed(200);
+			lift.rotateTo(-rotation, true);
 		} catch (ArrayIndexOutOfBoundsException e){
 		
 		}
