@@ -81,35 +81,49 @@ public class Navigation implements TimerListener {
 					// TODO comment back this code. Problematic code for the
 					// moment.
 					if (!scannedAhead) {
+						RConsole.println("Scanning Ahead");
+						scannedAhead = true;
 						manager.hm.drive.stop();
 						this.pause();
-//						UltrasonicMotor.setForwardPosition();
+						UltrasonicMotor.setForwardPosition();
+						/*
+						 * TODO this must be calibrated to the delay experienced
+						 * on the ultrasonic sensor. I want to make sure that 5
+						 * readings have been picked up by the ultrasonic
+						 * sensor. Therefore 5 seconds should be long enough
+						 * (until we can test otherwise).
+						 */
 						try {
-							Thread.sleep(manager.hm.ultrasonicPoller.pollRate * 6);
+							Thread.sleep(5000);
 						} catch (InterruptedException e) {
 						}
-
-						Sound.beep();
-						int lowest = manager.hm.ultrasonicPoller
-								.getLowestReading();
-						Sound.beep();
+						int lowest = manager.hm.ultrasonicPoller.getLowestReading();
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-
-//						UltrasonicMotor.setDefaultPosition();
+						UltrasonicMotor.setDefaultPosition();
 						this.start();
-						Sound.twoBeeps();
-						if (lowest < 20) {}
+						if (lowest < 20) {
+							RConsole.println("Read less than 20");
+							Sound.beepSequenceUp();
+							//TODO comment this back in when recognize works. 
 //							manager.cm.setState(State.RECOGNIZE);
-						else if (lowest < 30)
-							route.push(manager.sm.odo.getPosition()
-									.addDistanceToPosition(lowest - 5));
-						scannedAhead = true;
+						}
+						else if (lowest < 30) {
+							RConsole.println("Read less than 30");
+							RConsole.println("Pushing the following to the stack" + manager.sm.odo.getPosition().addDistanceToPosition(lowest - 5));
+							route.push(manager.sm.odo.getPosition().addDistanceToPosition(lowest - 5));
+						} else {
+							// do no processing, just continue along doing nothing. 
+						}
+					} else {
+						travelTo();
+						RConsole.println("Not scanning ahead");
 					}
 				} else {
+					
 					// stop the motors, reset scanning state and get next
 					// destination.
 					manager.hm.drive.stop();
