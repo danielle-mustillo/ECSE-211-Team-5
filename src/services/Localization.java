@@ -105,15 +105,16 @@ public class Localization implements TimerListener {
 			//move to correct orientation for line localization
 			if(!lineLocalization) {
 				prepareLineLocalization();
-			} else {
+			}else{
 				lineLocalization();
-			}
+				}
 		} 
 		//localization complete, update position
 		else {
 			stop();
 			updatePosition();
-			manager.cm.setState(State.SEARCH);
+			adjustForStartingCorner();
+			manager.cm.setState(State.TESTING);
 		}
 	}
 	
@@ -172,17 +173,6 @@ public class Localization implements TimerListener {
 			}
 		}
 		
-		/*
-		 * Adjust for the starting corner
-		 */
-		if(Settings.startingCorner == StartingCorner.BOTTOM_RIGHT) {
-			deltaTheta -= Math.PI/2;
-		} else if (Settings.startingCorner == StartingCorner.TOP_RIGHT) {
-			deltaTheta -= Math.PI;
-		} else if (Settings.startingCorner == StartingCorner.TOP_LEFT) {
-			deltaTheta += Math.PI/2;
-		}
-		
 		//update the odometer
 		manager.sm.odo.adjustPosition(0, 0, deltaTheta);
 		
@@ -224,31 +214,44 @@ public class Localization implements TimerListener {
 	}
 	
 	public void prepareLineLocalization() {
-		if(manager.sm.odo.getTheta() > lineLocalizationStartingOrientation() + 0.2 ) {
+		if(manager.sm.odo.getTheta() > (Math.PI/4 + 0.2)) {
 			manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
-		} else if(manager.sm.odo.getTheta() < lineLocalizationStartingOrientation() - 0.2 ) {
+		} else if(manager.sm.odo.getTheta() < (Math.PI/4  - 0.2)) {
 			manager.hm.drive.setSpeeds(0, -ROTATION_SPEED);
 		} else {
+			Sound.buzz();
 			manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
 			lineLocalization = true;
 			rightLineCount = 0;
 			leftLineCount = 4;					
 		}
+	
 	}
+	
+	
 	
 	/**
 	 * returns the desired starting angle for line localization
 	 */
-	public double lineLocalizationStartingOrientation() {
+	public void adjustForStartingCorner() {
+		double x1 = manager.sm.odo.getX();
+		double y1 = manager.sm.odo.getY();
+		double deltaTheta = manager.sm.odo.getTheta();
+		
 		if(Settings.startingCorner == StartingCorner.BOTTOM_RIGHT) {
-			return 3.0 * Math.PI / 4.0;
+			deltaTheta += Math.PI/2;
+			manager.sm.odo.setPosition(new Position(-y1, x1, deltaTheta));
+			//return 3.0 * Math.PI / 4.0;
+			
 		} else if (Settings.startingCorner == StartingCorner.TOP_RIGHT) {
-			return 5.0 * Math.PI / 4.0;
+			deltaTheta += Math.PI;
+			manager.sm.odo.setPosition(new Position(-x1, -y1, deltaTheta));
+			//return 5.0 * Math.PI / 4.0;
 		} else if (Settings.startingCorner == StartingCorner.TOP_LEFT) {
-			return 7.0 * Math.PI / 4.0;
-		} else {
-			return Math.PI / 4.0;
-		}
+			deltaTheta -= Math.PI/2;
+			manager.sm.odo.setPosition(new Position(y1, -x1, deltaTheta));
+			//return 7.0 * Math.PI / 4.0;
+		} 
 	}
 
 	
@@ -263,11 +266,13 @@ public class Localization implements TimerListener {
 	public void checkLineSensor(boolean rightSensor) {
 		if(manager.hm.linePoller.enteringLine((rightSensor) ? 1 : 0)) {
 			if(rightSensor && rightLineCount < 4) {
+				Sound.beep();
 				lineDetectedHeadings[rightLineCount] = manager.sm.odo.getTheta();
 				rightLineCount++;
 			} else if (leftLineCount < 8) {
 				lineDetectedHeadings[leftLineCount] = manager.sm.odo.getTheta();
 				leftLineCount++;
+				Sound.beep();
 			}
 		}
 	}	
