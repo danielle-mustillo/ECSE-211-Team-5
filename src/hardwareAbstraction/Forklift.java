@@ -6,7 +6,7 @@ import lejos.nxt.remote.RemoteMotor;
 import utilities.Settings;
 
 public class Forklift {
-	static RemoteMotor lift = Settings.forkliftMotor;
+	static NXTRemoteMotor lift = Settings.liftMotor;
 	static int liftHeight = 15; // 15 cm upwards. Should be ok
 	static int scanHeight = 10; // 10 cm upwards. Needs to be tested. 
 	static int scanHeightLow = 7; // 7 cm upwards. Needs to be tested. 

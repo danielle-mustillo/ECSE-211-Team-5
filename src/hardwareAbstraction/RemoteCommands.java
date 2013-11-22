@@ -32,4 +32,11 @@ public interface RemoteCommands {
 	  public static final int ADD_LISTENER= 18;
 	  public static final int ROTATION_STARTED= 19;
 	  public static final int ROTATION_STOPPED= 20;
+	  
+	  
+	  //ultrasonic commands
+	  public static final int PING_CENTER = 21;
+	  public static final int PING_LEFT = 22;
+	  public static final int PING_RIGHT = 23;
+	  public static final int PING_ALL = 24;
 }

@@ -1,8 +1,10 @@
-package hardwareAbstraction;
+package slave;
 
+import hardwareAbstraction.UltrasonicMotor;
 import controllers.State;
 import utilities.Settings;
 import lejos.nxt.LCD;
+import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
@@ -20,7 +22,8 @@ import manager.Manager;
  */
 public class RemoteUltrasonicPoller implements TimerListener {
 	private UltrasonicSensor[] us = new UltrasonicSensor[3];
-	public int pollRate;
+	
+	private int pollRate;
 	private Timer poller;
 	private int readings[][];
 	private boolean running = false;
@@ -33,12 +36,18 @@ public class RemoteUltrasonicPoller implements TimerListener {
 	private Thread leftUS;
 	private Thread centerUS;
 	private Thread rightUS;
+	
+	public USPState state;
+	
+	public enum USPState {
+		PING_CENTER, PING_ALL, PING_LEFT, PING_RIGHT;
+	}
 
 	// TODO figure out what exactly this constructor should be.
 	public RemoteUltrasonicPoller() {
-		us[left] = Settings.leftUltrasonic;
-		us[center] = Settings.centerUltrasonic;
-		us[right] = Settings.rightUltrasonic;
+		us[left] = new UltrasonicSensor(SensorPort.S3);
+		us[center] = new UltrasonicSensor(SensorPort.S1);
+		us[right] = new UltrasonicSensor(SensorPort.S2);
 
 		this.pollRate = 100;
 		this.readings = new int[3][5];
@@ -51,7 +60,13 @@ public class RemoteUltrasonicPoller implements TimerListener {
 		this.centerUS = new Thread(new CenterUS());
 		this.rightUS = new Thread(new RightUS());
 		
+		this.state = USPState.PING_ALL;
+		
 		this.start();
+	}
+	
+	public void setUSPState(USPState state) {
+		this.state = state;
 	}
 
 	/**

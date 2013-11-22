@@ -5,7 +5,7 @@ import lejos.nxt.comm.RConsole;
 import lejos.nxt.remote.RemoteMotor;
 
 public class Claw {
-	static RemoteMotor claw = Settings.clawMotor;
+	static NXTRemoteMotor claw = Settings.clawMotor;
 	static int value = 70; // 45 degrees. needs to be tested. 
 	
 	/**

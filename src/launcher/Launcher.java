@@ -6,7 +6,7 @@ package launcher;
 import hardwareAbstraction.Claw;
 import hardwareAbstraction.Forklift;
 import hardwareAbstraction.Forklift.ForkliftState;
-import hardwareAbstraction.NXTMotorCommand;
+import hardwareAbstraction.NXTRemoteCommand;
 import hardwareAbstraction.NXTRemoteMotor;
 import hardwareAbstraction.UltrasonicMotor;
 import hardwareAbstraction.UltrasonicPoller;
@@ -44,7 +44,7 @@ public class Launcher {
 		
 		Communicator com = new Communicator("NXT");
 		
-		NXTMotorCommand motorCommand = new NXTMotorCommand(com);
+		NXTRemoteCommand motorCommand = new NXTRemoteCommand(com);
 		
 		NXTRemoteMotor clawMotor = new NXTRemoteMotor(motorCommand, 1);
 		NXTRemoteMotor ultrasonicMotor = new NXTRemoteMotor(motorCommand, 2);

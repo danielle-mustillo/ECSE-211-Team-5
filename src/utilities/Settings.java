@@ -1,30 +1,33 @@
 package utilities;
 
+import hardwareAbstraction.NXTRemoteCommand;
+import hardwareAbstraction.NXTRemoteMotor;
 import lejos.nxt.ColorSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
-import lejos.nxt.remote.RemoteMotor;
 
 public class Settings {
 
+	private static Communicator com = new Communicator("NXT");
 	
+	private static NXTRemoteCommand motorCommand = new NXTRemoteCommand(com);
 	
 	public static ColorSensor frontColorSensor = new ColorSensor(SensorPort.S1);
 	public static ColorSensor rearLeftColorSensor = new ColorSensor(SensorPort.S2);
 	public static ColorSensor rearRightColorSensor = new ColorSensor(SensorPort.S3);
 	
-	public static UltrasonicSensor leftUltrasonic;
-	public static UltrasonicSensor centerUltrasonic;
-	public static UltrasonicSensor rightUltrasonic;
+//	public static UltrasonicSensor leftUltrasonic;
+//	public static UltrasonicSensor centerUltrasonic;
+//	public static UltrasonicSensor rightUltrasonic;
 	
 	public static NXTRegulatedMotor leftDriveMotor = Motor.B;
 	public static NXTRegulatedMotor rightDriveMotor = Motor.A;
 	
-	public static RemoteMotor forkliftMotor;
-	public static RemoteMotor ultrasonicMotor;
-	public static RemoteMotor clawMotor;
+	public static NXTRemoteMotor clawMotor = new NXTRemoteMotor(motorCommand, 1);
+	public static NXTRemoteMotor ultrasonicMotor = new NXTRemoteMotor(motorCommand, 2);
+	public static NXTRemoteMotor liftMotor = new NXTRemoteMotor(motorCommand, 3);
 	
 	public static final String NXTSlaveName = "NXT";
 	

@@ -1,4 +1,4 @@
-package utilities;
+package slave;
 
 import hardwareAbstraction.RemoteCommands;
 import hardwareAbstraction.UltrasonicPoller;
@@ -7,6 +7,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import slave.RemoteUltrasonicPoller.USPState;
 import lejos.nxt.*;
 import lejos.nxt.comm.NXTCommConnector;
 import lejos.nxt.comm.NXTConnection;
@@ -44,7 +45,7 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
    private static NXTRegulatedMotor A = null;
    private static NXTRegulatedMotor B = null;
    private static NXTRegulatedMotor C = null;
-   private RemoteUltrasonicPoller usp = null;
+   private static RemoteUltrasonicPoller usp = null;
 
    public NXTRemoteControl(MotorPort portA) {
       
@@ -76,168 +77,197 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
 
    protected void executeCommand(int id, int command) throws IOException {
 
-      NXTRegulatedMotor motor = getMotor(id);
+		NXTRegulatedMotor motor = getMotor(id);
+		RemoteUltrasonicPoller usp = getSensor(id);
+		
+		if (usp != null) {
+			switch( command) {
+			case PING_CENTER: {
+				RConsole.println("PING_CENTER");
+				usp.setUSPState(USPState.PING_CENTER);
+			}
+			case PING_LEFT: {
+				RConsole.println("PING_LEFT");
+				usp.setUSPState(USPState.PING_LEFT);
+			}
+			case PING_RIGHT: {
+				RConsole.println("PING_RIGHT");
+				usp.setUSPState(USPState.PING_RIGHT);
+			}
+			case PING_ALL: {
+				RConsole.println("PING_ALL");
+				usp.setUSPState(USPState.PING_ALL);
+			}
+			}
+		}
+		else {
+			switch (command) {
 
-      switch (command) {
+			case FORWARD: {
+				RConsole.println("FORWARD");
+				motor.forward();
+				break;
+			}
 
-      case FORWARD: {
-         RConsole.println("FORWARD");
-         motor.forward();
-         break;
-      }
+			case BACKWARD: {
+				RConsole.println("BACKWARD");
+				motor.backward();
+				break;
+			}
 
-      case BACKWARD: {
-         RConsole.println("BACKWARD");
-         motor.backward();
-         break;
-      }
+			case ROTATE: {
+				RConsole.println("ROTATE");
+				angle = dis.readInt();
+				RConsole.println("angle" + angle);
+				immediateReturn = dis.readBoolean();
+				RConsole.println("immediateReturn" + immediateReturn);
+				motor.rotate(angle, immediateReturn);
+				break;
+			}
 
-      case ROTATE: {
-         RConsole.println("ROTATE");
-         angle = dis.readInt();
-         RConsole.println("angle"+angle);
-         immediateReturn = dis.readBoolean();
-         RConsole.println("immediateReturn"+immediateReturn);
-         motor.rotate(angle, immediateReturn);
-         break;
-      }
+			case STOP: {
+				RConsole.println("STOP");
+				motor.stop();
+				break;
+			}
 
-      case STOP: {
-         RConsole.println("STOP");
-         motor.stop();
-         break;
-      }
+			case ROTATE_TO: {
+				RConsole.println("ROTATE_TO");
+				angle = dis.readInt();
+				immediateReturn = dis.readBoolean();
+				RConsole.println("angle" + angle);
+				RConsole.println("immediateReturn" + immediateReturn);
+				motor.rotateTo(angle, immediateReturn);
+				break;
+			}
 
-      case ROTATE_TO: {
-         RConsole.println("ROTATE_TO");
-         angle = dis.readInt();
-         immediateReturn = dis.readBoolean();
-         RConsole.println("angle"+angle);
-         RConsole.println("immediateReturn"+immediateReturn);
-         motor.rotateTo(angle, immediateReturn);
-         break;
-      }
+			case FLT: {
+				RConsole.println("FLT");
+				motor.flt();
+				break;
+			}
 
-      case FLT: {
-         RConsole.println("FLT");
-         motor.flt();
-         break;
-      }
+			case GET_TACHO_COUNT: {
+				RConsole.println("GET_TACHO_COUNT");
+				tachoCount = motor.getTachoCount();
+				RConsole.println("tachoCount" + tachoCount);
+				dos.writeInt(tachoCount);
+				dos.flush();
+				break;
+			}
 
-      case GET_TACHO_COUNT: {
-         RConsole.println("GET_TACHO_COUNT");
-         tachoCount = motor.getTachoCount();
-         RConsole.println("tachoCount"+tachoCount);
-         dos.writeInt(tachoCount);
-         dos.flush();
-         break;
-      }
+			case IS_MOVING: {
+				RConsole.println("IS_MOVING");
+				isMoving = motor.isMoving();
+				RConsole.println("isMoving" + isMoving);
+				dos.writeBoolean(isMoving);
+				dos.flush();
+				break;
+			}
 
-      case IS_MOVING: {
-         RConsole.println("IS_MOVING");
-         isMoving = motor.isMoving();
-         RConsole.println("isMoving"+isMoving);
-         dos.writeBoolean(isMoving);
-         dos.flush();
-         break;
-      }
+			case SET_SPEED: {
+				int speed;
+				RConsole.println("SET_SPEED");
+				speed = dis.readInt();
+				RConsole.println("SET_SPEED=" + speed);
+				motor.setSpeed(speed);
+				break;
+			}
 
-      case SET_SPEED: {
-         int speed;
-         RConsole.println("SET_SPEED");
-         speed = dis.readInt();
-         RConsole.println("SET_SPEED="+speed);
-         motor.setSpeed(speed);
-         break;
-      }
+			case SET_ACCELERATION: {
+				RConsole.println("SET_ACCELERATION");
+				acceleration = dis.readInt();
+				RConsole.println("acceleration=" + acceleration);
+				motor.setAcceleration(acceleration);
 
-      case SET_ACCELERATION: {
-         RConsole.println("SET_ACCELERATION");
-         acceleration = dis.readInt();
-         RConsole.println("acceleration="+acceleration);
-         motor.setAcceleration(acceleration);
-      
-         break;
-      }
+				break;
+			}
 
-      case GET_LIMIT_ANGLE: {
-         RConsole.println("GET_LIMIT_ANGLE");
-         angle = motor.getLimitAngle();
-         RConsole.println("angle="+angle);
-         dos.writeInt(angle);
-         dos.flush();
-         break;
-      }
+			case GET_LIMIT_ANGLE: {
+				RConsole.println("GET_LIMIT_ANGLE");
+				angle = motor.getLimitAngle();
+				RConsole.println("angle=" + angle);
+				dos.writeInt(angle);
+				dos.flush();
+				break;
+			}
 
-      case RESET_TACHO_COUNT: {
-         RConsole.println("RESET_TACHO_COUNT");
-         motor.resetTachoCount();
-         break;
-      }
+			case RESET_TACHO_COUNT: {
+				RConsole.println("RESET_TACHO_COUNT");
+				motor.resetTachoCount();
+				break;
+			}
 
-      case GET_SPEED: {
-         RConsole.println("GET_SPEED");
-         speed = motor.getSpeed();
-         RConsole.println("speed="+speed);
-         dos.writeInt(speed);
-         dos.flush();
-         break;
-      }
+			case GET_SPEED: {
+				RConsole.println("GET_SPEED");
+				speed = motor.getSpeed();
+				RConsole.println("speed=" + speed);
+				dos.writeInt(speed);
+				dos.flush();
+				break;
+			}
 
-      case IS_STALLED: {
-         RConsole.println("IS_STALLED");
-         isStalled = motor.isMoving();
-         RConsole.println("isStalled="+isStalled);
-         dos.writeBoolean(isStalled);
-         dos.flush();
-         break;
-         
-      }
+			case IS_STALLED: {
+				RConsole.println("IS_STALLED");
+				isStalled = motor.isMoving();
+				RConsole.println("isStalled=" + isStalled);
+				dos.writeBoolean(isStalled);
+				dos.flush();
+				break;
 
-      case GET_ROTATION_SPEED: {
-         RConsole.println("GET_ROTATION_SPEED");
-         speed = motor.getRotationSpeed();
-         RConsole.println("speed="+speed);
-         dos.writeInt(speed);
-         dos.flush();
-         break;
-      }
+			}
 
-      case GET_MAX_SPEED: {
-         RConsole.println("GET_MAX_SPEED");
-         maxSpeed = motor.getMaxSpeed();
-         RConsole.println("maxSpeed="+maxSpeed);
-         dos.writeFloat(maxSpeed);
-         dos.flush();
-         break;
-         
-      }
-      case ADD_LISTENER: {
-         motor.addListener(this);
-      //   if (listenersCon==null){
-         //   connectionThread connect=new connectionThread();
-         //   connect.start();
-      //   }
-         
-         
-         break;
-         
-      }
-      
-      
-      case SUSPEND_REGULATION: {
-         boolean suspended;
-         RConsole.println("SUSPEND_REGULATION");
-         suspended=motor.suspendRegulation();
-         dos.writeBoolean(suspended);
-         dos.flush();
-         break;
-         
-      }
-      }
+			case GET_ROTATION_SPEED: {
+				RConsole.println("GET_ROTATION_SPEED");
+				speed = motor.getRotationSpeed();
+				RConsole.println("speed=" + speed);
+				dos.writeInt(speed);
+				dos.flush();
+				break;
+			}
+
+			case GET_MAX_SPEED: {
+				RConsole.println("GET_MAX_SPEED");
+				maxSpeed = motor.getMaxSpeed();
+				RConsole.println("maxSpeed=" + maxSpeed);
+				dos.writeFloat(maxSpeed);
+				dos.flush();
+				break;
+
+			}
+			case ADD_LISTENER: {
+				motor.addListener(this);
+				// if (listenersCon==null){
+				// connectionThread connect=new connectionThread();
+				// connect.start();
+				// }
+
+				break;
+
+			}
+
+			case SUSPEND_REGULATION: {
+				boolean suspended;
+				RConsole.println("SUSPEND_REGULATION");
+				suspended = motor.suspendRegulation();
+				dos.writeBoolean(suspended);
+				dos.flush();
+				break;
+
+			}
+			}
+		}
 
    }
 
+   protected RemoteUltrasonicPoller getSensor(int id) {
+
+	      switch (id) {
+	      case 4:
+	         return usp;
+	      }
+	      return null;
+	   }   
    protected NXTRegulatedMotor getMotor(int id) {
 
       switch (id) {
@@ -249,12 +279,11 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
 
       case 3:
          return C;
-
       }
 
       return null;
-
    }   
+   
    protected int getMotor(RegulatedMotor motor) {
 
       if(motor.equals(Motor.A))
@@ -266,7 +295,7 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
       
       return -1;
    }
-
+   
    public void run() {
 
       while (true) {

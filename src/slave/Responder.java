@@ -1,4 +1,4 @@
-package utilities;
+package slave;
 
 import lejos.nxt.LCD;
 import lejos.nxt.MotorPort;
@@ -52,7 +52,9 @@ public class Responder {
 		//ResponderTool resp = new ResponderTool(RS485.getConnector());
 		//resp.start();
 		//resp.join();
-		NXTRemoteMotorControl motorControl = new NXTRemoteMotorControl(MotorPort.A, MotorPort.B, MotorPort.C);
+		RemoteUltrasonicPoller remoteUSP = new RemoteUltrasonicPoller();
+		NXTRemoteControl motorControl = new NXTRemoteControl(MotorPort.A, MotorPort.B, MotorPort.C, remoteUSP);
+		
 		motorControl.start();
 		
     }
