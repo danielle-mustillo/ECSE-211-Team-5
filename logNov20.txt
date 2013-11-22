@@ -1,0 +1,1210 @@
+commit bf304c3d58ccecc9d58d04a79e26386d0abf468c
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 20 16:05:04 2013 -0500
+
+    Finished testing the collect sequence. There is a concurrency error in
+    the forklift motors for the moment. Code will be written to stop this.
+
+ src/controllers/Recognize.java        | 11 -----------
+ src/hardwareAbstraction/Forklift.java |  5 +++--
+ src/launcher/Launcher.java            |  9 +++++++++
+ src/services/Navigation.java          |  7 ++++---
+ 4 files changed, 16 insertions(+), 16 deletions(-)
+
+commit e732830bec5fdfaf1e39c3fcd89dce1aa705e49a
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 20 03:22:22 2013 -0500
+
+    Small change to UltrasonicMotor that was not done earlier. This should
+    avoid thrown exceptions.
+
+ src/hardwareAbstraction/UltrasonicMotor.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 66ff60a38bd2f6c5abba56b4f2a3072123d3e3ca
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 20 03:19:44 2013 -0500
+
+    Cleaned up and fixed potential bugs in Recognize and Collect classes.
+    Added constant value to Settings
+
+ src/controllers/Collect.java   |  60 ++++++++++---
+ src/controllers/Recognize.java | 185 +++++++++++------------------------------
+ src/utilities/Settings.java    |   2 +
+ 3 files changed, 98 insertions(+), 149 deletions(-)
+
+commit d81a7742e464bc4a921441aba65d0a2656faefed
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 20 03:18:50 2013 -0500
+
+    Corrected small annotation in position.
+
+ src/utilities/Position.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit d1c84822e8eb0fc9c6794f1d2a683fd3e8a7f5b0
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 20 02:31:11 2013 -0500
+
+    Created a prototype for the Search, Recognize and Collect sequence.
+    Needs heavy debugging.
+
+ src/controllers/Collect.java          | 18 ++++++------
+ src/controllers/Recognize.java        | 55 +++++++++++++++++++++++++----------
+ src/controllers/Search.java           |  4 +--
+ src/hardwareAbstraction/Forklift.java |  2 +-
+ src/launcher/Launcher.java            | 14 +++++++--
+ src/services/Navigation.java          | 33 ++++++++++++++-------
+ 6 files changed, 85 insertions(+), 41 deletions(-)
+
+commit e331ce0e6c8e695217f7f676e3df24fbe10fe2d5
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 19 22:16:02 2013 -0500
+
+    Debugged the claw and ultrasonic motors. They should work relatively ok
+    now. The code should be changed to reflect the new mechanism.
+
+ src/hardwareAbstraction/Claw.java            | 12 ++++++++----
+ src/hardwareAbstraction/UltrasonicMotor.java | 14 +++++++++-----
+ 2 files changed, 17 insertions(+), 9 deletions(-)
+
+commit 6600b413afc80236c687f045e18557726b8c964e
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 19 22:02:01 2013 -0500
+
+    Forklift debugged, now it should work consistently and rotate to the
+    right height.
+
+ src/hardwareAbstraction/Forklift.java | 135 ++++++++++++++++++----------------
+ 1 file changed, 73 insertions(+), 62 deletions(-)
+
+commit 84ffe627c9cf4f1e46c94829356d7bedb76b647f
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 19 19:56:54 2013 -0500
+
+    Added a useful method in colorPoller to allow Recognize.java to work.
+    Also added a supporting enum.
+
+ src/hardwareAbstraction/ColorPoller.java | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+commit 41dd7c90103f2cecdcbe9902d5915f48a48aeb56
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 19 19:56:21 2013 -0500
+
+    Changed the Recognize.java to work with the newly mounted colorsensor.
+    Removed the ultrasonic logic which was overly complicated for the
+    moment.
+
+ src/controllers/Recognize.java | 173 ++++++++++++++++++++++++-----------------
+ 1 file changed, 103 insertions(+), 70 deletions(-)
+
+commit f5f119211e64ffc4479c35f35bd69d3b653ffdac
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 19 19:52:50 2013 -0500
+
+    The Launcher is modified to test the scanning function in navigation.
+
+ src/launcher/Launcher.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 645b97a6d276cd718aa5ce2155f8e35d303a5b15
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 19 19:52:17 2013 -0500
+
+    Worked on fixing the object detection and scan ahead algorithm. Should
+    scan ahead. May not work however. Needs to be tested.
+
+ src/services/Navigation.java | 44 +++++++++++++++++++++++++++++---------------
+ 1 file changed, 29 insertions(+), 15 deletions(-)
+
+commit bf2777f732923f5b2b055b979a062a0f67106bb8
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 19 19:15:13 2013 -0500
+
+    Created a useful method in ultrasonic poller to determine which
+    ultrasonic  poller is the lowest value. Will be used to orient robot
+    towards that.
+
+ src/hardwareAbstraction/UltrasonicPoller.java | 39 +++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+
+commit f3bec86902bd8479f1caa3375e9f5be65715600e
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 19 18:25:57 2013 -0500
+
+    Few bug fixes for navigation.
+
+ src/services/Navigation.java | 115 ++++++++++++++++++++++++-------------------
+ 1 file changed, 64 insertions(+), 51 deletions(-)
+
+commit 29197f9ea4d2a27043f069b9f042dc92ad8204ee
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 19 15:35:41 2013 -0500
+
+    Fixed an issue with the external motors timing out. The robot now grabs
+    an object and lifts it. However, no intelligence has been provided to
+    find when it must lift.
+
+ src/hardwareAbstraction/UltrasonicMotor.java | 14 +++--
+ src/launcher/Launcher.java                   | 16 +++---
+ src/services/Navigation.java                 | 78 +++++++++++++++++-----------
+ 3 files changed, 66 insertions(+), 42 deletions(-)
+
+commit 1e699c0f83591abbce87aee184d949a66aa33402
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Tue Nov 19 12:07:15 2013 -0500
+
+    Odo Correction Test
+
+ src/launcher/Launcher.java | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
+
+commit ee59ffecf9ce7b473e330decb705ada07166d903
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Mon Nov 18 13:26:14 2013 -0500
+
+    Made small change to Navigation, hopefully to implement scanAhead
+    properly.
+
+ src/services/Navigation.java | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
+
+commit 4e13809cb1812ca4cbb891d5b6342411102bb563
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Mon Nov 18 10:09:42 2013 -0500
+
+    Odometry Correction Update
+    
+    Should fix the problem of not correcting after missing a line.
+
+ src/services/OdometryCorrection.java | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+commit facbcfce8a7921ceb53f0d77b9e936b6167aa9a7
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sun Nov 17 17:05:30 2013 -0500
+
+    Odometry Correction
+    
+    Ultrasonic Poller Stop fix.
+    Removed beeping from line poller
+
+ src/hardwareAbstraction/LinePoller.java       |   2 +-
+ src/hardwareAbstraction/UltrasonicPoller.java |   1 +
+ src/services/Navigation.java                  |   7 +-
+ src/services/OdometryCorrection.java          | 210 +++++++++++++++++++++++++-
+ src/utilities/Point.java                      |   4 +
+ src/utilities/Settings.java                   |   3 +
+ 6 files changed, 222 insertions(+), 5 deletions(-)
+
+commit 281e6b4abcacadfb12dcd4ef21d35e7f041db721
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sun Nov 17 13:52:10 2013 -0500
+
+    Line Localization now Works
+    
+    Ultrasonic Poller fixed for localization
+    Adjusted Navigation speed
+
+ src/controllers/State.java                    |  2 +-
+ src/hardwareAbstraction/LinePoller.java       |  8 ++--
+ src/hardwareAbstraction/UltrasonicPoller.java | 51 +++++++++++++++---------
+ src/manager/ControllerManager.java            |  2 +-
+ src/manager/HardwareManager.java              |  2 +-
+ src/manager/UtilityManager.java               | 14 +++++++
+ src/services/Localization.java                | 57 +++++++++------------------
+ src/services/Navigation.java                  |  6 +--
+ 8 files changed, 75 insertions(+), 67 deletions(-)
+
+commit e0d057d387a2f43f053f47920476ab359346e2a0
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Sat Nov 16 13:38:57 2013 -0500
+
+    Cleaned up some items on Search, collect, dropoff and recognize.
+    Prepared for future changes.
+
+ src/controllers/Collect.java   | 10 +++++++++-
+ src/controllers/DropOff.java   |  4 +++-
+ src/controllers/Recognize.java | 20 ++++++++++----------
+ src/controllers/Search.java    |  3 ++-
+ 4 files changed, 24 insertions(+), 13 deletions(-)
+
+commit d4829f57ed2627f89ca0c6be03bff2e2e26c5977
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Fri Nov 15 21:57:35 2013 -0500
+
+    Localization Tweaks
+
+ src/services/Localization.java | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
+
+commit 5325f7fdf52a6a69a7b5650b0e97c8e08249a72d
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Fri Nov 15 18:43:38 2013 -0500
+
+    Cleaned up lingering commented-out code on UltrasonicPoller and
+    UltrasonicMotor. Added functionality to poll only one us at a time if
+    facing forward).
+
+ src/hardwareAbstraction/UltrasonicMotor.java  |  4 ++
+ src/hardwareAbstraction/UltrasonicPoller.java | 61 +++++++++++++--------------
+ 2 files changed, 33 insertions(+), 32 deletions(-)
+
+commit bb8646bdb8da84edf39a25b538daf0d7ca77bc34
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Fri Nov 15 12:19:58 2013 -0500
+
+    Navigation fixed
+    
+    Should remove or sufficiently eliminate oscillation.
+
+ src/services/Navigation.java | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+commit 528141f0fb1bfff8d078bc835168dde5b81d23e8
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Fri Nov 15 12:02:47 2013 -0500
+
+    LCD Info Fixes, Angle helper updated and localization tweaked
+
+ src/services/LCDInfo.java      | 3 ++-
+ src/services/Localization.java | 2 +-
+ src/utilities/Angle.java       | 4 ++++
+ 3 files changed, 7 insertions(+), 2 deletions(-)
+
+commit 4cf9c0c588bc4e8b2051134d63d1a41c8cb4796e
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Fri Nov 15 11:54:04 2013 -0500
+
+    LCD Info for odometer information
+
+ src/manager/ServiceManager.java |  2 ++
+ src/services/LCDInfo.java       | 39 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
+
+commit fc10fb18f8c7e39c04aa5f71afd20053903653ce
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Fri Nov 15 11:47:29 2013 -0500
+
+    Localization Fixs
+
+ src/launcher/Launcher.java     | 4 ++--
+ src/services/Localization.java | 2 +-
+ src/services/Navigation.java   | 2 ++
+ 3 files changed, 5 insertions(+), 3 deletions(-)
+
+commit 918cb39cd9474f1ae268e15203838ce2de8d7531
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Fri Nov 15 11:38:28 2013 -0500
+
+    Forklift Simplications (incl delay) and other tweaks
+
+ src/controllers/Recognize.java           |  6 +--
+ src/hardwareAbstraction/Forklift.java    | 65 +++++++++++++++++++++-----------
+ src/launcher/Launcher.java               | 25 ++++++------
+ src/manager/UtilityManager.java          |  2 +-
+ src/services/Localization.java           |  8 +++-
+ src/services/Navigation.java             | 12 +++---
+ src/utilities/BluetoothTransmission.java |  8 ++++
+ src/utilities/Settings.java              |  2 +-
+ 8 files changed, 82 insertions(+), 46 deletions(-)
+
+commit 25f77012c64038cda152ca7bd4f435088c831fb8
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Fri Nov 15 10:18:00 2013 -0500
+
+    Updated Bluetooth (Attempt 3)
+
+ src/controllers/Recognize.java           | 21 +++++++++++++++++++++
+ src/hardwareAbstraction/Forklift.java    |  2 +-
+ src/manager/UtilityManager.java          |  4 ++--
+ src/utilities/BluetoothTransmission.java | 19 +++++++++++++------
+ src/utilities/Settings.java              |  2 +-
+ 5 files changed, 38 insertions(+), 10 deletions(-)
+
+commit a6c76c1b3e08cb4e9cc190029b33b162f679ad5d
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Fri Nov 15 02:13:32 2013 -0500
+
+    Added some comments for Recognize.java. Should be more readable now.
+    Also removed useless logic where appropriate.
+
+ src/controllers/Recognize.java | 68 +++++++++++++++++++++---------------------
+ 1 file changed, 34 insertions(+), 34 deletions(-)
+
+commit 07aa23c6bccf13a12fafe392f1f95ee7ce3b129f
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 23:51:20 2013 -0500
+
+    The recognize function was worked on however it does not work at this
+    moment. Ultrasonic poller was cut down to one sensor for the moment.
+    Small changes in navigatio and controllerManager. Launcher was changed
+    to match the test.
+
+ src/controllers/Recognize.java                | 93 ++++++++++++++++++++++-----
+ src/controllers/State.java                    |  2 +-
+ src/hardwareAbstraction/UltrasonicPoller.java | 50 ++++++++------
+ src/launcher/Launcher.java                    |  7 +-
+ src/manager/ControllerManager.java            |  3 +-
+ src/services/Navigation.java                  | 16 ++---
+ 6 files changed, 122 insertions(+), 49 deletions(-)
+
+commit 3dd19573f6289fc505b5880a01c2d0d9e7a8f1f7
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 21:26:33 2013 -0500
+
+    Modified the code so we can conduct the Size View US Test
+
+ src/hardwareAbstraction/UltrasonicPoller.java | 17 +++++++++--------
+ src/launcher/Launcher.java                    | 16 ++++++++--------
+ 2 files changed, 17 insertions(+), 16 deletions(-)
+
+commit f61a524503fb37f3f723c6d2ca1fe4f3edd5a658
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 21:06:03 2013 -0500
+
+    Formatted USP class.
+
+ src/hardwareAbstraction/UltrasonicPoller.java | 168 ++++++++++++++------------
+ 1 file changed, 88 insertions(+), 80 deletions(-)
+
+commit 3e5922239188f0046bb685a946620088408bdf61
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 21:05:38 2013 -0500
+
+    Wrote useful method in ultrasonicPoller that will reset and check the
+    status of the USP.
+
+ src/hardwareAbstraction/UltrasonicPoller.java | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+commit 01fdd0dedc223159c29896fa39f7a397bc867fb5
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 21:00:06 2013 -0500
+
+    Modified forklift so the commands issued by other classes will always
+    work, regardless of the state of the forklift. Avoids errors later on.
+
+ src/hardwareAbstraction/Forklift.java | 47 ++++++++++++++++++++++++-----------
+ 1 file changed, 32 insertions(+), 15 deletions(-)
+
+commit 94ec2b4fa63a4f3f6f49efff9aa94e3448536b94
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 20:22:45 2013 -0500
+
+    The forklift will now be used to detect obstacles and blue blocks. The
+    method to do this is that it will go to a default height and detect the
+    objects in the range and compare that with the values at its default
+    height. The difference of these two will uniquely identify the obstacle.
+    This has all been documented elsewhere. The work done sofar on this
+    forklift is minimal just to allow this to happen. Also boolean
+    identifiers of the forklift current state was added for convenience.
+
+ src/hardwareAbstraction/Forklift.java | 43 ++++++++++++++++++++++++++++++++---
+ 1 file changed, 40 insertions(+), 3 deletions(-)
+
+commit bc18f99aa430374c78961962f40e4b31b5201aa1
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 20:20:09 2013 -0500
+
+    Began working on a search algorithm. Added a useful method in
+    ultrasonicPoller for the moment. The Navigation class was modified to
+    accomodate the Recogintion step.
+
+ src/controllers/Recognize.java                | 25 +++++++++++++++++++++++++
+ src/hardwareAbstraction/UltrasonicPoller.java | 22 +++++++++++++++-------
+ src/services/Navigation.java                  | 12 ++++++------
+ 3 files changed, 46 insertions(+), 13 deletions(-)
+
+commit af45e56805cf4653977bd560b9a396277a08232e
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 20:17:36 2013 -0500
+
+    Began an implementation of a scanning feature for the robot. The robot
+    side ultrasonic sensors should be able to move back and forward now.
+
+ src/hardwareAbstraction/UltrasonicMotor.java | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+commit a5a8492f9ed48672ff5accdad528a8b61e45fded
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 20:16:14 2013 -0500
+
+    Created a default path for the robot to navigate around in its search
+    algorithm. Its a very primitive search algorithm.
+
+ src/controllers/Search.java | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit d335dd38db14aa73bac1ce7ea264c87a86209c86
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 20:15:27 2013 -0500
+
+    Started the implementation of a colorPoller detector system. May be used
+    or may be discarded.
+
+ src/hardwareAbstraction/ColorPoller.java | 42 +++++++++++++++++++++++++++++---
+ 1 file changed, 38 insertions(+), 4 deletions(-)
+
+commit c3ec89a3079843ce1a9ce755adfcec018c86a059
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 18:55:39 2013 -0500
+
+    Added some default ocations to head toduring dropoff. Small corrections
+    made to all the other classes. Test..
+
+ src/controllers/DropOff.java                  |  3 +--
+ src/controllers/Search.java                   |  2 +-
+ src/hardwareAbstraction/UltrasonicPoller.java |  3 ---
+ src/launcher/Launcher.java                    | 10 +++++-----
+ src/services/Navigation.java                  |  2 --
+ 5 files changed, 7 insertions(+), 13 deletions(-)
+
+commit 7b3cf99a3461d55088dc2093f3a69e2272347cb2
+Merge: 6c29f0a 361f8f7
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 17:38:29 2013 -0500
+
+    Merge branch 'master' of https://github.com/danielle-mustillo/ECSE-211-Team-5.git
+
+commit 6c29f0a1f8cd391ef0f3d0644ba3b0a5204e2436
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 17:38:16 2013 -0500
+
+    Made some forklift and ultrasonic changes
+
+ src/controllers/Search.java                   | 34 ++++++++++++++++++++++++++-
+ src/hardwareAbstraction/Claw.java             |  2 ++
+ src/hardwareAbstraction/Forklift.java         |  4 +++-
+ src/hardwareAbstraction/UltrasonicPoller.java |  3 ++-
+ 4 files changed, 40 insertions(+), 3 deletions(-)
+
+commit 361f8f75bf65d2cab45677f29902c5b049f726b7
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Thu Nov 14 17:37:39 2013 -0500
+
+    Line Poller Update
+
+ src/hardwareAbstraction/LinePoller.java | 26 ++++++++++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
+
+commit 359586f154e3b41bc85c48ceada65a0b396ab06c
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 17:06:47 2013 -0500
+
+    Made a multi-threaded implementation of USPoller. Needs to be threaded
+    though.
+
+ src/hardwareAbstraction/UltrasonicPoller.java | 73 ++++++++++++++++++++-------
+ 1 file changed, 56 insertions(+), 17 deletions(-)
+
+commit 35b55ee360a2e4094f1859188631283d2364e6c4
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 03:36:16 2013 -0500
+
+    Added some intelligence to Dropoff.java. Should fix the issue with
+    Dropoff. The try-catch blocks in Collect were moved to the
+    hardwareAbstraction package.
+
+ src/controllers/Collect.java | 15 ++-----------
+ src/controllers/DropOff.java | 51 +++++++++++++++++++++++++++++++++-----------
+ src/utilities/Settings.java  |  2 +-
+ 3 files changed, 41 insertions(+), 27 deletions(-)
+
+commit e984d8dccec4055aebfb42e2476f96fb45726c94
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 14 03:34:49 2013 -0500
+
+    Added some useful methods in claw/forklift.java. Cleaned up some of the
+    code worked on today. Added annotations of locations where more work
+    must be done. @bug was used to in-code javadocs to explain the bugs in
+    different methods.
+
+ src/hardwareAbstraction/Claw.java     | 23 +++++++++++++++++++++--
+ src/hardwareAbstraction/Forklift.java | 24 ++++++++++++++++++++++--
+ src/services/Navigation.java          | 20 ++++++++++++--------
+ 3 files changed, 55 insertions(+), 12 deletions(-)
+
+commit ac607096bb6ead226732ac1abca38d71fe27a871
+Author: Nicole <witternicole@gmail.com>
+Date:   Wed Nov 13 22:44:45 2013 -0500
+
+    Heavy changes were made today. Collect and dropoff were modified to work
+    with the curent implementation of the hardware. Many lines of code were
+    commented out for the moment. ControllerMananger.java was modified to
+    start the state. Communicator.java had its remoteMotors modifeid to match
+    the hardware design. Launcher should work aswell. Robot currently
+    localizes and then moves to a location.
+
+ src/controllers/Collect.java          | 17 +++++++++++++++--
+ src/controllers/DropOff.java          |  3 ++-
+ src/hardwareAbstraction/Claw.java     |  2 +-
+ src/hardwareAbstraction/Forklift.java |  2 +-
+ src/launcher/Launcher.java            |  4 ++--
+ src/manager/ControllerManager.java    |  1 +
+ src/manager/Manager.java              |  4 ++--
+ src/utilities/Communicator.java       |  4 ++--
+ 8 files changed, 26 insertions(+), 11 deletions(-)
+
+commit ac0607d7c941679b0ab9eb11a01af307e1fefb13
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 13 21:33:46 2013 -0500
+
+    Got Navigation to work, working on localization and navigation
+    integration together.
+
+ src/launcher/Launcher.java     |   5 +-
+ src/services/Localization.java | 238 +++++++++++++++++++++--------------------
+ src/services/Navigation.java   |  18 ++--
+ 3 files changed, 136 insertions(+), 125 deletions(-)
+
+commit 7f7e7629b22fd1abf59d6fe4ec3fd72e21252ec8
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 13 20:46:29 2013 -0500
+
+    Added commentary.
+
+ src/services/Localization.java | 237 ++++++++++++++++++++---------------------
+ 1 file changed, 118 insertions(+), 119 deletions(-)
+
+commit c11fa239a249184cf521c2c720385f0e190b8663
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 13 20:29:58 2013 -0500
+
+    UltrasonicLocalization should work now. Ready to be tested.
+
+ src/services/Localization.java | 40 +++++++++++++++++++++++++++-------------
+ 1 file changed, 27 insertions(+), 13 deletions(-)
+
+commit 3eafe30fcb2e39576c334860d4abdf265e860525
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 13 20:29:29 2013 -0500
+
+    Added RConsole for debugging purposes. Seems to work fine for
+    localization.
+
+ src/launcher/Launcher.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 90c407edf9cce581bdfaed686c73f638158728d0
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 13 20:29:02 2013 -0500
+
+    Fixed printing issue. Small bug fix.
+
+ src/hardwareAbstraction/UltrasonicPoller.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 897fefed57f5bf48bb5303bd793236002f17e3c8
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Wed Nov 13 15:58:24 2013 -0500
+
+    Updates
+    
+    Use LCD to debug.  Bluetooth is too laggy.  RS485 is now used again.
+    Minimum Ultrasonic poller period is about 100ms.  Started localization,
+    but it needs some work.
+
+ src/hardwareAbstraction/Drive.java            |  2 +
+ src/hardwareAbstraction/UltrasonicPoller.java | 44 ++++++++++++++----
+ src/launcher/Launcher.java                    |  4 +-
+ src/manager/Manager.java                      | 10 ++--
+ src/manager/ServiceManager.java               |  4 +-
+ src/services/HardwareViewer.java              |  2 +-
+ src/services/Localization.java                | 67 +++++++++++++++++++++------
+ src/utilities/Communicator.java               |  6 +--
+ src/utilities/Responder.java                  |  2 +-
+ src/utilities/Settings.java                   |  2 +-
+ 10 files changed, 105 insertions(+), 38 deletions(-)
+
+commit 63ee6c0d133ec17a274ab8b13218f129683122bb
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Mon Nov 11 15:49:35 2013 -0500
+
+    Updated ObstacleAvoidance.java method to scanAhead() method. It now
+    should work, pending a final revision. Added a helper method (and
+    documented it) in Position to allow scanAhead() to work. scan() still
+    needs work.
+
+ src/services/ObstacleAvoidance.java | 17 +++++++++++------
+ src/utilities/Position.java         | 24 +++++++++++++++++++++---
+ 2 files changed, 32 insertions(+), 9 deletions(-)
+
+commit 2b128aa900ec849229aacd0754ef2e84937d41db
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Mon Nov 11 14:30:27 2013 -0500
+
+    Updated the Point.java class with a useful getter.
+    ObstacleAvoidance.java has holes that were documented.
+
+ src/services/ObstacleAvoidance.java | 64 +++++++++++++++++++++++++++++--------
+ src/utilities/Point.java            |  5 +++
+ 2 files changed, 55 insertions(+), 14 deletions(-)
+
+commit 05f5ab2723d351e1e403731b086672f6eb360295
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Mon Nov 11 14:18:58 2013 -0500
+
+    Cleaned up some of the comments in Responder.java.
+
+ src/utilities/Responder.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit f20e37c7a34239dc75ab9c49d3779a37859eeab9
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sun Nov 10 23:26:46 2013 -0500
+
+    NXT-NXT communicator fixes
+    
+    Also setup for localization debugging.
+
+ src/hardwareAbstraction/Drive.java |  6 +++---
+ src/launcher/Launcher.java         | 14 +-------------
+ src/manager/Manager.java           |  2 ++
+ src/manager/ServiceManager.java    |  5 +++++
+ src/services/HardwareViewer.java   |  8 +-------
+ src/services/Localization.java     | 34 +++++++++++++++++++---------------
+ src/services/Navigation.java       |  2 --
+ src/utilities/Communicator.java    | 13 ++++++++++---
+ src/utilities/Responder.java       | 19 ++++++++++---------
+ src/utilities/Settings.java        |  4 ++--
+ 10 files changed, 53 insertions(+), 54 deletions(-)
+
+commit be49c7f7613f231ef0c111b47ca0a9324a013c0f
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Sun Nov 10 16:27:31 2013 -0500
+
+    Collect and dropoff commentation updated.
+
+ src/controllers/Collect.java | 8 ++++++--
+ src/controllers/DropOff.java | 7 ++++++-
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+
+commit 659e3d6d2e543ba22a1b253fe36ff6353048f06d
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sun Nov 10 15:04:53 2013 -0500
+
+    CollerPoller fix
+
+ src/hardwareAbstraction/ColorPoller.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 3ab0d7d26920be0fa4afec395a166ca7b6f8f8ed
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sun Nov 10 13:45:04 2013 -0500
+
+    Navigation Fix
+
+ src/services/Navigation.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 16df0944d8d7a18b67f6ae2756d025cf829898e6
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sun Nov 10 11:58:03 2013 -0500
+
+    Localization testing
+
+ src/launcher/Launcher.java     |  8 +++++++-
+ src/services/Localization.java |  4 +++-
+ src/services/Navigation.java   | 19 +++++++++++++++++--
+ src/utilities/Settings.java    |  2 +-
+ 4 files changed, 28 insertions(+), 5 deletions(-)
+
+commit 301d077c51f80203bf18ab7d3f5b4e4721064f50
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sun Nov 10 11:24:40 2013 -0500
+
+    hardwareViewer export modification
+
+ src/services/HardwareViewer.java | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+commit cd97374415c30da0728b24bd4e266d450e67c6db
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Sun Nov 10 01:34:26 2013 -0500
+
+    Developed further the collect and dropoff controllers. Needed to
+    implement a new state in order to avoid overlapping executions of a
+    single activity. Settings and Point were updated for convenience.
+    Navigation was updated to alter route.
+
+ src/controllers/Collect.java       | 10 ++++++++--
+ src/controllers/DropOff.java       | 16 ++++++++++++++++
+ src/controllers/State.java         |  2 +-
+ src/manager/ControllerManager.java | 12 ++++++++++++
+ src/services/Navigation.java       | 23 +++++++++++++++++++++--
+ src/utilities/Point.java           |  5 +++++
+ src/utilities/Settings.java        |  1 +
+ 7 files changed, 64 insertions(+), 5 deletions(-)
+
+commit d5026b78c0223fa049238190857dcd3b54542788
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Sun Nov 10 01:07:22 2013 -0500
+
+    Added bluetooth results in settings. Now it is globally accessible in a
+    logical place.
+
+ src/utilities/BluetoothTransmission.java | 31 +++++++++++++++++++------------
+ src/utilities/Settings.java              |  4 ++++
+ 2 files changed, 23 insertions(+), 12 deletions(-)
+
+commit d79fb5058e525f79ca39808f9bb95e18eed7f857
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Sun Nov 10 00:25:05 2013 -0500
+
+    Implemented simple collection logic. Maintains state. Still needs work
+    determining if "dropoff" or "search" must be called.
+
+ src/controllers/Collect.java          | 10 ++++++++++
+ src/controllers/State.java            |  5 +++++
+ src/hardwareAbstraction/Forklift.java | 16 ++++++++++++++--
+ 3 files changed, 29 insertions(+), 2 deletions(-)
+
+commit 9fb7aa62e35caa0606800423ed316e51bdeddbf9
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Sat Nov 9 23:55:42 2013 -0500
+
+    Made protoype of Claw and Forklift. Simple methods. Must be adjusted
+
+ src/hardwareAbstraction/Claw.java     | 12 ++++++++++++
+ src/hardwareAbstraction/Forklift.java | 13 ++++++++++++-
+ 2 files changed, 24 insertions(+), 1 deletion(-)
+
+commit fae15dc28906127ce7f66dee5ff3641950a31975
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sat Nov 9 21:09:13 2013 -0500
+
+    Angle.java fixed
+    
+    Hopefully for the last time.
+
+ src/launcher/Launcher.java | 2 +-
+ src/utilities/Angle.java   | 7 ++++---
+ 2 files changed, 5 insertions(+), 4 deletions(-)
+
+commit a0b85abdb9b0aac9d971f8f66e5daa0256a49c94
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Sat Nov 9 20:58:04 2013 -0500
+
+    Created a ultrasonicPoller as per request from Riley. To be tested.
+    Prints to RConsole using bluetooth. To be removed when final project is
+    to be handed in.
+
+ src/hardwareAbstraction/LinePoller.java |  2 +-
+ src/manager/HardwareManager.java        |  3 --
+ src/manager/ServiceManager.java         |  2 +
+ src/services/HardwareViewer.java        | 80 +++++++++++++++++++++++++++++++++
+ 4 files changed, 83 insertions(+), 4 deletions(-)
+
+commit 5f1ee104eb0ca3cd18d420b1cfac92c7608693e7
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sat Nov 9 20:24:11 2013 -0500
+
+    fixed angle class problem
+
+ src/utilities/Angle.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 21fba8028fc3a49e7a54bb19030f5aa31e520e80
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sat Nov 9 20:15:48 2013 -0500
+
+    Odo test
+
+ src/hardwareAbstraction/Drive.java | 2 +-
+ src/launcher/Launcher.java         | 7 ++++++-
+ src/services/Odometer.java         | 4 ++--
+ 3 files changed, 9 insertions(+), 4 deletions(-)
+
+commit c7aa7cfc6c7f5f43e676e87948440fe1f60924f9
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Sat Nov 9 20:04:12 2013 -0500
+
+    Created a protoype of a bluetoothTransmission class. It is implemented
+    using a static method that can be called from the main. Will have to be
+    reconfigured and tested however.
+
+ src/utilities/BluetoothTransmission.java | 70 ++++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
+
+commit 61dbb95efe3673d3666fbb1d6e498fdbd3286eac
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sat Nov 9 19:58:56 2013 -0500
+
+    Odometer fix
+
+ src/hardwareAbstraction/Drive.java | 4 ++--
+ src/services/Odometer.java         | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+commit 930cf763771cb891074514a99f91193f17a7a43f
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sat Nov 9 19:54:01 2013 -0500
+
+    Drive direction fix
+
+ src/hardwareAbstraction/Drive.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 442d5e81b2e90eeae4532fb4c394f62d43e72525
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sat Nov 9 19:07:52 2013 -0500
+
+    Odometer Tweaking
+
+ src/launcher/Launcher.java   | 9 +++++++--
+ src/services/Navigation.java | 1 -
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+
+commit 50d88f6abdc5fa9690bffcf3964c97811fb9a577
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sat Nov 9 18:22:05 2013 -0500
+
+    Navigation
+    
+    Remove exception caused by route.peek() when route is empty
+
+ src/services/Navigation.java | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+commit 3209a5cbc57e23973c507bad491686ba0f1125d1
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sat Nov 9 18:17:39 2013 -0500
+
+    The second half
+
+ .gitignore                         |  4 +++-
+ src/controllers/State.java         |  2 +-
+ src/hardwareAbstraction/Drive.java |  2 +-
+ src/manager/ControllerManager.java |  2 +-
+ src/manager/Manager.java           | 13 +++++++++++--
+ src/services/Navigation.java       | 16 +++++++++-------
+ src/utilities/Communicator.java    | 15 ++++++++-------
+ src/utilities/Responder.java       |  3 +++
+ 8 files changed, 37 insertions(+), 20 deletions(-)
+
+commit 08074a31deedd14a61e51a98e8f106c757e22681
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sat Nov 9 13:23:33 2013 -0500
+
+    Localization + bug fixes
+
+ src/hardwareAbstraction/LinePoller.java       | 110 +++++++++++++++++++++++---
+ src/hardwareAbstraction/UltrasonicPoller.java | 105 ++++++++++++++++++++----
+ src/launcher/Launcher.java                    |  15 ++++
+ src/services/Localization.java                |  85 ++++++++++++++++----
+ src/utilities/Settings.java                   |  15 ++--
+ 5 files changed, 284 insertions(+), 46 deletions(-)
+
+commit a10c3762f7890412801f10ed7c2fc0dc069df8ab
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Fri Nov 8 22:08:52 2013 -0500
+
+    Created the RS485 connection and Responder. Settings had to be changed
+    to account for the RemoteMotors (changed from NXTRegulatedMotor). The
+    ports used on the slave are all UltrasonicSensors as the code for a
+    remote ColorSensor is not supported.
+
+ src/utilities/Communicator.java | 58 +++++++++++++++++++++++++++++++++++++++--
+ src/utilities/Responder.java    | 49 ++++++++++++++++++++++++++++++++++
+ src/utilities/Settings.java     |  8 +++---
+ 3 files changed, 110 insertions(+), 5 deletions(-)
+
+commit 5b3c6b98b5808d38a3c2f32ec996e1bcaa802044
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Fri Nov 8 13:17:13 2013 -0500
+
+    Mostly Localization
+
+ src/hardwareAbstraction/LinePoller.java       |  15 +++
+ src/hardwareAbstraction/UltrasonicPoller.java |  10 +-
+ src/manager/UtilityManager.java               |  11 ++
+ src/services/Localization.java                | 176 +++++++++++++++++++++++++-
+ src/services/Navigation.java                  |   9 +-
+ src/services/Odometer.java                    |   5 +-
+ src/utilities/Settings.java                   |   2 +
+ src/utilities/StartingCorner.java             |   5 +
+ 8 files changed, 222 insertions(+), 11 deletions(-)
+
+commit 10f87688261b2c05669c82b7727f5cbb9dc74afb
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Thu Nov 7 14:54:17 2013 -0500
+
+    Updated Navigation
+
+ src/hardwareAbstraction/Drive.java |  55 +++++++++++++
+ src/services/Navigation.java       | 156 +++++++++++++++----------------------
+ src/services/Odometer.java         |   2 +-
+ 3 files changed, 120 insertions(+), 93 deletions(-)
+
+commit f9ea3e79fa94b4508ff5b29a90e77e93d6792660
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 7 14:30:38 2013 -0500
+
+    Created the ultrasonic poller and obstacle avoidance. Many things left
+    undone in obstacle avoidance. The API documents may have to be changed.
+
+ src/hardwareAbstraction/UltrasonicPoller.java | 97 ++++++++++++++++++++++++++-
+ src/services/ObstacleAvoidance.java           | 43 +++++++++++-
+ 2 files changed, 136 insertions(+), 4 deletions(-)
+
+commit 9bdd4c111bc6c8b5475a4c1ed03c0d3a370e0b8b
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 7 13:05:08 2013 -0500
+
+    CollerPoller updated to reflect Settings.frontColorSensor
+
+ src/hardwareAbstraction/ColorPoller.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit ba74248c654eb3e3c60506c789aa044a00cac4cf
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 7 12:56:35 2013 -0500
+
+    Small changes in Navigation. Ignore changes in odometer and position.
+
+ src/services/Navigation.java | 16 ++++++++--------
+ src/services/Odometer.java   |  5 -----
+ src/utilities/Position.java  |  2 +-
+ 3 files changed, 9 insertions(+), 14 deletions(-)
+
+commit 006954167585a0e55f361980012c482c2c970dfa
+Merge: 7f645c9 00f63a7
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 7 12:30:55 2013 -0500
+
+    Merge branch 'master' of
+    https://github.com/danielle-mustillo/ECSE-211-Team-5.git
+    
+    Conflicts:
+    	src/services/Odometer.java
+    	src/utilities/Point.java
+
+commit 00f63a774bb59f27bc911cecf817d52380ef14fb
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Thu Nov 7 11:53:01 2013 -0500
+
+    Updates
+    
+    Mostly Odometer and some of the helper methods
+
+ .gitignore                               |   3 +
+ src/hardwareAbstraction/ColorPoller.java |   4 +-
+ src/hardwareAbstraction/Drive.java       |  27 ++++++
+ src/manager/HardwareManager.java         |   5 +-
+ src/manager/UtilityManager.java          |   2 +-
+ src/services/Odometer.java               | 145 ++++++++++++++++++++++++++++++-
+ src/utilities/Angle.java                 |  33 +++++++
+ src/utilities/Communicator.java          |   3 +
+ src/utilities/Point.java                 |  17 +++-
+ src/utilities/Position.java              |  17 ++++
+ src/utilities/Settings.java              |  20 +++++
+ 11 files changed, 269 insertions(+), 7 deletions(-)
+
+commit 7f645c9cab7a7e8eff3355287b2a126888002215
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 7 10:56:26 2013 -0500
+
+    Small edits to pause Navigation when executing scanAhead.
+
+ src/services/Navigation.java | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
+
+commit 60469c55d31f3223d3eff80893c2202f0280d879
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 7 10:41:00 2013 -0500
+
+    Made navigation based upon previous code of Team 15. Created method
+    stubs for the moment.
+
+ src/services/Navigation.java        | 337 +++++++++++++-----------------------
+ src/services/ObstacleAvoidance.java |   5 +
+ src/services/Odometer.java          |   5 +
+ 3 files changed, 134 insertions(+), 213 deletions(-)
+
+commit 869d8a54c0c531f0e34b611c370a9ab17293c9eb
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 6 15:38:43 2013 -0500
+
+    Created getter and setter.
+
+ src/manager/ControllerManager.java | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+commit 1fe602bbcdd3fc97a843e17ce7fe6c13b3459bef
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 6 15:38:28 2013 -0500
+
+    Point class was created. Please note the X and Y values and their
+    orientation. Programming Guide Specifications contains a quick note on
+    the orientation definitions.
+
+ src/utilities/Point.java | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+commit 1e9a46596d38d7a50eff19bdf5b32cee5deb3e2a
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 6 15:37:30 2013 -0500
+
+    Copied over the code from Team 15, began writing the timedOut() method.
+    Questions will be noted.
+
+ src/services/Navigation.java | 280 ++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 265 insertions(+), 15 deletions(-)
+
+commit cecd59756a6b5975885c3cce968a022371544227
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 6 14:13:01 2013 -0500
+
+    Begun a ColorPoller class based on code that already exists.
+
+ src/hardwareAbstraction/ColorPoller.java | 46 ++++++++++++++++++++++++++++++--
+ 1 file changed, 44 insertions(+), 2 deletions(-)
+
+commit 98c378ac8f29352d75b1394a876fff6af7692026
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 6 13:20:59 2013 -0500
+
+    Should now be compilable as a Lejos project.
+
+ .classpath | 2 +-
+ .project   | 6 ++++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+commit 4c2b7834d20fcaa917f93a292a283b1b90df2bf7
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 6 13:11:17 2013 -0500
+
+    Configured .project/.classpath file to be compilable in eclipse. Master
+    branch should now be compilable on your local machine.
+
+ .classpath |  6 ++++++
+ .gitignore |  1 +
+ .project   | 17 +++++++++++++++++
+ 3 files changed, 24 insertions(+)
+
+commit 4bac7e9c33e651c188dfca451b310c07805b23a2
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Wed Nov 6 00:31:29 2013 -0500
+
+    A start, but much more work required
+
+ src/controllers/Collect.java                  | 15 ++++++++
+ src/controllers/Controller.java               |  5 +++
+ src/controllers/ControllerInterface.java      |  6 ++++
+ src/controllers/DropOff.java                  | 15 ++++++++
+ src/controllers/Recognize.java                | 15 ++++++++
+ src/controllers/Search.java                   | 16 +++++++++
+ src/controllers/State.java                    |  5 +++
+ src/controllers/WallFollower.java             | 15 ++++++++
+ src/hardwareAbstraction/Claw.java             |  5 +++
+ src/hardwareAbstraction/ColorPoller.java      |  5 +++
+ src/hardwareAbstraction/Drive.java            |  5 +++
+ src/hardwareAbstraction/Forklift.java         |  5 +++
+ src/hardwareAbstraction/LinePoller.java       |  5 +++
+ src/hardwareAbstraction/UltrasonicMotor.java  |  5 +++
+ src/hardwareAbstraction/UltrasonicPoller.java |  5 +++
+ src/launcher/Launcher.java                    | 28 +++++++++++++++
+ src/manager/ControllerManager.java            | 50 +++++++++++++++++++++++++++
+ src/manager/HardwareManager.java              | 26 ++++++++++++++
+ src/manager/Manager.java                      | 16 +++++++++
+ src/manager/ServiceManager.java               | 24 +++++++++++++
+ src/manager/UtilityManager.java               | 19 ++++++++++
+ src/services/Localization.java                | 10 ++++++
+ src/services/Mapper.java                      | 10 ++++++
+ src/services/Navigation.java                  | 30 ++++++++++++++++
+ src/services/ObstacleAvoidance.java           | 28 +++++++++++++++
+ src/services/Odometer.java                    | 10 ++++++
+ src/services/OdometryCorrection.java          | 10 ++++++
+ src/utilities/Angle.java                      |  5 +++
+ src/utilities/BluetoothTransmission.java      | 12 +++++++
+ src/utilities/Communicator.java               |  5 +++
+ src/utilities/Map.java                        |  5 +++
+ src/utilities/Point.java                      |  5 +++
+ src/utilities/Position.java                   |  5 +++
+ src/utilities/Settings.java                   |  5 +++
+ src/utilities/Tile.java                       |  5 +++
+ 35 files changed, 435 insertions(+)
+
+commit b07e8bd71635bbc4f4772467dea10ec834353db1
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sat Nov 2 18:54:59 2013 -0400
+
+    Revert "Group 15 Lab 2,4,5"
+    
+    This reverts commit fb0fee606bcb5dabcf70f1ae49cddcf12ff3c17b.
+
+ Group-15/Lab2-15/Lab2.java                 |  58 -----
+ Group-15/Lab2-15/Odometer.java             | 163 ------------
+ Group-15/Lab2-15/OdometryCorrection.java   | 212 ---------------
+ Group-15/Lab2-15/OdometryDisplay.java      | 101 --------
+ Group-15/Lab2-15/SquareDriver.java         |  66 -----
+ Group-15/Lab4-15/LCDInfo.java              |  53 ----
+ Group-15/Lab4-15/Lab4.java                 |  68 -----
+ Group-15/Lab4-15/LightLocalizer.java       | 193 --------------
+ Group-15/Lab4-15/Navigation.java           | 246 ------------------
+ Group-15/Lab4-15/Odometer.java             | 176 -------------
+ Group-15/Lab4-15/TwoWheeledRobot.java      | 161 ------------
+ Group-15/Lab4-15/USLocalizer.java          | 325 -----------------------
+ Group-15/Lab5-15/Grid.java                 | 275 --------------------
+ Group-15/Lab5-15/LCDInfo.java              |  77 ------
+ Group-15/Lab5-15/Lab5.java                 |  71 -----
+ Group-15/Lab5-15/LightLocalizer.java       | 199 --------------
+ Group-15/Lab5-15/LightPoller.java          | 131 ----------
+ Group-15/Lab5-15/Navigation.java           | 366 --------------------------
+ Group-15/Lab5-15/ObjectFinding.java        | 253 ------------------
+ Group-15/Lab5-15/ObjectRecognitionOne.java | 217 ----------------
+ Group-15/Lab5-15/ObjectRecognitionTwo.java | 399 -----------------------------
+ Group-15/Lab5-15/Odometer.java             | 205 ---------------
+ Group-15/Lab5-15/TwoWheeledRobot.java      | 165 ------------
+ Group-15/Lab5-15/USLocalizer.java          | 354 -------------------------
+ Group-15/Lab5-15/UltrasonicPoller.java     | 235 -----------------
+ Group-15/Lab5-15/old.zip                   | Bin 21702 -> 0 bytes
+ 26 files changed, 4769 deletions(-)
+
+commit fb0fee606bcb5dabcf70f1ae49cddcf12ff3c17b
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Sat Nov 2 18:49:26 2013 -0400
+
+    Group 15 Lab 2,4,5
+    
+    For Lab 5, old.zip contains the original code with the grid and mapping
+    information.
+
+ Group-15/Lab2-15/Lab2.java                 |  58 +++++
+ Group-15/Lab2-15/Odometer.java             | 163 ++++++++++++
+ Group-15/Lab2-15/OdometryCorrection.java   | 212 +++++++++++++++
+ Group-15/Lab2-15/OdometryDisplay.java      | 101 ++++++++
+ Group-15/Lab2-15/SquareDriver.java         |  66 +++++
+ Group-15/Lab4-15/LCDInfo.java              |  53 ++++
+ Group-15/Lab4-15/Lab4.java                 |  68 +++++
+ Group-15/Lab4-15/LightLocalizer.java       | 193 ++++++++++++++
+ Group-15/Lab4-15/Navigation.java           | 246 ++++++++++++++++++
+ Group-15/Lab4-15/Odometer.java             | 176 +++++++++++++
+ Group-15/Lab4-15/TwoWheeledRobot.java      | 161 ++++++++++++
+ Group-15/Lab4-15/USLocalizer.java          | 325 +++++++++++++++++++++++
+ Group-15/Lab5-15/Grid.java                 | 275 ++++++++++++++++++++
+ Group-15/Lab5-15/LCDInfo.java              |  77 ++++++
+ Group-15/Lab5-15/Lab5.java                 |  71 +++++
+ Group-15/Lab5-15/LightLocalizer.java       | 199 ++++++++++++++
+ Group-15/Lab5-15/LightPoller.java          | 131 ++++++++++
+ Group-15/Lab5-15/Navigation.java           | 366 ++++++++++++++++++++++++++
+ Group-15/Lab5-15/ObjectFinding.java        | 253 ++++++++++++++++++
+ Group-15/Lab5-15/ObjectRecognitionOne.java | 217 ++++++++++++++++
+ Group-15/Lab5-15/ObjectRecognitionTwo.java | 399 +++++++++++++++++++++++++++++
+ Group-15/Lab5-15/Odometer.java             | 205 +++++++++++++++
+ Group-15/Lab5-15/TwoWheeledRobot.java      | 165 ++++++++++++
+ Group-15/Lab5-15/USLocalizer.java          | 354 +++++++++++++++++++++++++
+ Group-15/Lab5-15/UltrasonicPoller.java     | 235 +++++++++++++++++
+ Group-15/Lab5-15/old.zip                   | Bin 0 -> 21702 bytes
+ 26 files changed, 4769 insertions(+)
+
+commit 28dcc7a556d15d31e4288c88a897ea5f24d3683e
+Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Sat Nov 2 15:16:55 2013 -0400
+
+    Create README.md
+
+ README.md | 4 ++++
+ 1 file changed, 4 insertions(+)
