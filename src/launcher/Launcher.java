@@ -43,7 +43,7 @@ public class Launcher {
 			manager.um.nap(150);
 		}*/
 		
-		sleep(Forklift.setHeight(ForkliftState.SCAN_HEIGHT_LOW));
+		//sleep(Forklift.setHeight(ForkliftState.SCAN_HEIGHT_LOW));
 		
 //		manager.sm.odoCorrection.start();
 		manager.hm.ultrasonicPoller.start();
@@ -72,7 +72,7 @@ public class Launcher {
 //		manager.cm.setState(State.COLLECT);
 		
 		Button.waitForPress();
-	
+		manager.hm.reset();
 	}
 	
 	private static void sleep(int time){

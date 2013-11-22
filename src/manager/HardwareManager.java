@@ -1,5 +1,6 @@
 package manager;
 
+import controllers.State;
 import hardwareAbstraction.*;
 
 public class HardwareManager {
@@ -22,5 +23,13 @@ public class HardwareManager {
 		this.colorPoller = new ColorPoller();
 		this.linePoller = new LinePoller();
 		this.ultrasonicPoller = new UltrasonicPoller(manager);
+	}
+	
+	public void reset() {
+		manager.cm.setState(State.PAUSE);
+		drive.stop();		
+		Claw.grabObject();
+		Forklift.setHeight(Forklift.ForkliftState.SCAN_HEIGHT);
+		UltrasonicMotor.setForwardPosition();
 	}
 }
