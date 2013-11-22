@@ -141,7 +141,7 @@ public class UltrasonicPoller implements TimerListener {
 	 * this by checking for any negative numbers in the readings.
 	 */
 	public boolean isSetup() {
-		if (readings[2][4] == -1)
+		if (readings[2][4] == -1 || readings[0][4] == -1 || readings[1][4] == -1)
 			return false;
 		else
 			return true;
@@ -167,7 +167,7 @@ public class UltrasonicPoller implements TimerListener {
 
 		// makes sure readings array is full of values so we have enough to
 		// filter with
-		if (readings[2][4] > -1) {
+		if (readings[sensor][4] > -1) {
 
 			// initialize vars
 			int size = 5;
@@ -214,7 +214,7 @@ public class UltrasonicPoller implements TimerListener {
 		for (int usReadings[] : readings) {
 			int i = 0;
 			for (int reading : usReadings) {
-				if (minValue > reading)
+				if (minValue > reading && reading != -1)
 					minValue = reading;
 				++i;
 			}
@@ -243,7 +243,7 @@ public class UltrasonicPoller implements TimerListener {
 		int smallestSensor = 0;
 		for (int usReadings[] : readings) {
 			for (int reading : usReadings) {
-				if (minValue > reading) {
+				if (minValue > reading && reading != -1) {
 					minValue = reading;
 					smallestSensor = sensor;
 				}
