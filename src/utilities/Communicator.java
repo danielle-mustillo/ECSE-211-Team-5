@@ -1,13 +1,13 @@
 package utilities;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 import lejos.nxt.LCD;
-import lejos.nxt.UltrasonicSensor;
-import lejos.nxt.comm.Bluetooth;
-import lejos.nxt.comm.RConsole;
 import lejos.nxt.comm.RS485;
-import lejos.nxt.remote.RemoteNXT;
+import lejos.nxt.comm.NXTCommConnector;
+import lejos.nxt.comm.NXTConnection;
 
 /**
  * This class will communicate with the slave NXT and initialize the ports on
@@ -18,12 +18,31 @@ import lejos.nxt.remote.RemoteNXT;
  * 
  */
 public class Communicator {
-
+	
+	private NXTConnection con;
+	private NXTCommConnector connector;
+	public DataInputStream dis;
+	public DataOutputStream dos;
+	
+	public Communicator(String extendedNXT) {
+		
+	       connector = RS485.getConnector();
+	       con = connector.connect(extendedNXT, NXTConnection.RAW);
+	       if (con == null) 
+	       catchBug("RS485 Failed");
+	      
+	       dis = con.openDataInputStream();
+	       dos = con.openDataOutputStream();
+	}
+	
+	
+	
+	
 	/**
 	 * The Communicator object that will just connect to the slaveNXT. Uses exclusively RS485 for a reliable connection. It initializes the motors from the remote brick.
 	 * @param slaveNXT	A String with the name of the remoteNXT connected via RS485. 
 	 */
-	public Communicator(String slaveNXT) {
+	/*public Communicator(String slaveNXT) {
 		RemoteNXT nxt = null;
 		try {
 			nxt = new RemoteNXT(slaveNXT, RS485.getConnector());
@@ -47,7 +66,7 @@ public class Communicator {
 		Settings.centerUltrasonic = new UltrasonicSensor(nxt.S1);
 		Settings.rightUltrasonic = new UltrasonicSensor(nxt.S2);
 		
-	}
+	}*/
 
 	/**
 	 * The static helper method here just exits the system when commanded. It
