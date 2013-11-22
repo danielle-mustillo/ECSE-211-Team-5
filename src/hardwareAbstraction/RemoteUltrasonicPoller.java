@@ -15,7 +15,8 @@ import manager.Manager;
  * polling of that sensor
  * <p>
  * 
- * @author danielle, Riley
+ * @author Danielle
+ * @author Riley
  */
 public class RemoteUltrasonicPoller implements TimerListener {
 	private UltrasonicSensor[] us = new UltrasonicSensor[3];

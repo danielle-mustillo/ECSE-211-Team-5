@@ -14,7 +14,8 @@ import lejos.nxt.comm.NXTConnection;
  * it. Only uses the motor and the ultrasonicSensors on the other NXT as it is
  * impossible to initialize a ColorSensor on the remote NXT.
  * <p>
- * @author danielle
+ * @author Danielle Mustillo
+ * @author Riley
  * 
  */
 public class Communicator {
