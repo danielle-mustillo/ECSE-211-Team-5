@@ -17,7 +17,7 @@ import manager.Manager;
  * 
  * @author danielle, Riley
  */
-public class UltrasonicPoller implements TimerListener {
+public class RemoteUltrasonicPoller implements TimerListener {
 	private UltrasonicSensor[] us = new UltrasonicSensor[3];
 	public int pollRate;
 	private Timer poller;
@@ -32,11 +32,9 @@ public class UltrasonicPoller implements TimerListener {
 	private Thread leftUS;
 	private Thread centerUS;
 	private Thread rightUS;
-	
-	private Manager manager;
 
 	// TODO figure out what exactly this constructor should be.
-	public UltrasonicPoller(Manager manager) {
+	public RemoteUltrasonicPoller() {
 		us[left] = Settings.leftUltrasonic;
 		us[center] = Settings.centerUltrasonic;
 		us[right] = Settings.rightUltrasonic;
@@ -51,8 +49,6 @@ public class UltrasonicPoller implements TimerListener {
 		this.leftUS = new Thread(new LeftUS());
 		this.centerUS = new Thread(new CenterUS());
 		this.rightUS = new Thread(new RightUS());
-
-		this.manager = manager;
 		
 		this.start();
 	}

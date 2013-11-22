@@ -95,16 +95,13 @@ public class Navigation implements TimerListener {
 						 * sensor. Therefore 5 seconds should be long enough
 						 * (until we can test otherwise).
 						 */
-						
-						int lowest = manager.hm.ultrasonicPoller.getLowestReading();
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
+						manager.hm.ultrasonicPoller.resetUSP();
+						while(!manager.hm.ultrasonicPoller.isSetup()) {
+							manager.um.nap(200);
 						}
-						sleep(UltrasonicMotor.setDefaultPosition());
-						
-						
+						int lowest = manager.hm.ultrasonicPoller.getLowestReading();
+						manager.sm.lcdInfo.debugValue = lowest;
+												
 						if (lowest < 20) {
 							RConsole.println("Read less than 20");
 //							Sound.beepSequenceUp();
@@ -116,10 +113,16 @@ public class Navigation implements TimerListener {
 						else if (lowest < 50) {
 							RConsole.println("Read less than 30");
 							RConsole.println("Pushing the following to the stack" + manager.sm.odo.getPosition().addDistanceToPosition(lowest - 5));
-							route.push(manager.sm.odo.getPosition().addDistanceToPosition(lowest - Settings.clawToUSDistance));
+							//route.push(manager.sm.odo.getPosition().addDistanceToPosition(lowest - Settings.clawToUSDistance));
+							sleep(UltrasonicMotor.setDefaultPosition());
 							manager.cm.setState(State.SEARCH);
 							Sound.beepSequence();
 						} else {
+							sleep(UltrasonicMotor.setDefaultPosition());
+							manager.hm.ultrasonicPoller.resetUSP();
+							while(!manager.hm.ultrasonicPoller.isSetup()) {
+								manager.um.nap(200);
+							}
 							manager.cm.setState(State.SEARCH);
 							Sound.beep();
 							// do no processing, just continue along doing nothing. 

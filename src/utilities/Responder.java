@@ -1,9 +1,12 @@
 package utilities;
 
 import lejos.nxt.LCD;
+import lejos.nxt.MotorPort;
 import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.LCPResponder;
 import lejos.nxt.comm.NXTCommConnector;
+import lejos.nxt.comm.NXTConnection;
+import lejos.nxt.comm.RConsole;
 import lejos.nxt.comm.RS485;
 
 /**
@@ -17,6 +20,7 @@ import lejos.nxt.comm.RS485;
  * 
  */
 public class Responder {
+	
 	/**
 	 * The subclass that handles the LCP connections. In particular, it is modified version of the LCPResponder to shutdown the connection once the program disconnects.
 	 * @author Andy Shaw
@@ -43,10 +47,13 @@ public class Responder {
 	 */
 	
 	public static void main(String[] args) throws Exception {
+		//RConsole.openUSB(20000);
 		LCD.drawString("Connecting", 1, 1);
-		ResponderTool resp = new ResponderTool(RS485.getConnector());
-		resp.start();
-		resp.join();
+		//ResponderTool resp = new ResponderTool(RS485.getConnector());
+		//resp.start();
+		//resp.join();
+		NXTRemoteMotorControl motorControl = new NXTRemoteMotorControl(MotorPort.A, MotorPort.B, MotorPort.C);
+		motorControl.start();
 		
     }
 	

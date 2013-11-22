@@ -1,5 +1,6 @@
 package controllers;
 
+import hardwareAbstraction.UltrasonicMotor;
 import utilities.Point;
 import manager.Manager;
 
@@ -16,6 +17,17 @@ public class Search extends Controller  {
 	
 	public void run() {
 		defaultRouter();
+		if(UltrasonicMotor.isForward) {
+			manager.um.nap(UltrasonicMotor.setDefaultPosition());
+			manager.hm.ultrasonicPoller.resetUSP();
+		}
+		
+		Point pointOfInterest = new Point();
+		
+		if(manager.sm.mapper.update(pointOfInterest)) {
+			manager.sm.nav.addToRoute(pointOfInterest);
+		}
+		
 	}
 	/**
 	 * This method will check the route in navigation and add a coordinate in the route. Allows the Navigation to always have "something to do" when nothing interesting is found
@@ -23,11 +35,11 @@ public class Search extends Controller  {
 	private void defaultRouter() {
 		if(manager.sm.nav.getRoute().empty()) {
 			switch(this.defaultPath) {
-			case 0 : manager.sm.nav.addToRoute(new Point(60,60));
+			case 0 : manager.sm.nav.addToRoute(new Point(15,15));
 			break;
-			case 1 : manager.sm.nav.addToRoute(new Point(180,60));
+			case 1 : manager.sm.nav.addToRoute(new Point(15,135));
 			break;
-			case 2 : manager.sm.nav.addToRoute(new Point(00,60));
+			case 2 : manager.sm.nav.addToRoute(new Point(165,45));
 			break;
 			//wont run on the crack
 			case 3 : manager.sm.nav.addToRoute(new Point(00,120)); 
