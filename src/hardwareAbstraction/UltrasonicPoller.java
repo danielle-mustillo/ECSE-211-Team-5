@@ -16,7 +16,7 @@ import manager.Manager;
  * <p>
  * 
  * @author danielle, Riley
- * @deprecated Not used anymore.
+ * @deprecated Not used anymore. Will have its own implementation in the slaveNXT. 
  */
 public class UltrasonicPoller implements TimerListener {
 	private UltrasonicSensor[] us = new UltrasonicSensor[3];
