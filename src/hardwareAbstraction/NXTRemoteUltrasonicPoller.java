@@ -49,14 +49,16 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 	@Override
 	public int getUSReading(int sensor) {
 		int reading = -1;
-		RConsole.println("getUSReading from USP");
+		
 		sensorCommand.send(id, GET_US_READING, sensor);
 		try {
 			reading = sensorCommand.getInt();
 		} catch (IOException e) {
 			//no exception expected here. 
 		}
+		RConsole.println("Reading" + String.valueOf(reading));
 		return reading;	
+		
 	}
 
 

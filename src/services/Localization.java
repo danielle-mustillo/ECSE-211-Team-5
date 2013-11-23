@@ -5,6 +5,7 @@ import controllers.State;
 import utilities.*;
 import lejos.nxt.LCD;
 import lejos.nxt.Sound;
+import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
 import manager.*;
@@ -75,9 +76,6 @@ public class Localization implements TimerListener {
 			return;
 		}
 		
-		LCD.drawString("Initial: ", 0, 4);
-		LCD.drawInt(usReading, 10, 4);
-		
 		angleA = Double.NaN;
 		angleB = Double.NaN;
 		lineDetectedHeadings[3] = Double.NaN;
@@ -129,8 +127,10 @@ public class Localization implements TimerListener {
 			if(rising) {
 				manager.hm.drive.setSpeeds(0, -ROTATION_SPEED);
 				if(distance > THRESHOLD) {
+					
 					Sound.beep();
 					angleA = manager.sm.odo.getTheta();
+					RConsole.println(String.valueOf(angleA));
 					manager.hm.drive.setSpeeds(0, ROTATION_SPEED);
 				}
 			} else {
@@ -139,6 +139,7 @@ public class Localization implements TimerListener {
 					Sound.beep();
 					manager.hm.drive.stop();
 					angleA = manager.sm.odo.getTheta();
+					RConsole.println(String.valueOf(angleA));
 				}
 			}
 		} else {
@@ -146,6 +147,7 @@ public class Localization implements TimerListener {
 			if(distance > THRESHOLD && Math.abs(angleA-manager.sm.odo.getTheta()) > 1) {
 				Sound.beep();
 				angleB = manager.sm.odo.getTheta();
+				RConsole.println(String.valueOf(angleB));
 				updateTheta();
 				manager.hm.drive.setSpeeds(0, 0);
 			}

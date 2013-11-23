@@ -36,7 +36,7 @@ public class Launcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//RConsole.openUSB(20000);
+		//RConsole.openBluetooth(20000);
 		
 		Manager manager = new Manager();
 		Button.waitForPress();
@@ -121,8 +121,8 @@ public class Launcher {
 		
 //		manager.sm.odoCorrection.start();
 		//manager.hm.ultrasonicPoller.start();
-		manager.sm.nav.start();
-		manager.sm.nav.turnToComplete(0);
+		//manager.sm.nav.start();
+		//manager.sm.nav.turnToComplete(0);
 		
 		
 		//manager.cm.setState(State.SEARCH);
