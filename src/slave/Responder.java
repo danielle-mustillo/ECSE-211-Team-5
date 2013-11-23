@@ -47,7 +47,8 @@ public class Responder {
 	 */
 	
 	public static void main(String[] args) throws Exception {
-		//RConsole.openUSB(20000);
+		
+		RConsole.openUSB(20000);
 		LCD.drawString("Connecting", 1, 1);
 		//ResponderTool resp = new ResponderTool(RS485.getConnector());
 		//resp.start();

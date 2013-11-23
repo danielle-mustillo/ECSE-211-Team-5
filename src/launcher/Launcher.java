@@ -8,9 +8,9 @@ import hardwareAbstraction.Forklift;
 import hardwareAbstraction.Forklift.ForkliftState;
 import hardwareAbstraction.NXTRemoteCommand;
 import hardwareAbstraction.NXTRemoteMotor;
-import hardwareAbstraction.NXTRemoteUltrasonicPoller;
 import hardwareAbstraction.UltrasonicMotor;
 import hardwareAbstraction.UltrasonicPoller;
+import hardwareAbstraction.NXTRemoteUltrasonicPoller;
 import utilities.Communicator;
 import utilities.Point;
 import controllers.State;
@@ -53,14 +53,9 @@ public class Launcher {
 		
 		NXTRemoteUltrasonicPoller usp = new NXTRemoteUltrasonicPoller(command, 4);
 		usp.start();
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		sleep(1000);
 		RConsole.print("reading:" + usp.getUSReading(1));
-		usp.stop();
+		//usp.stop();
 		
 //		ultrasonicMotor.setAcceleration(100);
 //		ultrasonicMotor.setSpeed(100);

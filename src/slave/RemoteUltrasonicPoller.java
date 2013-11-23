@@ -64,9 +64,7 @@ public class RemoteUltrasonicPoller implements TimerListener {
 		this.centerUS = new Thread(new CenterUS());
 		this.rightUS = new Thread(new RightUS());
 		
-		this.state = USPState.PING_ALL;
-		
-		this.start();
+		this.state = USPState.PING_CENTER;
 	}
 	
 	public void setUSPState(USPState state) {

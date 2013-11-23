@@ -41,6 +41,9 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
    private int acceleration;
    private int angle;
    private boolean immediateReturn, isStalled;
+   
+   //Ultrasonic Var
+   private boolean isSetup = false;
 
    private static NXTRegulatedMotor A = null;
    private static NXTRegulatedMotor B = null;
@@ -72,62 +75,14 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
 	   A = new NXTRegulatedMotor(portA);
        B = new NXTRegulatedMotor(portB);
        C = new NXTRegulatedMotor(portC);
-       usp = new RemoteUltrasonicPoller();
+       this.usp = usp;
    }
 
-   protected void executeCommand(int id, int command) throws IOException {
+   protected void executeMotorCommand(int id, int command) throws IOException {
 
 		NXTRegulatedMotor motor = getMotor(id);
-		RemoteUltrasonicPoller usp = getSensor(id);
 		
-		if (usp != null) {
-			switch (command) {
-			case START_USP: {
-				RConsole.println("START_USP");
-				usp.start();
-			}
-			case STOP_USP: {
-				RConsole.println("STOP_USP");
-				usp.stop();
-			}
-			case RESET_USP: {
-				RConsole.println("RESET_USP");
-				usp.resetUSP();
-			}
-			case IS_SETUP: {
-				RConsole.println("IS_SETUP");
-				usp.isSetup();
-			}
-			case GET_US_READING: {
-				RConsole.println("GET_US_READING");
-				int sensor = dis.readInt();
-				RConsole.println("sensor= " + sensor);
-				usp.getUSReading(sensor);
-			}
-			case GET_LOWEST_READING: {
-				RConsole.println("GET_LOWEST_READING");
-				usp.getLowestReading();
-			}
-			case PING_CENTER: {
-				RConsole.println("PING_CENTER");
-				usp.setUSPState(USPState.PING_CENTER);
-			}
-			case PING_LEFT: {
-				RConsole.println("PING_LEFT");
-				usp.setUSPState(USPState.PING_LEFT);
-			}
-			case PING_RIGHT: {
-				RConsole.println("PING_RIGHT");
-				usp.setUSPState(USPState.PING_RIGHT);
-			}
-			case PING_ALL: {
-				RConsole.println("PING_ALL");
-				usp.setUSPState(USPState.PING_ALL);
-			}
-			}
-		}
-		else {
-			switch (command) {
+		switch (command) {
 
 			case FORWARD: {
 				RConsole.println("FORWARD");
@@ -281,9 +236,71 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
 				break;
 
 			}
-			}
 		}
 
+   }
+   
+   protected void executeSensorCommand(int id, int command) throws IOException {
+
+		switch (command) {
+			case START_USP: {
+				RConsole.println("START_USP");
+				usp.start();
+				break;
+			}
+			case STOP_USP: {
+				RConsole.println("STOP_USP");
+				usp.stop();
+				break;
+			}
+			case RESET_USP: {
+				RConsole.println("RESET_USP");
+				usp.resetUSP();
+				break;
+			}
+			case IS_SETUP: {
+				RConsole.println("IS_SETUP");
+				isSetup = usp.isSetup();
+				dos.writeBoolean(isSetup);
+				dos.flush();
+				break;
+			}
+			case GET_US_READING: {
+				RConsole.println("GET_US_READING");
+				int sensor = dis.readInt();
+				RConsole.println("sensor= " + sensor);
+				int reading = usp.getUSReading(sensor);
+				RConsole.println("value= " + String.valueOf(reading));
+				dos.writeInt(reading);
+				dos.flush();
+				break;
+			}
+			case GET_LOWEST_READING: {
+				RConsole.println("GET_LOWEST_READING");
+				usp.getLowestReading();
+				break;
+			}
+			case PING_CENTER: {
+				RConsole.println("PING_CENTER");
+				usp.setUSPState(USPState.PING_CENTER);
+				break;
+			}
+			case PING_LEFT: {
+				RConsole.println("PING_LEFT");
+				usp.setUSPState(USPState.PING_LEFT);
+				break;
+			}
+			case PING_RIGHT: {
+				RConsole.println("PING_RIGHT");
+				usp.setUSPState(USPState.PING_RIGHT);
+				break;
+			}
+			case PING_ALL: {
+				RConsole.println("PING_ALL");
+				usp.setUSPState(USPState.PING_ALL);
+				break;
+			}
+		}
    }
 
    protected RemoteUltrasonicPoller getSensor(int id) {
@@ -345,7 +362,11 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
             id = dis.readInt();
             command = dis.readInt();
             RConsole.println("id="+id +"command =" +command);
-            executeCommand(id, command);
+            if(id > 3) {
+            	executeSensorCommand(id, command);
+            } else {
+            	executeMotorCommand(id, command);
+            }
 
          } catch (IOException e) {
          //A.stop();
