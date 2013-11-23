@@ -51,7 +51,7 @@ public class Localization implements TimerListener {
 		//Retrieves center Ultrasonic reading
 		int usReading = updateUltrasonic();
 		
-		//Currently facing a wall, use rising edge detection for both angles
+		//Ultrasonic poller no yet ready
 		if(usReading < 4) {
 			manager.um.nap(120);
 			start();
