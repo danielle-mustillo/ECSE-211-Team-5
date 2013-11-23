@@ -47,8 +47,8 @@ public class LCDInfo implements TimerListener{
 		LCD.drawInt(manager.hm.ultrasonicPoller.getUSReading(1), 3, 5);
 		LCD.drawInt(manager.hm.ultrasonicPoller.getUSReading(2), 3, 6);
 		
-		LCD.drawString("D: ", 0, 7);
-		LCD.drawString(String.valueOf(debugValue), 3, 7);
+//		LCD.drawString("D: ", 0, 7);
+//		LCD.drawString(String.valueOf(debugValue), 3, 7);
 		
 		if(!manager.sm.nav.getRoute().empty()) {
 			Point next = manager.sm.nav.getRoute().peek();

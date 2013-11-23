@@ -22,6 +22,7 @@ public class Manager {
 		
 		//Start Services
 		this.sm.start();
+		this.hm.ultrasonicPoller.start();
 		
 	}
 }
