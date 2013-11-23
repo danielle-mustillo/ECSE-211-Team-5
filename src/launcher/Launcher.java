@@ -8,6 +8,7 @@ import hardwareAbstraction.Forklift;
 import hardwareAbstraction.Forklift.ForkliftState;
 import hardwareAbstraction.NXTRemoteCommand;
 import hardwareAbstraction.NXTRemoteMotor;
+import hardwareAbstraction.NXTRemoteUltrasonicPoller;
 import hardwareAbstraction.UltrasonicMotor;
 import hardwareAbstraction.UltrasonicPoller;
 import utilities.Communicator;
@@ -35,7 +36,7 @@ public class Launcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//RConsole.openUSB(20000);
+		RConsole.openUSB(20000);
 		
 		
 		//Manager manager = new Manager();
@@ -44,32 +45,43 @@ public class Launcher {
 		
 		Communicator com = new Communicator("NXT");
 		
-		NXTRemoteCommand motorCommand = new NXTRemoteCommand(com);
+		NXTRemoteCommand command = new NXTRemoteCommand(com);
 		
-		NXTRemoteMotor clawMotor = new NXTRemoteMotor(motorCommand, 1);
-		NXTRemoteMotor ultrasonicMotor = new NXTRemoteMotor(motorCommand, 2);
-		NXTRemoteMotor liftMotor = new NXTRemoteMotor(motorCommand, 3);
+//		NXTRemoteMotor clawMotor = new NXTRemoteMotor(command, 1);
+//		NXTRemoteMotor ultrasonicMotor = new NXTRemoteMotor(command, 2);
+//		NXTRemoteMotor liftMotor = new NXTRemoteMotor(command, 3);
 		
-		ultrasonicMotor.setAcceleration(100);
-		ultrasonicMotor.setSpeed(100);
-		clawMotor.setAcceleration(100);
-		liftMotor.setAcceleration(100);
-		clawMotor.setSpeed(100);
-		liftMotor.setSpeed(100);
-		
-		
-		for(int i=0; i<10; i++) {
-			
-			if(i % 2 == 0) {
-				ultrasonicMotor.rotateTo(0);
-			} else {
-				ultrasonicMotor.rotateTo(-40);
-			}
-			
-			while(ultrasonicMotor.isMoving()) {
-				sleep(40);
-			}
+		NXTRemoteUltrasonicPoller usp = new NXTRemoteUltrasonicPoller(command, 4);
+		usp.start();
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		RConsole.print("reading:" + usp.getUSReading(1));
+		usp.stop();
+		
+//		ultrasonicMotor.setAcceleration(100);
+//		ultrasonicMotor.setSpeed(100);
+//		clawMotor.setAcceleration(100);
+//		liftMotor.setAcceleration(100);
+//		clawMotor.setSpeed(100);
+//		liftMotor.setSpeed(100);
+//		
+//		
+//		for(int i=0; i<10; i++) {
+//			
+//			if(i % 2 == 0) {
+//				ultrasonicMotor.rotateTo(0);
+//			} else {
+//				ultrasonicMotor.rotateTo(-40);
+//			}
+//			
+//			while(ultrasonicMotor.isMoving()) {
+//				sleep(40);
+//			}
+//		}
 		
 		
 		/*manager.sm.localization.start();

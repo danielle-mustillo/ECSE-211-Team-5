@@ -81,7 +81,33 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
 		RemoteUltrasonicPoller usp = getSensor(id);
 		
 		if (usp != null) {
-			switch( command) {
+			switch (command) {
+			case START_USP: {
+				RConsole.println("START_USP");
+				usp.start();
+			}
+			case STOP_USP: {
+				RConsole.println("STOP_USP");
+				usp.stop();
+			}
+			case RESET_USP: {
+				RConsole.println("RESET_USP");
+				usp.resetUSP();
+			}
+			case IS_SETUP: {
+				RConsole.println("IS_SETUP");
+				usp.isSetup();
+			}
+			case GET_US_READING: {
+				RConsole.println("GET_US_READING");
+				int sensor = dis.readInt();
+				RConsole.println("sensor= " + sensor);
+				usp.getUSReading(sensor);
+			}
+			case GET_LOWEST_READING: {
+				RConsole.println("GET_LOWEST_READING");
+				usp.getLowestReading();
+			}
 			case PING_CENTER: {
 				RConsole.println("PING_CENTER");
 				usp.setUSPState(USPState.PING_CENTER);

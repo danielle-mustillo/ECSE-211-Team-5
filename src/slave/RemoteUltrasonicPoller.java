@@ -23,27 +23,31 @@ import manager.Manager;
 public class RemoteUltrasonicPoller implements TimerListener {
 	private UltrasonicSensor[] us = new UltrasonicSensor[3];
 	
+	//properties of the USPoller
 	private int pollRate;
 	private Timer poller;
 	private int readings[][];
-	private boolean running = false;
 	
+	//internal designation of the sensors
 	private int left = 0;
 	private int center = 1;
 	private int right = 2;
+	
+	// internal use of a counter for sequential pinging.
 	private int counter;
 
+	// the threads which run the US.
 	private Thread leftUS;
 	private Thread centerUS;
 	private Thread rightUS;
 	
+	// the instruction to the USP.
 	public USPState state;
 	
 	public enum USPState {
-		PING_CENTER, PING_ALL, PING_LEFT, PING_RIGHT;
+		PING_CENTER, PING_ALL, PING_LEFT, PING_RIGHT, PING_SEQUENTIAL;
 	}
 
-	// TODO figure out what exactly this constructor should be.
 	public RemoteUltrasonicPoller() {
 		us[left] = new UltrasonicSensor(SensorPort.S3);
 		us[center] = new UltrasonicSensor(SensorPort.S1);
@@ -79,32 +83,27 @@ public class RemoteUltrasonicPoller implements TimerListener {
 		/*
 		 * Ensures minimal lag for ultrasonic localization 
 		 */
-		if(manager.cm.getState() != State.LOCALIZING) {
-		
-			/*
-			 * If the ultrasonics are facing forward, poll only one at a time.
-			 * Else poll them all simultaneously. 
-			 */
-			if(UltrasonicMotor.isForward) {
-				switch(counter) {
-				case 0 : leftUS.run();
-				break;
-				case 1 : centerUS.run();
-				break;
-				case 2 : rightUS.run();
-				break;
-				}
-				counter += 1;
-				counter = counter % 3;
-			}
-			else {
-				leftUS.run();
-				centerUS.run();
-				rightUS.run();
-				RConsole.println(toStringLastValues());
-			}
-		} else {
+		if(state == USPState.PING_CENTER) {
 			centerUS.run();
+		} else if(state == USPState.PING_LEFT) {
+			leftUS.run();
+		} else if(state == USPState.PING_RIGHT) {
+			rightUS.run();
+		} else if(state == USPState.PING_SEQUENTIAL) {
+			switch(counter) {
+			case 0 : leftUS.run();
+			break;
+			case 1 : centerUS.run();
+			break;
+			case 2 : rightUS.run();
+			break;
+			}
+			counter += 1;
+			counter = counter % 3;
+		} else { //if state is PING_ALL
+			centerUS.run();
+			leftUS.run();
+			rightUS.run();
 		}
 	}
 
@@ -123,11 +122,8 @@ public class RemoteUltrasonicPoller implements TimerListener {
 	 */
 	public void start() {
 		counter = 0;
-
-		// for filtering purposes
 		this.poller = new Timer(pollRate, this);
 		this.poller.start();
-		running = true;
 	}
 
 	/**
@@ -141,7 +137,6 @@ public class RemoteUltrasonicPoller implements TimerListener {
 		this.stop();
 		for (int i = 0; i < readings.length; ++i) {
 			for (int j = 0; j < readings[1].length; ++j) {
-				RConsole.println("" + i + "," + j);
 				readings[i][j] = -1;
 			}
 		}
@@ -166,7 +161,6 @@ public class RemoteUltrasonicPoller implements TimerListener {
 	public void stop() {
 		this.poller.stop();
 		this.poller = null;
-		running = false;
 	}
 
 	/**
@@ -224,11 +218,9 @@ public class RemoteUltrasonicPoller implements TimerListener {
 		// calculate median value by sorting the readings
 		int minValue = readings[0][0]; // get a value to start
 		for (int usReadings[] : readings) {
-			int i = 0;
 			for (int reading : usReadings) {
 				if (minValue > reading && reading != -1)
 					minValue = reading;
-				++i;
 			}
 		}
 
