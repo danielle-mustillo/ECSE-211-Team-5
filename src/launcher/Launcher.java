@@ -38,24 +38,57 @@ public class Launcher {
 	public static void main(String[] args) {
 		RConsole.openUSB(20000);
 		
-		
-		//Manager manager = new Manager();
+		Button.waitForPress();
+		Manager manager = new Manager();
 		Button.waitForPress();
 		
 		
-		Communicator com = new Communicator("NXT");
+		//Communicator com = new Communicator("NXT");
 		
-		NXTRemoteCommand command = new NXTRemoteCommand(com);
+		//NXTRemoteCommand command = new NXTRemoteCommand(com);
 		
 //		NXTRemoteMotor clawMotor = new NXTRemoteMotor(command, 1);
 //		NXTRemoteMotor ultrasonicMotor = new NXTRemoteMotor(command, 2);
 //		NXTRemoteMotor liftMotor = new NXTRemoteMotor(command, 3);
 		
-		NXTRemoteUltrasonicPoller usp = new NXTRemoteUltrasonicPoller(command, 4);
+		//NXTRemoteUltrasonicPoller usp = new NXTRemoteUltrasonicPoller(command, 4);
+		/*NXTRemoteUltrasonicPoller usp = manager.hm.ultrasonicPoller;
 		usp.start();
+		
+		int l;
+		int r;
+		int c;
+		
 		sleep(1000);
-		RConsole.print("reading:" + usp.getUSReading(1));
-		//usp.stop();
+		c = usp.getUSReading(1);
+		r = usp.getUSReading(2);
+		l = usp.getUSReading(0);
+		
+		RConsole.print("C:" + c);
+		RConsole.print("L:" + l);
+		RConsole.print("R:" + r);
+		
+		usp.pingSequential();
+		sleep(1000);
+		c = usp.getUSReading(1);
+		r = usp.getUSReading(2);
+		l = usp.getUSReading(0);
+		
+		RConsole.print("C:" + c);
+		RConsole.print("L:" + l);
+		RConsole.print("R:" + r);
+		
+		usp.pingAll();
+		sleep(1000);
+		c = usp.getUSReading(1);
+		r = usp.getUSReading(2);
+		l = usp.getUSReading(0);
+		
+		RConsole.print("C:" + c);
+		RConsole.print("L:" + l);
+		RConsole.print("R:" + r);
+		
+		usp.stop();*/
 		
 //		ultrasonicMotor.setAcceleration(100);
 //		ultrasonicMotor.setSpeed(100);

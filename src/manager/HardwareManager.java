@@ -1,5 +1,6 @@
 package manager;
 
+import lejos.nxt.comm.RConsole;
 import controllers.State;
 import hardwareAbstraction.*;
 
@@ -12,17 +13,25 @@ public class HardwareManager {
 	public UltrasonicMotor ultrasonicMotor;
 	public ColorPoller colorPoller;
 	public LinePoller linePoller;
-	public UltrasonicPoller ultrasonicPoller;	
+	public NXTRemoteUltrasonicPoller ultrasonicPoller;
 	
 	public HardwareManager(Manager manager) {
 		this.manager = manager;
+		
 		this.drive = new Drive();
+	
 		this.forklift = new Forklift();
+	
 		this.claw = new Claw();
+	
 		this.ultrasonicMotor = new UltrasonicMotor();
+
 		this.colorPoller = new ColorPoller();
+
 		this.linePoller = new LinePoller();
-		this.ultrasonicPoller = new UltrasonicPoller(manager);
+
+		this.ultrasonicPoller = new NXTRemoteUltrasonicPoller(manager.um.command, 4);
+
 	}
 	
 	public void reset() {

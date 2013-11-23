@@ -1,5 +1,8 @@
 package manager;
 
+import lejos.nxt.comm.RConsole;
+import hardwareAbstraction.NXTRemoteCommand;
+import hardwareAbstraction.NXTRemoteMotor;
 import utilities.*;
 
 public class UtilityManager {
@@ -7,6 +10,7 @@ public class UtilityManager {
 	public Manager manager;
 	public Communicator comLink; 
 	public Map map;
+	public NXTRemoteCommand command;
 	
 	
 	public UtilityManager(Manager manager) {
@@ -14,6 +18,12 @@ public class UtilityManager {
 		
 		//BluetoothTransmission.getBluetoothData();
 		this.comLink = new Communicator(Settings.NXTSlaveName);
+		this.command = new NXTRemoteCommand(comLink);
+		
+		Settings.clawMotor = new NXTRemoteMotor(command, Settings.CLAW_MOTOR_ID);
+		Settings.liftMotor = new NXTRemoteMotor(command, Settings.LIFT_MOTOR_ID);
+		Settings.ultrasonicMotor = new NXTRemoteMotor(command, Settings.ULTRASONIC_MOTOR_ID);
+		
 		this.map = new Map();
 	}
 	

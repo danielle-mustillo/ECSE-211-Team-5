@@ -71,11 +71,11 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
 
    }
    
-   public NXTRemoteControl(MotorPort portA, MotorPort portB, MotorPort portC, RemoteUltrasonicPoller usp) {
+   public NXTRemoteControl(MotorPort portA, MotorPort portB, MotorPort portC, RemoteUltrasonicPoller usPoller) {
 	   A = new NXTRegulatedMotor(portA);
        B = new NXTRegulatedMotor(portB);
        C = new NXTRegulatedMotor(portC);
-       this.usp = usp;
+       usp = usPoller;
    }
 
    protected void executeMotorCommand(int id, int command) throws IOException {
@@ -300,6 +300,12 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
 				usp.setUSPState(USPState.PING_ALL);
 				break;
 			}
+			case PING_SEQUENTIAL: {
+				RConsole.println("PING_SEQUENTIAL");
+				usp.setUSPState(USPState.PING_SEQUENTIAL);
+				break;
+			}
+			
 		}
    }
 

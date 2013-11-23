@@ -9,10 +9,6 @@ import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 
 public class Settings {
-
-	private static Communicator com = new Communicator("NXT");
-	
-	private static NXTRemoteCommand motorCommand = new NXTRemoteCommand(com);
 	
 	public static ColorSensor frontColorSensor = new ColorSensor(SensorPort.S1);
 	public static ColorSensor rearLeftColorSensor = new ColorSensor(SensorPort.S2);
@@ -25,9 +21,14 @@ public class Settings {
 	public static NXTRegulatedMotor leftDriveMotor = Motor.B;
 	public static NXTRegulatedMotor rightDriveMotor = Motor.A;
 	
-	public static NXTRemoteMotor clawMotor = new NXTRemoteMotor(motorCommand, 1);
-	public static NXTRemoteMotor ultrasonicMotor = new NXTRemoteMotor(motorCommand, 2);
-	public static NXTRemoteMotor liftMotor = new NXTRemoteMotor(motorCommand, 3);
+	public static final int CLAW_MOTOR_ID = 1;
+	public static final int ULTRASONIC_MOTOR_ID = 2;
+	public static final int LIFT_MOTOR_ID = 3;
+	
+	
+	public static NXTRemoteMotor clawMotor;
+	public static NXTRemoteMotor ultrasonicMotor;
+	public static NXTRemoteMotor liftMotor;
 	
 	public static final String NXTSlaveName = "NXT";
 	

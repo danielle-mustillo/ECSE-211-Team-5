@@ -53,7 +53,7 @@ public class RemoteUltrasonicPoller implements TimerListener {
 		us[center] = new UltrasonicSensor(SensorPort.S1);
 		us[right] = new UltrasonicSensor(SensorPort.S2);
 
-		this.pollRate = 100;
+		this.pollRate = 20;
 		this.readings = new int[3][5];
 
 		us[left].off();
@@ -69,6 +69,7 @@ public class RemoteUltrasonicPoller implements TimerListener {
 	
 	public void setUSPState(USPState state) {
 		this.state = state;
+		resetUSP();
 	}
 
 	/**
@@ -90,11 +91,11 @@ public class RemoteUltrasonicPoller implements TimerListener {
 		} else if(state == USPState.PING_SEQUENTIAL) {
 			switch(counter) {
 			case 0 : leftUS.run();
-			break;
+					 break;
 			case 1 : centerUS.run();
-			break;
+					 break;
 			case 2 : rightUS.run();
-			break;
+					 break;
 			}
 			counter += 1;
 			counter = counter % 3;
