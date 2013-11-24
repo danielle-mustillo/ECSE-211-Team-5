@@ -233,7 +233,7 @@ public class Localization implements TimerListener {
 	
 	
 	/**
-	 * returns the desired starting angle for line localization
+	 * Adjusts the localization position for the starting corner
 	 */
 	public void adjustForStartingCorner() {
 		double x1 = manager.sm.odo.getX();
@@ -242,18 +242,29 @@ public class Localization implements TimerListener {
 		
 		if(Settings.startingCorner == StartingCorner.BOTTOM_RIGHT) {
 			deltaTheta += Math.PI/2;
-			manager.sm.odo.setPosition(new Position(-y1, x1, deltaTheta));
+			double x2 = -y1;
+			y1 = x1;
+			x1 *= x2;
+			x1 += (Settings.FIELD_X - 2)*Settings.TILE_SIZE; 
 			//return 3.0 * Math.PI / 4.0;
 			
 		} else if (Settings.startingCorner == StartingCorner.TOP_RIGHT) {
 			deltaTheta += Math.PI;
-			manager.sm.odo.setPosition(new Position(-x1, -y1, deltaTheta));
+			x1 *= -1;
+			y1 *= -1;
+			x1 += (Settings.FIELD_X - 2)*Settings.TILE_SIZE; 
+			y1 += (Settings.FIELD_Y - 2)*Settings.TILE_SIZE; 
 			//return 5.0 * Math.PI / 4.0;
 		} else if (Settings.startingCorner == StartingCorner.TOP_LEFT) {
 			deltaTheta -= Math.PI/2;
-			manager.sm.odo.setPosition(new Position(y1, -x1, deltaTheta));
+			double y2 = -x1;
+			x1 *= y1;
+			y1 += y2 + (Settings.FIELD_Y - 2)*Settings.TILE_SIZE; 
 			//return 7.0 * Math.PI / 4.0;
-		} 
+		}
+		
+		manager.sm.odo.setPosition(new Position(x1, y1, deltaTheta));
+		
 	}
 
 	
