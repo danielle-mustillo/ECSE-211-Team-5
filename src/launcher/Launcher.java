@@ -41,6 +41,17 @@ public class Launcher {
 		Manager manager = new Manager();
 		Button.waitForPress();
 		
+		/*manager.sm.localization.start();
+		
+		while(manager.cm.getState() == State.LOCALIZING) {
+			manager.um.nap(150);
+		}*/
+		
+		manager.sm.odo.adjustPosition(180, 0, Math.PI);
+		manager.sm.odoCorrection.start();
+		manager.sm.nav.start();
+		
+		manager.cm.setState(State.SEARCH);
 		
 		//Communicator com = new Communicator("NXT");
 		
@@ -111,11 +122,7 @@ public class Launcher {
 //		}
 		
 		
-		manager.sm.localization.start();
 		
-		while(manager.cm.getState() == State.LOCALIZING) {
-			manager.um.nap(150);
-		}
 		
 		//sleep(Forklift.setHeight(ForkliftState.SCAN_HEIGHT_LOW));
 		

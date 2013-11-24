@@ -38,7 +38,24 @@ public class Mapper {
 			currentValue[left] = manager.hm.ultrasonicPoller.getUSReading(left);
 			currentValue[right] = manager.hm.ultrasonicPoller.getUSReading(right);
 			
-			if(!start(left)) {
+			if(!startSet[left]) {
+				start(left);
+			} else if (end(left)) {
+				if(calculatePoint(left,returnPoint)) {
+					return true;
+				}
+			}
+			
+			if(!startSet[right]) {
+				start(right);
+			} else if (end(right)) {
+				if(calculatePoint(right,returnPoint)) {
+					return true;
+				}
+			}
+			
+			
+/*			if(!start(left)) {
 				if(end(left)) {
 					if(calculatePoint(left,returnPoint)) {
 						return true;
@@ -53,9 +70,11 @@ public class Mapper {
 					}
 				}
 			}
+*/
 		}
 		
 		return false;
+		
 	}
 	
 	

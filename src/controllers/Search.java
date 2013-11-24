@@ -39,16 +39,16 @@ public class Search extends Controller  {
 	private void defaultRouter() {
 		if(manager.sm.nav.getRoute().empty()) {
 			switch(this.defaultPath) {
-			case 0 : manager.sm.nav.addToRoute(new Point(15,15));
+			case 0 : manager.sm.nav.addToRoute(new Point(75,15));
 			break;
-			case 1 : manager.sm.nav.addToRoute(new Point(15,135));
+			case 1 : manager.sm.nav.addToRoute(new Point(75,75));
 			break;
-			case 2 : manager.sm.nav.addToRoute(new Point(165,45));
+			case 2 : manager.sm.nav.addToRoute(new Point(165,75));
 			break;
 			//wont run on the crack
-			case 3 : manager.sm.nav.addToRoute(new Point(00,120)); 
+			case 3 : manager.sm.nav.addToRoute(new Point(165,135)); 
 			break;
-			case 4 : manager.sm.nav.addToRoute(new Point(180,120));
+			case 4 : manager.sm.nav.addToRoute(new Point(15,135));
 			break;
 			case 5 : manager.sm.nav.addToRoute(new Point(180,180));
 			break;
