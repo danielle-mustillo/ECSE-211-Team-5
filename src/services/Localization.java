@@ -244,7 +244,7 @@ public class Localization implements TimerListener {
 			deltaTheta += Math.PI/2;
 			double x2 = -y1;
 			y1 = x1;
-			x1 *= x2;
+			x1 = x2;
 			x1 += (Settings.FIELD_X - 2)*Settings.TILE_SIZE; 
 			//return 3.0 * Math.PI / 4.0;
 			
@@ -258,7 +258,7 @@ public class Localization implements TimerListener {
 		} else if (Settings.startingCorner == StartingCorner.TOP_LEFT) {
 			deltaTheta -= Math.PI/2;
 			double y2 = -x1;
-			x1 *= y1;
+			x1 = y1;
 			y1 += y2 + (Settings.FIELD_Y - 2)*Settings.TILE_SIZE; 
 			//return 7.0 * Math.PI / 4.0;
 		}
