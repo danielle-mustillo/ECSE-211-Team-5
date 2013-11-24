@@ -201,7 +201,7 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 		motorCommand.send(id, IS_MOVING);
 		try {
 			isMoving = motorCommand.getBool();
-			RConsole.println("isMoving=" + isMoving);
+			RConsole.println("isMoving=" + String.valueOf(isMoving));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

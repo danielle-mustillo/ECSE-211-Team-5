@@ -36,11 +36,12 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 	@Override
 	public boolean isSetup() {
 		boolean setup = false;
-		RConsole.println("reset USP");
+		RConsole.println("is Setup");
 		sensorCommand.send(id, IS_SETUP);
 		try {
 			setup = sensorCommand.getBool();
 		} catch (IOException e) {
+			System.out.println("Recieve Error");
 			//no exception expected here. 
 		}
 		return setup;
@@ -63,7 +64,7 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 
 
 	@Override
-	public int getLowestReading() {
+/*	public int getLowestReading() {
 		int reading = -1;
 		RConsole.println("getLowestReading from USP");
 		sensorCommand.send(id, GET_LOWEST_READING);
@@ -74,7 +75,21 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 		}
 		return reading;	
 	}
-
+*/
+	public int getLowestReading() {
+		int left = getUSReading(0);
+		int center = getUSReading(1);
+		int right = getUSReading(2);
+		
+		if(left <= center && left <= right) {
+			return left;
+		} else if (center <= right) {
+			return center;
+		} else {
+			return right;
+		}
+		
+	}
 
 	@Override
 	public USPosition getLowestSensor() {
