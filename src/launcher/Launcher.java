@@ -36,10 +36,27 @@ public class Launcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//RConsole.openBluetooth(20000);
+		RConsole.openUSB(20000);
 		
 		Manager manager = new Manager();
 		Button.waitForPress();
+		
+		manager.cm.setState(State.PAUSE);
+		
+		try {
+			Thread.sleep(Forklift.setHeight(Forklift.ForkliftState.LIFT_HEIGHT));
+		} catch (InterruptedException e) {
+		}
+		
+		try {
+			Thread.sleep(Forklift.setHeight(Forklift.ForkliftState.GROUND));
+		} catch (InterruptedException e) {
+		}
+		
+		try {
+			Thread.sleep(Forklift.setHeight(Forklift.ForkliftState.SCAN_HEIGHT_LOW));
+		} catch (InterruptedException e) {
+		}
 		
 		/*manager.sm.localization.start();
 		
@@ -47,11 +64,11 @@ public class Launcher {
 			manager.um.nap(150);
 		}*/
 		
-		manager.sm.odo.adjustPosition(180, 0, Math.PI);
-		manager.sm.odoCorrection.start();
-		manager.sm.nav.start();
-		
-		manager.cm.setState(State.SEARCH);
+//		manager.sm.odo.adjustPosition(180, 0, Math.PI);
+//		manager.sm.odoCorrection.start();
+//		manager.sm.nav.start();
+//		
+//		manager.cm.setState(State.SEARCH);
 		
 		//Communicator com = new Communicator("NXT");
 		

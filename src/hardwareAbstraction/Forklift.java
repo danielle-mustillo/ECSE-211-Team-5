@@ -108,15 +108,9 @@ public class Forklift {
 	private static int changeHeight(int newHeight, int oldHeight) {
 		int rotation = convertDistanceToAngle(newHeight);
 		int naptime = Math.abs(newHeight - oldHeight) * 400;
-		
-		try {
-			lift.setAcceleration(1000);
-			lift.setSpeed(200);
-			lift.rotateTo(-rotation, true);
-		} catch (ArrayIndexOutOfBoundsException e){
-		
-		}
-		
+		lift.setAcceleration(1000);
+		lift.setSpeed(200);
+		lift.rotateTo(-rotation, true);
 		return naptime;
 	}
 

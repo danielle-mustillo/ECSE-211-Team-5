@@ -14,13 +14,9 @@ public class Claw {
 	 */
 	public static int grabObject() {
 		RConsole.println("grabbing object");
-		try {
-			claw.setAcceleration(200);
-			claw.setSpeed(150);
-			claw.rotateTo(0, true);
-		} catch (ArrayIndexOutOfBoundsException e){
-			
-		}
+		claw.setAcceleration(200);
+		claw.setSpeed(150);
+		claw.rotateTo(0, true);
 		return 2000;
 	}
 	
@@ -30,13 +26,9 @@ public class Claw {
 	 */
 	public static int releaseObject() {
 		RConsole.println("releasing object");
-		try {
-			claw.setAcceleration(200);
-			claw.setSpeed(150);
-			claw.rotateTo(-value, true);
-		} catch (ArrayIndexOutOfBoundsException e){
-			
-		}
+		claw.setAcceleration(200);
+		claw.setSpeed(150);
+		claw.rotateTo(-value, true);
 		return 2000;
 	}
 }
