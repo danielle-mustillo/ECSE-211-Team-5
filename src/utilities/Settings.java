@@ -25,7 +25,6 @@ public class Settings {
 	public static final int ULTRASONIC_MOTOR_ID = 2;
 	public static final int LIFT_MOTOR_ID = 3;
 	
-	
 	public static NXTRemoteMotor clawMotor;
 	public static NXTRemoteMotor ultrasonicMotor;
 	public static NXTRemoteMotor liftMotor;
@@ -36,6 +35,8 @@ public class Settings {
 	public static Point[] redZoneCoords;
 	public static Point[] greenZoneCoords = new Point[2]; //TODO remove once BT is working.
 	public static StartingCorner startingCorner = StartingCorner.BOTTOM_RIGHT;
+	public static final int FIELD_X = 8;
+	public static final int FIELD_Y = 8;
 	
 	public static final double LS_OFFSET = 15.0;
 	public static final double LS_WIDTH = 11.5;
