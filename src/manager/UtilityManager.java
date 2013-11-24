@@ -21,8 +21,14 @@ public class UtilityManager {
 		this.command = new NXTRemoteCommand(comLink);
 		
 		Settings.clawMotor = new NXTRemoteMotor(command, Settings.CLAW_MOTOR_ID);
+		Settings.clawMotor.setAcceleration(200);
+		Settings.clawMotor.setSpeed(200);
 		Settings.liftMotor = new NXTRemoteMotor(command, Settings.LIFT_MOTOR_ID);
+		Settings.liftMotor.setAcceleration(200);
+		Settings.liftMotor.setSpeed(200);
 		Settings.ultrasonicMotor = new NXTRemoteMotor(command, Settings.ULTRASONIC_MOTOR_ID);
+		Settings.ultrasonicMotor.setAcceleration(200);
+		Settings.ultrasonicMotor.setSpeed(200);
 		
 		this.map = new Map();
 	}

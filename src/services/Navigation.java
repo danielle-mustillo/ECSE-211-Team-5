@@ -87,22 +87,18 @@ public class Navigation implements TimerListener {
 						scannedAhead = true;
 						
 						manager.hm.drive.stop();
-						sleep(UltrasonicMotor.setForwardPosition());
-						/*
-						 * TODO this must be calibrated to the delay experienced
-						 * on the ultrasonic sensor. I want to make sure that 5
-						 * readings have been picked up by the ultrasonic
-						 * sensor. Therefore 5 seconds should be long enough
-						 * (until we can test otherwise).
-						 */
+						UltrasonicMotor.setForwardPosition();
+						manager.hm.ultrasonicPoller.pingSequential();
 						manager.hm.ultrasonicPoller.resetUSP();
 						while(!manager.hm.ultrasonicPoller.isSetup()) {
+							
 							manager.um.nap(200);
 						}
+						
 						int lowest = manager.hm.ultrasonicPoller.getLowestReading();
-						manager.sm.lcdInfo.debugValue = lowest;
-												
+									
 						if (lowest < 20) {
+							
 							RConsole.println("Read less than 20");
 //							Sound.beepSequenceUp();
 							//TODO comment this back in when recognize works. 
@@ -111,18 +107,32 @@ public class Navigation implements TimerListener {
 							
 						}
 						else if (lowest < 50) {
+							
 							RConsole.println("Read less than 30");
 							RConsole.println("Pushing the following to the stack" + manager.sm.odo.getPosition().addDistanceToPosition(lowest - 5));
 							//route.push(manager.sm.odo.getPosition().addDistanceToPosition(lowest - Settings.clawToUSDistance));
-							sleep(UltrasonicMotor.setDefaultPosition());
-							manager.cm.setState(State.SEARCH);
-							Sound.beepSequence();
-						} else {
-							sleep(UltrasonicMotor.setDefaultPosition());
+							
+							UltrasonicMotor.setDefaultPosition();
+							
+							manager.hm.ultrasonicPoller.pingAll();
 							manager.hm.ultrasonicPoller.resetUSP();
+						
 							while(!manager.hm.ultrasonicPoller.isSetup()) {
 								manager.um.nap(200);
 							}
+							
+							manager.cm.setState(State.SEARCH);
+							Sound.beepSequence();
+						} else {
+							
+							UltrasonicMotor.setDefaultPosition();
+							manager.hm.ultrasonicPoller.pingAll();
+							manager.hm.ultrasonicPoller.resetUSP();
+							
+							while(!manager.hm.ultrasonicPoller.isSetup()) {
+								manager.um.nap(200);
+							}
+							
 							manager.cm.setState(State.SEARCH);
 							Sound.beep();
 							// do no processing, just continue along doing nothing. 

@@ -17,11 +17,15 @@ public class Search extends Controller  {
 	
 	public void run() {
 		defaultRouter();
-		if(UltrasonicMotor.isForward) {
-			manager.um.nap(UltrasonicMotor.setDefaultPosition());
+/*		if(UltrasonicMotor.isForward) {
+			UltrasonicMotor.setDefaultPosition();
+			manager.hm.ultrasonicPoller.pingAll();
 			manager.hm.ultrasonicPoller.resetUSP();
+			while(!manager.hm.ultrasonicPoller.isSetup()) {
+				manager.um.nap(200);
+			}
 		}
-		
+*/		
 		Point pointOfInterest = new Point();
 		
 		if(manager.sm.mapper.update(pointOfInterest)) {
