@@ -17,23 +17,44 @@ import lejos.robotics.RegulatedMotor;
 import lejos.robotics.RegulatedMotorListener;
 
 /**
- * Enables remote control of a motor object using RS485. 
+ * Enables remote control of a motor object using RS485.
+ * 
+ * <p>
+ * Listens for commands sent on RS485 connection.  When a new command is received it will be interpreted, and carried out.
+ * If data is to be sent back, it will send data back through the RS485 connection.
+ *  <p>
+ *  It will wait and automatically connect to the master brick over RS485.
+ *  <p>
+ * A modified version from http://www.lejos.org/forum/viewtopic.php?f=7&t=2620
+ * 
+ *  @author Riley
+ *  @author Danielle
+ *  @author cs07cc4 (LeJOS forum username)
  **/
 public class NXTRemoteControl extends Thread implements RemoteCommands, RegulatedMotorListener {
 
-   private DataInputStream dis = null;
-   private DataOutputStream dos = null;
+	private DataInputStream dis = null;
+	private DataOutputStream dos = null;
    
-   //private DataInputStream lisdis = null;
-   //private DataOutputStream lisdos = null;
-   
+   /**
+    * Communication connector object
+    */
    private NXTCommConnector connector;
+   /**
+    * Connection between the NXTs
+    */
    private NXTConnection con;
    
    
-   //private NXTConnection listenersCon;
+  /**
+   * Id of the motor/poller to be acted on
+   */
    private int id;
+   /**
+    * The command to be carried out as according to {@link RemoteCommands} interface
+    */
    private int command;
+
    private int tachoCount;
    private boolean isMoving;
    private int speed;
@@ -41,20 +62,39 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
    private int acceleration;
    private int angle;
    private boolean immediateReturn, isStalled;
-   
-   //Ultrasonic Var
    private boolean isSetup = false;
 
+   /**
+    * Motor A
+    */
    private static NXTRegulatedMotor A = null;
+   /**
+    * Motor B
+    */
    private static NXTRegulatedMotor B = null;
+   /**
+    * Motor C
+    */
    private static NXTRegulatedMotor C = null;
+   /**
+    * Ultrasonic Poller
+    */
    private static RemoteUltrasonicPoller usp = null;
 
+   /**
+    * Constructor for only 1 motor. Not used
+    * @param portA
+    */
    public NXTRemoteControl(MotorPort portA) {
       
       A = new NXTRegulatedMotor(portA);
 
-}
+   }
+   /**
+    * Constructor for two motors. not used
+    * @param portA
+    * @param portB
+    */
    public NXTRemoteControl(MotorPort portA, MotorPort portB) {
       
          A = new NXTRegulatedMotor(portA);
@@ -62,6 +102,12 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
          
 
    }
+   /**
+    * Constructor for three motors. Not used.
+    * @param portA
+    * @param portB
+    * @param portC
+    */
    public NXTRemoteControl(MotorPort portA, MotorPort portB,
          MotorPort portC) {
       
@@ -70,7 +116,13 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
          C = new NXTRegulatedMotor(portC);
 
    }
-   
+   /**
+    * Constructor for three motors and the {@link RemoteUltrasonicPoller}
+    * @param portA
+    * @param portB
+    * @param portC
+    * @param usPoller
+    */
    public NXTRemoteControl(MotorPort portA, MotorPort portB, MotorPort portC, RemoteUltrasonicPoller usPoller) {
 	   A = new NXTRegulatedMotor(portA);
        B = new NXTRegulatedMotor(portB);
@@ -78,6 +130,12 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
        usp = usPoller;
    }
 
+   /**
+    * Executes motor commands.  It will read the {@link dis} for a param if necessary.  If a value is to be returned, it will return it via the {@link dos}
+    * @param id - id of the motor (1 -> MotorA, 2 -> MotorB, 3-> MotorC)
+    * @param command - command to be carried out as per {@link RemoteCommands} interface
+    * @throws IOException
+    */
    protected void executeMotorCommand(int id, int command) throws IOException {
 
 		NXTRegulatedMotor motor = getMotor(id);
@@ -240,6 +298,12 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
 
    }
    
+   /**
+    * Executes Ultrasonic Poller sensor commands. It will read a param for the {@link dis} if necessary. If a return value is required, it will be sent via the {@link dos}.
+    * @param id - will always be four, used to differentiate from motors
+    * @param command - command to execute as per {@link RemoteCommands} interface
+    * @throws IOException
+    */
    protected void executeSensorCommand(int id, int command) throws IOException {
 
 		switch (command) {
@@ -308,7 +372,11 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
 			
 		}
    }
-
+/**
+ * Returns the RemoteUltrasonicPoller if id == 4
+ * @param id
+ * @return
+ */
    protected RemoteUltrasonicPoller getSensor(int id) {
 
 	      switch (id) {
@@ -316,7 +384,12 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
 	         return usp;
 	      }
 	      return null;
-	   }   
+	   }  
+   /**
+    * Returns the Motor designation (A ||B || C) based on id (1 || 2 || 3)
+    * @param id
+    * @return
+    */
    protected NXTRegulatedMotor getMotor(int id) {
 
       switch (id) {
@@ -332,7 +405,11 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
 
       return null;
    }   
-   
+   /**
+    * Returns numerical motor id based on input motor
+    * @param motor
+    * @return
+    */
    protected int getMotor(RegulatedMotor motor) {
 
       if(motor.equals(Motor.A))
@@ -345,6 +422,9 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
       return -1;
    }
    
+   /**
+    * Connects to the other NXT brick.  It will then continually check the {@link dis} for any new commands, and call the necessary execute method
+    */
    public void run() {
 
       while (true) {
@@ -387,6 +467,9 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
       }
 }
    @Override
+   /**
+    * Not used
+    */
    public void rotationStarted(RegulatedMotor motor, int tachoCount, boolean stalled,
          long timeStamp) {
       
@@ -406,6 +489,9 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
       
    
    @Override
+   /**
+    * Not used
+    */
    public void rotationStopped(RegulatedMotor motor, int tachoCount, boolean stalled,
          long timeStamp) {
       

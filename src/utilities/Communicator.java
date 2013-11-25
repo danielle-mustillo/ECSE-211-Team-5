@@ -19,12 +19,20 @@ import lejos.nxt.comm.NXTConnection;
  * 
  */
 public class Communicator {
-	
+	/**
+	 * Connection object for the connection between the two NXT bricks
+	 */
 	private NXTConnection con;
+	/**
+	 * RS485 Connector object
+	 */
 	private NXTCommConnector connector;
 	public DataInputStream dis;
 	public DataOutputStream dos;
-	
+	/**
+	 * Master communicator.  Establishes and stores the RS485 connection to the slave NXT.  It will also open the input & output data streams
+	 * @param extendedNXT
+	 */
 	public Communicator(String extendedNXT) {
 		
 	       connector = RS485.getConnector();
@@ -39,10 +47,10 @@ public class Communicator {
 	
 	
 	
-	/**
-	 * The Communicator object that will just connect to the slaveNXT. Uses exclusively RS485 for a reliable connection. It initializes the motors from the remote brick.
-	 * @param slaveNXT	A String with the name of the remoteNXT connected via RS485. 
-	 */
+//	/**
+//	 * The Communicator object that will just connect to the slaveNXT. Uses exclusively RS485 for a reliable connection. It initializes the motors from the remote brick.
+//	 * @param slaveNXT	A String with the name of the remoteNXT connected via RS485. 
+//	 */
 	/*public Communicator(String slaveNXT) {
 		RemoteNXT nxt = null;
 		try {

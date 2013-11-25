@@ -1,7 +1,5 @@
 package services;
 
-
-
 import utilities.Angle;
 import utilities.Point;
 import utilities.Position;
@@ -9,7 +7,13 @@ import lejos.nxt.LCD;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
 import manager.Manager;
-
+/**
+ * Prints Information to the LCD display of the NXT. This includes {@link Odmeter} x, y, theta; a debug value, and the next point in the Route of {@link Navigation}.
+ * 
+ * It is a modified version of the code supplied in Lab 4
+ * @author Riley
+ *
+ */
 public class LCDInfo implements TimerListener{
 	public static final int LCD_REFRESH = 300;
 	private Manager manager;
@@ -28,7 +32,7 @@ public class LCDInfo implements TimerListener{
 	}
 	
 	/**
-	 * main update loop
+	 * main update loop.  x, y are in mm.  Theta is in degrees
 	 */
 	public void timedOut() { 
 		Position pos = manager.sm.odo.getPosition();

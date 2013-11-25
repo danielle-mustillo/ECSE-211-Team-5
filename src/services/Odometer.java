@@ -15,15 +15,37 @@ import hardwareAbstraction.Drive;
  */
 
 public class Odometer implements TimerListener {
+	/**
+	 * Timer for TimerListener
+	 */
 	private Timer timer;
+	/**
+	 * Class variable for easy access to drive motors
+	 */
 	private Drive drive;
-	
+	/**
+	 * Period to update odometer, in ms
+	 */
 	private final int UPDATE_PERIOD = 25;
 	
+	/**
+	 * For synchronization
+	 */
 	private Object lock;
+	/**
+	 * Odometer variables
+	 */
 	private double x, y, theta;
+	/**
+	 * Used to find dx, dy and dtheta
+	 */
 	private double [] oldDH, dDH;
 
+	/**
+	 * Initializes x, y, theta.
+	 * Initializes timer, and starts the timer
+	 * @param manager
+	 */
 	public Odometer(Manager manager) {		
 		x = 0.0;
 		y = 0.0;
@@ -37,7 +59,9 @@ public class Odometer implements TimerListener {
 	}
 	
 	/**
-	 * Updates the odometer every UPDATE_PERIOD
+	 * Updates the odometer every {@link UPDATE_PERIOD }, based on the change in displacement and heading from {@link Drive}
+	 * 
+	 * Ensures theta is normalized between [0, 2PI)
 	 */
 	public void timedOut() {
 		drive.getDisplacementAndHeading(dDH);
@@ -61,8 +85,8 @@ public class Odometer implements TimerListener {
 	}
 	
 	/**
-	 * returns current position of the robot
-	 * @param pos
+	 * Returns the current position of the robot, as according to the odometer
+	 * @return 
 	 */
 	public Position getPosition() {
 		Position pos = new Position();
@@ -76,7 +100,7 @@ public class Odometer implements TimerListener {
 	}
 	
 	/**
-	 * returns the current heading of the robot
+	 * Returns the current heading of the robot (theta)
 	 * @return
 	 */
 	public double getTheta() {
@@ -90,7 +114,7 @@ public class Odometer implements TimerListener {
 	}
 	
 	/**
-	 * returns current y coordinate of the robot
+	 * Returns current y coordinate of the robot
 	 * @return
 	 */
 	public double getY() {
@@ -104,7 +128,7 @@ public class Odometer implements TimerListener {
 	}
 	
 	/**
-	 * returns current x coordinate of the robot
+	 * Returns current x coordinate of the robot
 	 * @return
 	 */
 	public double getX() {
@@ -118,9 +142,8 @@ public class Odometer implements TimerListener {
 	}
 	
 	/**
-	 * set the current position
+	 * Sets the current position of the odometer
 	 * @param pos
-	 * @param update
 	 */
 	public void setPosition(Position pos) {
 		synchronized (lock) {
@@ -143,8 +166,4 @@ public class Odometer implements TimerListener {
 			theta = Angle.principleAngle(theta+dTheta);
 		}
 	}
-	
-	
-	
-	
 }

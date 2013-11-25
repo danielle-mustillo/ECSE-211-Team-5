@@ -12,7 +12,7 @@ public class Angle {
 
 	/**
 	 * Ensures angle is always in [0, 2PI)
-	 * @param angle to convert
+	 * @param angle angle to convert
 	 * @return
 	 */
 	public static double principleAngle(double angle) {		
@@ -36,7 +36,11 @@ public class Angle {
 		else
 			return d - 2*Math.PI;
 	}
-	
+	/**
+	 * Converts radians to degrees
+	 * @param rad angle to convert
+	 * @return
+	 */
 	public static int radToDeg(double rad) {
 		return (int) (rad * 180 / Math.PI);
 	}
