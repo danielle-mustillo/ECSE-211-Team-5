@@ -4,7 +4,7 @@ import lejos.nxt.NXTRegulatedMotor;
 import utilities.Settings;
 
 /**
- * This class handles the driving motors, it is a modified version of the TwoWheeledRobot class from Lab4 
+ * This class handles the driving motors, it is a modified version of the TwoWheeledRobot class from Lab4. 
  * @author Riley
  *
  */
@@ -13,10 +13,24 @@ public class Drive {
 	private NXTRegulatedMotor leftMotor;
 	private NXTRegulatedMotor rightMotor;
 	
+	/**
+	 * Left wheel radius
+	 */
 	public static final double LEFT_RADIUS = 2.03;
+	/**
+	 * Right wheel radius
+	 */
 	public static final double RIGHT_RADIUS = 2.03;
+	/**
+	 * Wheelbase of the robot
+	 */
 	public static final double WIDTH = 15.90;
 	
+	/**
+	 * Initializes the {@link leftMotor} and {@link rightMotor} from the values in {@link Settings}
+	 * <p>
+	 * Sets motor acceleration to 500, allowing for relatively smooth acceleration 
+	 */
 	public Drive() {
 		leftMotor = Settings.leftDriveMotor;
 		rightMotor = Settings.rightDriveMotor;
@@ -26,7 +40,8 @@ public class Drive {
 	
 	/**
 	 * returns displacement and heading based on tacho counts -> passed through the data array pointer
-	 * @param data
+	 * <p>
+	 * @param data array of length 2.  data[0] = displacement, data[1] = heading
 	 */
 	public void getDisplacementAndHeading(double [] data) {
 		int leftTacho, rightTacho;
@@ -38,9 +53,9 @@ public class Drive {
 	}
 	
 	/**
-	 * Sets both forward and rotational speed (cm/s, deg/s)
-	 * @param forwardSpeed
-	 * @param rotationalSpeed
+	 * Sets both forward and rotational speed of the robot
+	 * @param forwardSpeed speed to travel forward at  [cm/s]
+	 * @param rotationalSpeed speed to rotate at [deg/s], positive is CW
 	 */
 	public void setSpeeds(double forwardSpeed, double rotationalSpeed) {
 		double leftSpeed, rightSpeed;
@@ -79,7 +94,7 @@ public class Drive {
 	}
 	
 	/**
-	 * Stops robot
+	 * Stops robot from moving
 	 */
 	public void stop() {
 		rightMotor.stop(true);

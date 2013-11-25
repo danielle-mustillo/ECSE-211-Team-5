@@ -5,6 +5,12 @@ import lejos.nxt.comm.RConsole;
 import lejos.nxt.remote.RemoteMotor;
 import utilities.Settings;
 
+/**
+ * Handles movement of claw/grabber & center ultrasonic mechanism up and down.  
+ * @author Riley
+ * @author Danielle
+ *
+ */
 public class Forklift {
 	static NXTRemoteMotor lift = Settings.liftMotor;
 	static int liftHeight = 15; // 15 cm upwards. Should be ok
@@ -72,6 +78,13 @@ public class Forklift {
 //		changeHeight(scanHeight);
 //	}
 	
+	/**
+	 * Based on the passed state, 
+	 * this method will set the old height and new height and the new state.  
+	 * Then it will call {@link changeHeight}
+	 * @param s new state
+	 * @return the time to make the change as calculated by {@link changeHeight}
+	 */
 	public static synchronized int setHeight(ForkliftState s) {
 		int height;
 		int oldHeight;
@@ -102,8 +115,9 @@ public class Forklift {
 	
 	/**
 	 * Changes the height of the forklift
-	 * Won't return until the height is reached
+	 * returns an approximation of the time it will take
 	 * @param newHeight
+	 * @return
 	 */
 	private static int changeHeight(int newHeight, int oldHeight) {
 		int rotation = convertDistanceToAngle(newHeight);
@@ -115,8 +129,8 @@ public class Forklift {
 	}
 
 	/**
-	 * This method turns a distance into an angle for the robot to turn. Takes as parameter the distance you want to lift. 
-	 * It is essential the radius of this class be calibrated. The radius is the radius of the "spool" the string winds onto.
+	 * This method turns a distance into an angle for the spool to turn. Takes as parameter the distance you want to lift. 
+	 * It is essential the radius of spool be calibrated. The radius is the radius of the "spool" the string winds onto.
 	 * The formula used is: d = 2*pi*radius*(angle)/360 ==> angle = 360 * d / (2*pi*radius).
 	 * @param distance
 	 * @return
@@ -125,6 +139,11 @@ public class Forklift {
 		return (int)( (distance * 180) / (Math.PI * radius) );
 	}
 	
+	/**
+	 * Each state corresponds to a height for a function of the grabber/ultrasonic mechanism. 
+	 * @author Danielle
+	 *
+	 */
 	public enum ForkliftState {
 		GROUND, SCAN_HEIGHT, LIFT_HEIGHT, SCAN_HEIGHT_LOW;
 	}
