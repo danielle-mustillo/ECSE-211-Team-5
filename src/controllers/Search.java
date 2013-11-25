@@ -26,11 +26,11 @@ public class Search extends Controller  {
 			}
 		}
 */		
-		Point pointOfInterest = new Point();
+//		Point pointOfInterest = new Point();
 		
-		if(manager.sm.mapper.update(pointOfInterest)) {
-			manager.sm.nav.addToRoute(pointOfInterest);
-		}
+//		if(manager.sm.mapper.update(pointOfInterest)) {
+//			manager.sm.nav.addToRoute(pointOfInterest);
+//		}
 		
 	}
 	/**
@@ -39,14 +39,14 @@ public class Search extends Controller  {
 	private void defaultRouter() {
 		if(manager.sm.nav.getRoute().empty()) {
 			switch(this.defaultPath) {
-			case 0 : manager.sm.nav.addToRoute(new Point(75,15));
+			case 0 : manager.sm.nav.addToRoute(new Point(00,30));
 			break;
-			case 1 : manager.sm.nav.addToRoute(new Point(75,75));
+			case 1 : manager.sm.nav.addToRoute(new Point(30,30));
 			break;
-			case 2 : manager.sm.nav.addToRoute(new Point(165,75));
+			case 2 : manager.sm.nav.addToRoute(new Point(30,00));
 			break;
 			//wont run on the crack
-			case 3 : manager.sm.nav.addToRoute(new Point(165,135)); 
+			case 3 : manager.sm.nav.addToRoute(new Point(00,00)); 
 			break;
 			case 4 : manager.sm.nav.addToRoute(new Point(15,135));
 			break;
@@ -58,7 +58,7 @@ public class Search extends Controller  {
 			break;
 			}
 			this.defaultPath += 1;
-			this.defaultPath %= 8;
+			this.defaultPath %= 4;
 		}
 	}
 	

@@ -1,5 +1,8 @@
 package services;
 
+import hardwareAbstraction.Claw;
+import hardwareAbstraction.Forklift;
+import hardwareAbstraction.Forklift.ForkliftState;
 import hardwareAbstraction.UltrasonicMotor;
 
 import java.util.Stack;
@@ -98,23 +101,23 @@ public class Navigation implements TimerListener {
 						int lowest = manager.hm.ultrasonicPoller.getLowestReading();
 									
 						if (lowest < 20) {
+							//reassign the lowest to something useful now (aka not zeros).
+							lowest = manager.hm.ultrasonicPoller.getUSReading(1);
 							
 							RConsole.println("Read less than 20");
-//							Sound.beepSequenceUp();
+							Sound.beepSequenceUp();
 							//TODO comment this back in when recognize works. 
 							manager.cm.setState(State.RECOGNIZE);
-							Sound.twoBeeps();
 							
 						}
 						else if (lowest < 50) {
 							
-							RConsole.println("Read less than 30");
-							RConsole.println("Pushing the following to the stack" + manager.sm.odo.getPosition().addDistanceToPosition(lowest - 5));
-							//route.push(manager.sm.odo.getPosition().addDistanceToPosition(lowest - Settings.clawToUSDistance));
+							RConsole.println("Read less than 50");
+							RConsole.println("Pushing the following to the stack" + manager.sm.odo.getPosition().addDistanceToPosition(lowest - Settings.clawToUSDistance));
+							
+							route.push(manager.sm.odo.getPosition().addDistanceToPosition(lowest - Settings.clawToUSDistance));
 							
 							UltrasonicMotor.setDefaultPosition();
-							
-							manager.hm.ultrasonicPoller.pingAll();
 							manager.hm.ultrasonicPoller.resetUSP();
 						
 							while(!manager.hm.ultrasonicPoller.isSetup()) {

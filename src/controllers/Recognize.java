@@ -23,6 +23,8 @@ private Manager manager;
 	}
 	
 	public void run() {
+		manager.cm.setState(State.COLLECT);
+		
 		//do nothing else, don't call recognize again. 
 		manager.cm.setState(State.PAUSE);
 		

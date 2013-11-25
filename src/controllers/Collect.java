@@ -8,6 +8,7 @@ import utilities.Settings;
 import hardwareAbstraction.Claw;
 import hardwareAbstraction.Forklift;
 import hardwareAbstraction.Forklift.ForkliftState;
+import lejos.nxt.Sound;
 import lejos.nxt.comm.RConsole;
 import manager.Manager;
 
@@ -38,13 +39,15 @@ private static boolean setup = false;
 			manager.hm.drive.stop();
 
 			// setup claw and navigate towards the block
+			Sound.twoBeeps();
+			Forklift.setHeight(ForkliftState.GROUND);
 			sleep(Claw.releaseObject());
 			Position currentPos = manager.sm.odo.getPosition();
 			
 			//navigate towards block
 			final int clawOffset = Settings.clawToUSDistance;
-			int distance = manager.hm.ultrasonicPoller.getUSReading(1) - clawOffset < 0 ? 0 : manager.hm.ultrasonicPoller.getUSReading(1) - clawOffset;
-			manager.sm.nav.addToRoute(currentPos.addDistanceToPosition(distance));
+//			int distance = manager.hm.ultrasonicPoller.getUSReading(1) - clawOffset < 0 ? 0 : manager.hm.ultrasonicPoller.getUSReading(1) - clawOffset;
+//			manager.sm.nav.addToRoute(currentPos.addDistanceToPosition(15));
 		}
 		/*
 		 * Once the robot is in position to pickup the object, it will then grab the object and lift it. 

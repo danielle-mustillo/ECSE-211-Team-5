@@ -40,23 +40,13 @@ public class Launcher {
 		
 		Manager manager = new Manager();
 		Button.waitForPress();
-		
-		manager.cm.setState(State.PAUSE);
-		
 		try {
-			Thread.sleep(Forklift.setHeight(Forklift.ForkliftState.LIFT_HEIGHT));
+			Thread.sleep(Forklift.setHeight(ForkliftState.SCAN_HEIGHT_LOW));
 		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 		
-		try {
-			Thread.sleep(Forklift.setHeight(Forklift.ForkliftState.GROUND));
-		} catch (InterruptedException e) {
-		}
-		
-		try {
-			Thread.sleep(Forklift.setHeight(Forklift.ForkliftState.SCAN_HEIGHT_LOW));
-		} catch (InterruptedException e) {
-		}
+		manager.cm.setState(State.SEARCH);
 		
 		/*manager.sm.localization.start();
 		
