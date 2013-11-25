@@ -3,14 +3,21 @@ package hardwareAbstraction;
 import utilities.Settings;
 import lejos.nxt.comm.RConsole;
 import lejos.nxt.remote.RemoteMotor;
-
+/**
+ * Controls the Claw Motor.  Uses the claw motor defined in {@link Settings}
+ * <p>
+ * Only open/close functions have been implemented
+ * 
+ * @author Danielle
+ *
+ */
 public class Claw {
 	static NXTRemoteMotor claw = Settings.clawMotor;
 	static int value = 70; // 45 degrees. needs to be tested. 
 	
 	/**
-	 * This method grabs an object. Returns nothing
-	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed. 
+	 * This method grabs an object. Returns a default time to sleep (2s)
+	 *  
 	 */
 	public static int grabObject() {
 		RConsole.println("grabbing object");
@@ -21,8 +28,7 @@ public class Claw {
 	}
 	
 	/**
-	 * This method releases an object. Returns nothing
-	 * @bug the execution of external motors causes exceptions. Try-catch block was put for now. Must be fixed. 
+	 * This method releases an object. Returns a default time to sleep (2s)
 	 */
 	public static int releaseObject() {
 		RConsole.println("releasing object");

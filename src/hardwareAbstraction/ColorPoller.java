@@ -16,28 +16,50 @@ import lejos.util.TimerListener;
  * 
  */
 public class ColorPoller implements TimerListener {
+	/**
+	 * The front colour sensor (on the claw)
+	 */
 	private ColorSensor cs;
+	/**
+	 * Timer for timer listener
+	 */
 	private Timer poller;
+	/**
+	 * Default poleRate, set to 30ms
+	 */
 	private int poleRate = 30;
+	/**
+	 * Array of past readings
+	 */
 	private int[] readings;
 
+	/**
+	 * Initializes colour sensor to the one defined in {@link Settings}
+	 * Also, initializes readings array
+	 */
 	public ColorPoller() {
 		this.cs = Settings.frontColorSensor;
 		this.readings = new int[5];
 		this.resetCP();
 	}
-
+	/**
+	 * Starts polling the colour sensor
+	 */
 	public void start() {
 		this.poller = new Timer(poleRate, this);
 		this.resetCP();
 		this.poller.start();
 	}
-
+	/**
+	 * Stops polling the colour sensor
+	 */
 	public void stop() {
 		this.poller.stop();
 		this.poller = null;
 	}
-
+	/**
+	 * Polls the colour sensor using {@link ColorSensor.getColor()}, and adds the ratio of the red to blue value to the readings array
+	 */
 	@Override
 	public void timedOut() {
 		int red, blue;
@@ -49,6 +71,10 @@ public class ColorPoller implements TimerListener {
 		addReading((int) proportion);
 	}
 
+	/**
+	 * Adds a new reading to the readings array by shifting the older readings to a higher index and storing the new reading in the 0th index.  The oldest reading is removed.
+	 * @param shiftedProportion - new reading
+	 */
 	private void addReading(int shiftedProportion) {
 		readings[4] = readings[3];
 		readings[3] = readings[2];
@@ -79,11 +105,22 @@ public class ColorPoller implements TimerListener {
 			return true;
 	}
 	
+	/**
+	 * This method will average the past five readings.  
+	 * Then if the average is <= 0.9 it will return that an {@link ObjectDetected.OBSTACLE} was detected.  
+	 * Otherwise it will return with {@link ObjectDetected.BLUE_BLOCK}
+	 * @return type of block detected
+	 */
 	public ObjectDetected getObjectReading() {
 		double average = ( readings[4] + readings[3] + readings[2] + readings[1] + readings[0] ) / 5;
 		return average <= 0.9  ? ObjectDetected.OBSTACLE : ObjectDetected.BLUE_BLOCK;
 	}
 	
+	/**
+	 * Enum of the two types of blocks.  Either Obstacle or blue block
+	 * @author Danielle
+	 *
+	 */
 	public enum ObjectDetected {
 		OBSTACLE, BLUE_BLOCK
 	}
