@@ -23,31 +23,86 @@ import manager.Manager;
 public class RemoteUltrasonicPoller implements TimerListener {
 	private UltrasonicSensor[] us = new UltrasonicSensor[3];
 	
-	//properties of the USPoller
+	/**
+	 * Rate at which to poll the ultrasonic sensors
+	 */
 	private int pollRate;
+	/**
+	 * Timer for timer listener
+	 */
 	private Timer poller;
+	/**
+	 * Stores the past 5 readings of the 3 ultrasonic Sensors
+	 */
 	private int readings[][];
 	
-	//internal designation of the sensors
+	/**
+	 * Id of the left sensor
+	 */
 	private int left = 0;
+	/**
+	 * Id of the Center sensor
+	 */
 	private int center = 1;
+	/**
+	 * Id of the right sensor
+	 */
 	private int right = 2;
 	
-	// internal use of a counter for sequential pinging.
+	/**
+	 * Used to determine which sensor to ping in SEQUENTIAL mode
+	 */
 	private int counter;
 
-	// the threads which run the US.
+	/**
+	 * Thread for the left ultrasonic
+	 */
 	private Thread leftUS;
+	/**
+	 * Thread for the center ultrasonic
+	 */
 	private Thread centerUS;
+	/**
+	 * Thread for the right Ultrasonic
+	 */
 	private Thread rightUS;
 	
-	// the instruction to the USP.
+	/**
+	 * The mode to poll the ultrasonic sensors
+	 */
 	public USPState state;
 	
+	/**
+	 * The various modes of the ultrasonic poller
+	 * <p>
+	 * {@link PING_CENTER} - Pings only the center ultrasonic
+	 * * <p>
+	 * {@link PING_ALL} - Pings all the Ultrasonic sensors at the same time 
+	 * <p>
+	 * {@link PING_LEFT} - Pings only the left ultrasonic 
+	 * <p>
+	 * {@link PING_RIGHT} - Pings only the right ultrasonic
+	 * <p>
+	 * {@link PING_SEQUENTIAL} - Pings all the ultrasonic sensors, but only one at a time (each sensor is polled every 3 * {@link pollRate}
+	 * @author Danielle
+	 *
+	 */
 	public enum USPState {
 		PING_CENTER, PING_ALL, PING_LEFT, PING_RIGHT, PING_SEQUENTIAL;
 	}
-
+	
+	/**
+	 * Initializes the 3 ultrasonic sensors
+	 * <p>
+	 * Sets default pollRate to 20
+	 * <p>
+	 * Turns the ultrasonic Sensors off
+	 * <p>
+	 * Initializes the threads for the Ultrasonic sensors
+	 * <p>
+	 * Sets default state to {@link PING_CENTER}
+	 * @author Danielle
+	 */
 	public RemoteUltrasonicPoller() {
 		us[left] = new UltrasonicSensor(SensorPort.S3);
 		us[center] = new UltrasonicSensor(SensorPort.S1);
@@ -67,13 +122,17 @@ public class RemoteUltrasonicPoller implements TimerListener {
 		this.state = USPState.PING_CENTER;
 	}
 	
+	/**
+	 * Sets the mode of the ultrasonic poller to the corresponding state passed
+	 * @param state
+	 */
 	public void setUSPState(USPState state) {
 		this.state = state;
 		resetUSP();
 	}
 
 	/**
-	 * Pings all three ultrasonic sensors and gets their values. Puts them into
+	 * Pings the ultrasonic sensors based on which mode the poller is set to and stores their corresponding values. Puts them into
 	 * the readings array
 	 */
 	@Override
@@ -106,7 +165,10 @@ public class RemoteUltrasonicPoller implements TimerListener {
 		}
 	}
 
-	// For debugging purposes.
+	/**
+	 * For debugging purposes. 
+	 * @return
+	 */
 	private String toStringLastValues() {
 		String out = "";
 		out += " L: " + getUSReading(left);
@@ -143,7 +205,7 @@ public class RemoteUltrasonicPoller implements TimerListener {
 	}
 
 	/**
-	 * Checks if the ultrasonic sensor has collected atleast 5 values. It does
+	 * Checks if the ultrasonic sensor has collected at least 5 values. It does
 	 * this by checking for any negative numbers in the readings.
 	 */
 	public boolean isSetup() {
@@ -231,7 +293,7 @@ public class RemoteUltrasonicPoller implements TimerListener {
 	
 	/**
 	 * This method gets the number representation of the US with the lowest value out of all the ultrasonic sensor. 
-	 * So if the center has the lowest reading, 
+	 * So if the center has the lowest reading, the {@link USPosition.CENTER} will be returned 
 	 */
 	public USPosition getLowestSensor() {
 		boolean takingReadings = false;
@@ -286,7 +348,11 @@ public class RemoteUltrasonicPoller implements TimerListener {
 		addReading(sensor, distance);
 	}
 
-	// helper method.
+	/**
+	 * Helper method to add a new reading to the {@link readings} array.  The new reading will be store in the 0th index.
+	 * @param sensor
+	 * @param reading
+	 */
 	private void addReading(int sensor, int reading) {
 		readings[sensor][4] = readings[sensor][3];
 		readings[sensor][3] = readings[sensor][2];
@@ -306,7 +372,12 @@ public class RemoteUltrasonicPoller implements TimerListener {
 			sum += readings[sensor][i];
 		return (sum / readings[sensor].length);
 	}
-
+	
+	/**
+	 * Call pingsUS(left) in the {@link LeftUS} thread
+	 * @author Danielle
+	 *
+	 */
 	public class LeftUS implements Runnable {
 
 		@Override
@@ -314,7 +385,11 @@ public class RemoteUltrasonicPoller implements TimerListener {
 			pingUS(left);
 		}
 	}
-
+	/**
+	 * Call pingsUS(right) in the {@link RightUS} thread
+	 * @author Danielle
+	 *
+	 */
 	public class RightUS implements Runnable {
 
 		@Override
@@ -322,7 +397,11 @@ public class RemoteUltrasonicPoller implements TimerListener {
 			pingUS(right);
 		}
 	}
-
+	/**
+	 * Call pingsUS(center) in the {@link CenterUS} thread
+	 * @author Danielle
+	 *
+	 */
 	public class CenterUS implements Runnable {
 
 		@Override
@@ -330,7 +409,11 @@ public class RemoteUltrasonicPoller implements TimerListener {
 			pingUS(center);
 		}
 	}
-	
+	/**
+	 * Has values for the 3 (left, center, right) positions of the ultrasonic sensors
+	 * @author Danielle
+	 *
+	 */
 	public enum USPosition {
 		LEFT, CENTER, RIGHT
 	}
