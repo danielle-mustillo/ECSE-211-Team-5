@@ -13,13 +13,19 @@ import lejos.nxt.comm.NXTConnection;
 import lejos.nxt.comm.RConsole;
 
 /**
- * This class will open a new 
+ * This class will open a bluetooth connection to the PC server.  It will also read the match variables and set the appropriate variables in {@link Settings}.
  * @author Danielle
  *
  */
 public class BluetoothTransmission {
+	/**
+	 * Input Data Stream
+	 */
 	static DataInputStream stream; 
 	
+	/**
+	 * Calls {@link getConnection() } and then {@link getInformation() }.  It will then call {@link close}
+	 */
 	public static void getBluetoothData() {
 		Settings.greenZoneCoords = new Point[2];
 		Settings.redZoneCoords = new Point[2];
@@ -28,6 +34,10 @@ public class BluetoothTransmission {
 		close();
 	}
 	
+	/**
+	 * Waits for a bluetooth connection to the server, and when one becomes available it will connect.
+	 * @return
+	 */
 	private static DataInputStream getConnection() {
 		LCD.clear();
 		LCD.drawString("Starting BT connection", 0, 0);
@@ -36,13 +46,18 @@ public class BluetoothTransmission {
 		return conn.openDataInputStream();
 	}
 	
+	/**
+	 * Closes the connection to the server
+	 */
 	private static void close() {
 		try {
 			stream.close();
 		} catch (IOException e) {
 		}
 	}
-	
+	/**
+	 * Reads the input stream for information, it will then set {@link Settings.role}, {@link Settings.startingCorner}, {@link Settings.greenZoneCoords}, and {@link Settings.redZoneCoords}
+	 */
 	private static void getInformation() {
 		//TODO verify the input of the coordinates with the server. I am assuming the coordinates are sent as a series of 8 integers. The order is unknown. 
 		try {

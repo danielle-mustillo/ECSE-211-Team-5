@@ -1,21 +1,38 @@
 package utilities;
 
+/**
+ * Using the {@link Point} class as a base, Position adds an angle theta.  
+ * @author Riley
+ * @author Danielle
+ *
+ */
 public class Position extends Point {
 
 	public double theta;
 
+	/**
+	 * Initializes the Position as per the passed x, y, theta
+	 * @param x
+	 * @param y
+	 * @param theta
+	 */
 	public Position(double x, double y, double theta) {
 		this.x = x;
 		this.y = y;
 		this.theta = theta;
 	}
-
+	/**
+	 * Initializes an empty Position object
+	 */
 	public Position() {
 		this.x = Double.NaN;
 		this.y = Double.NaN;
 		this.theta = Double.NaN;
 	}
 
+	/**
+	 * Outputs the position variables to a String
+	 */
 	public String toString() {
 		return "{x:" + x + ", y:" + y + ", theta:" + theta + "}";
 	}
