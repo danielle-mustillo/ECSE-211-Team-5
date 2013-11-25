@@ -44,6 +44,7 @@ public class Settings {
 	public static final double TILE_SIZE = 30.48;
 	public static final int maxBlockCapacity = 1;
 	
-	public static final int clawToUSDistance = 10; //TODO measure this. 
+	public static final int tipOfClawToUSDistance = 18; //TODO measure this. 
+	public static final int centerOfClawToUSDistance = 7;
 	
 }

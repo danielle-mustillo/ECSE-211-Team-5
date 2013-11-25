@@ -59,101 +59,125 @@ public class Navigation implements TimerListener {
 		if (manager.cm.getState() == State.SEARCH
 				|| manager.cm.getState() == State.DROP_OFF
 				|| manager.cm.getState() == State.RECOGNIZE
-				|| manager.cm.getState() == State.TESTING) {
+				|| manager.cm.getState() == State.TESTING
+				|| manager.cm.getState() == State.COLLECT) {
 			
 			if (route.empty()) {
 				// nothing is done
 			} else {
-				nextDestination = route.peek();
-				// if navigation must be done
+				if(manager.cm.getState() == State.RECOGNIZE) {
+					if (Math.abs(dH) > 0.1) {
+						turnTo(dH);
+					} else if (Math.abs(dX) > 1 || Math.abs(dY) > 1) {
+						travelTo();
+					}
+					
+				}
+				else {
+					nextDestination = route.peek();
+					// if navigation must be done
 
-				// update the new headings to travel to
-				setupDeltaPositonAndHeading();
+					// update the new headings to travel to
+					setupDeltaPositonAndHeading();
 
-				// see if we need to make a big turn
-				if (Math.abs(dH) > 0.1) {
-					// if we need to turn more than 0.2 rads or 0.1 for
-					// completing a turn, call the turnTo method
-					// otherwise we can adjust small angle errors by slowing
-					// one wheel down slightly
-					turnTo(dH);
-				} else if (Math.abs(dX) > 1 || Math.abs(dY) > 1) {
-					// RConsole.println(""+Math.abs(dX)+" "+Math.abs(dY));
-					// scan ahead only once facing the correct orientation, then
-					// travelTo that destination.
-					// TODO comment back this code. Problematic code for the
-					// moment.
-					if (!scannedAhead) {
-						manager.cm.setState(State.PAUSE);
-						Sound.beep();
-						RConsole.println("Scanning Ahead");
-						scannedAhead = true;
-						
-						manager.hm.drive.stop();
-						UltrasonicMotor.setForwardPosition();
-						manager.hm.ultrasonicPoller.pingSequential();
-						manager.hm.ultrasonicPoller.resetUSP();
-						while(!manager.hm.ultrasonicPoller.isSetup()) {
-							
-							manager.um.nap(200);
-						}
-						
-						int lowest = manager.hm.ultrasonicPoller.getLowestReading();
-									
-						if (lowest < 20) {
-							//reassign the lowest to something useful now (aka not zeros).
-							lowest = manager.hm.ultrasonicPoller.getUSReading(1);
-							
-							RConsole.println("Read less than 20");
-							Sound.beepSequenceUp();
-							//TODO comment this back in when recognize works. 
-							manager.cm.setState(State.RECOGNIZE);
-							
-						}
-						else if (lowest < 50) {
-							
-							RConsole.println("Read less than 50");
-							RConsole.println("Pushing the following to the stack" + manager.sm.odo.getPosition().addDistanceToPosition(lowest - Settings.clawToUSDistance));
-							
-							route.push(manager.sm.odo.getPosition().addDistanceToPosition(lowest - Settings.clawToUSDistance));
-							
-							UltrasonicMotor.setDefaultPosition();
-							manager.hm.ultrasonicPoller.resetUSP();
-						
-							while(!manager.hm.ultrasonicPoller.isSetup()) {
-								manager.um.nap(200);
-							}
-							
-							manager.cm.setState(State.SEARCH);
-							Sound.beepSequence();
-						} else {
-							
-							UltrasonicMotor.setDefaultPosition();
-							manager.hm.ultrasonicPoller.pingAll();
-							manager.hm.ultrasonicPoller.resetUSP();
-							
-							while(!manager.hm.ultrasonicPoller.isSetup()) {
-								manager.um.nap(200);
-							}
-							
-							manager.cm.setState(State.SEARCH);
+					// see if we need to make a big turn
+					if (Math.abs(dH) > 0.1) {
+						// if we need to turn more than 0.2 rads or 0.1 for
+						// completing a turn, call the turnTo method
+						// otherwise we can adjust small angle errors by slowing
+						// one wheel down slightly
+						turnTo(dH);
+					} else if (Math.abs(dX) > 1 || Math.abs(dY) > 1) {
+						// RConsole.println(""+Math.abs(dX)+" "+Math.abs(dY));
+						// scan ahead only once facing the correct orientation,
+						// then
+						// travelTo that destination.
+						// TODO comment back this code. Problematic code for the
+						// moment.
+						if (!scannedAhead) {
+							manager.cm.setState(State.PAUSE);
 							Sound.beep();
-							// do no processing, just continue along doing nothing. 
+							RConsole.println("Scanning Ahead");
+							scannedAhead = true;
+
+							manager.hm.drive.stop();
+							UltrasonicMotor.setForwardPosition();
+							manager.hm.ultrasonicPoller.pingSequential();
+							manager.hm.ultrasonicPoller.resetUSP();
+							while (!manager.hm.ultrasonicPoller.isSetup()) {
+
+								manager.um.nap(200);
+							}
+
+							int lowest = manager.hm.ultrasonicPoller
+									.getLowestReading();
+
+							if (lowest < Settings.tipOfClawToUSDistance + 7) {
+								// reassign the lowest to something useful now
+								// (aka not zeros).
+								lowest = manager.hm.ultrasonicPoller
+										.getUSReading(1);
+
+								RConsole.println("Read less than 20");
+								Sound.beepSequenceUp();
+								// TODO comment this back in when recognize
+								// works.
+								manager.cm.setState(State.RECOGNIZE);
+
+							} else if (lowest < 50) {
+
+								RConsole.println("Read less than 50");
+								RConsole.println("Pushing the following to the stack"
+										+ manager.sm.odo
+												.getPosition()
+												.addDistanceToPosition(
+														lowest
+																- Settings.tipOfClawToUSDistance));
+
+								route.push(manager.sm.odo
+										.getPosition()
+										.addDistanceToPosition(
+												lowest
+														- Settings.tipOfClawToUSDistance));
+
+								UltrasonicMotor.setDefaultPosition();
+								manager.hm.ultrasonicPoller.resetUSP();
+
+								while (!manager.hm.ultrasonicPoller.isSetup()) {
+									manager.um.nap(200);
+								}
+
+								manager.cm.setState(State.SEARCH);
+								Sound.beepSequence();
+							} else {
+
+								UltrasonicMotor.setDefaultPosition();
+								manager.hm.ultrasonicPoller.pingAll();
+								manager.hm.ultrasonicPoller.resetUSP();
+
+								while (!manager.hm.ultrasonicPoller.isSetup()) {
+									manager.um.nap(200);
+								}
+
+								manager.cm.setState(State.SEARCH);
+								Sound.beep();
+								// do no processing, just continue along doing
+								// nothing.
+							}
+						} else {
+							travelTo();
+							RConsole.println("Not scanning ahead");
 						}
 					} else {
-						travelTo();
-						RConsole.println("Not scanning ahead");
-					}
-				} else {
-					
-					// stop the motors, reset scanning state and get next
-					// destination.
-					manager.hm.drive.stop();
-					scannedAhead = false;
-					if(!route.empty())
-						route.pop();
-				}
 
+						// stop the motors, reset scanning state and get next
+						// destination.
+						manager.hm.drive.stop();
+						scannedAhead = false;
+						if (!route.empty())
+							route.pop();
+					}
+				}
 			}
 		}
 	}

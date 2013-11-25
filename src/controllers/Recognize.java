@@ -5,6 +5,7 @@ import java.util.Stack;
 import services.Navigation;
 import utilities.Point;
 import utilities.Position;
+import utilities.Settings;
 import hardwareAbstraction.Claw;
 import hardwareAbstraction.ColorPoller.ObjectDetected;
 import hardwareAbstraction.Forklift;
@@ -23,7 +24,7 @@ private Manager manager;
 	}
 	
 	public void run() {
-		manager.cm.setState(State.COLLECT);
+//		manager.cm.setState(State.COLLECT);
 		
 		//do nothing else, don't call recognize again. 
 		manager.cm.setState(State.PAUSE);
@@ -69,13 +70,17 @@ private Manager manager;
 		ObjectDetected object = manager.hm.colorPoller.getObjectReading();
 		if (object == ObjectDetected.BLUE_BLOCK) {
 			manager.sm.nav.setRoute(oldRoute);
-			manager.cm.setState(State.COLLECT);
+			Position currentPos = manager.sm.odo.getPosition();
+//			manager.sm.nav.addToRoute(currentPos.addDistanceToPosition(10));
+			sleep(Claw.releaseObject());
+//			if(manager.sm.nav.getRoute().empty())
+				manager.cm.setState(State.COLLECT);
 		} else {
 			//reset old route
 			manager.sm.nav.setRoute(oldRoute);
 			manager.cm.setState(State.SEARCH); // TODO change to wall follower.
 		}
-
+		manager.hm.colorPoller.stop();
 	}
 	
 	public static void sleep(int num) {

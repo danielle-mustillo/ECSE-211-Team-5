@@ -30,30 +30,33 @@ private static boolean setup = false;
 		/*
 		 * Setup will stop the robot, add a new destination closer to the object to pick it up
 		 */
-		if (!setup) {
-			setup = true;
-
-			// stop navigation for the moment.
-			oldRoute = manager.sm.nav.getRoute();
-			manager.sm.nav.setRoute(new Stack<Point>());
-			manager.hm.drive.stop();
-
-			// setup claw and navigate towards the block
-			Sound.twoBeeps();
-			Forklift.setHeight(ForkliftState.GROUND);
-			sleep(Claw.releaseObject());
-			Position currentPos = manager.sm.odo.getPosition();
-			
-			//navigate towards block
-			final int clawOffset = Settings.clawToUSDistance;
-//			int distance = manager.hm.ultrasonicPoller.getUSReading(1) - clawOffset < 0 ? 0 : manager.hm.ultrasonicPoller.getUSReading(1) - clawOffset;
-//			manager.sm.nav.addToRoute(currentPos.addDistanceToPosition(15));
-		}
+//		if (!setup) {
+//			setup = true;
+//
+//			// stop navigation for the moment.
+//			oldRoute = manager.sm.nav.getRoute();
+//			manager.sm.nav.setRoute(new Stack<Point>());
+//			manager.hm.drive.stop();
+//
+//			// setup claw and navigate towards the block
+//			Sound.twoBeeps();
+//			Forklift.setHeight(ForkliftState.GROUND);
+//			
+//			
+//			
+//			//navigate towards block
+////			int distance = manager.hm.ultrasonicPoller.getUSReading(1) - clawOffset < 0 ? 0 : manager.hm.ultrasonicPoller.getUSReading(1) - clawOffset;
+//			
+//		}
 		/*
 		 * Once the robot is in position to pickup the object, it will then grab the object and lift it. 
 		 * It will then pass on control to DropOff.java or Search.java depending on if the block "hopper" is full. 
 		 */
-		if (manager.sm.nav.getRoute().empty()) {
+//		RConsole.println(""+manager.sm.nav.getRoute().empty());
+//		if(!manager.sm.nav.getRoute().empty()) {
+//			RConsole.println(""+manager.sm.nav.getRoute().peek());
+//		}
+//		if (manager.sm.nav.getRoute().empty()) {
 			// grab and lift
 			sleep(Claw.grabObject());
 			sleep(Forklift.setHeight(ForkliftState.LIFT_HEIGHT));
@@ -70,7 +73,7 @@ private static boolean setup = false;
 			
 			//clean up method.
 			setup = false;
-		}
+//		}
 	}
 	
 	public static void sleep(int num) {

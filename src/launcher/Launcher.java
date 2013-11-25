@@ -36,7 +36,7 @@ public class Launcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		RConsole.openUSB(20000);
+//		RConsole.openUSB(20000);
 		
 		Manager manager = new Manager();
 		Button.waitForPress();
@@ -46,13 +46,16 @@ public class Launcher {
 			e.printStackTrace();
 		}
 		
+		
+		
+//		manager.sm.localization.start();
+//		
+//		while(manager.cm.getState() == State.LOCALIZING) {
+//			manager.um.nap(150);
+//		}
+		
+		
 		manager.cm.setState(State.SEARCH);
-		
-		/*manager.sm.localization.start();
-		
-		while(manager.cm.getState() == State.LOCALIZING) {
-			manager.um.nap(150);
-		}*/
 		
 //		manager.sm.odo.adjustPosition(180, 0, Math.PI);
 //		manager.sm.odoCorrection.start();
