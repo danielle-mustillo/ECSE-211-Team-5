@@ -1,0 +1,129 @@
+2a6f732 - danielle-mustillo, Sun Nov 24 21:31:21 2013 -0500 --> Merge branch 'master' of https://github.com/danielle-mustillo/ECSE-211-Team-5.git
+085fc12 - danielle-mustillo, Sun Nov 24 21:29:17 2013 -0500 --> The code almost works now. The robot sometimes misses a block but that seems to be more of a hardware calibration and testing thing. The DropOff function still throws exceptions which must be handled. However, the Recognize function does not properly drive forward to get to the block and grab it. All functionality is there except for the drive forward to get the blue block between the sponges.
+34eb188 - RileyvanRyswyk, Sun Nov 24 20:51:28 2013 -0500 --> Utilities package comments
+5c09f29 - RileyvanRyswyk, Sun Nov 24 20:01:03 2013 -0500 --> More commenting.  Mostly Slave package
+d674159 - danielle-mustillo, Sun Nov 24 19:10:34 2013 -0500 --> Thsi code works if you hack it. But it grabs the block now and releases it if you shove a blue block infront of the color sensor. Throws an exception 16 at the end of lifting mechanism though.
+682382e - RileyvanRyswyk, Sun Nov 24 18:17:07 2013 -0500 --> Odometer and OdometryCorrection commented
+49c83e8 - RileyvanRyswyk, Sun Nov 24 17:33:16 2013 -0500 --> Localization Commented for javadoc
+7dc4bc3 - danielle-mustillo, Sun Nov 24 16:42:55 2013 -0500 --> Removed some unneeded code.
+b40404a - RileyvanRyswyk, Sun Nov 24 16:16:36 2013 -0500 --> Localization fix for bottom right and top left
+19cd734 - RileyvanRyswyk, Sun Nov 24 15:01:42 2013 -0500 --> Search and Mapper testing code and fixes
+e517dcc - RileyvanRyswyk, Sun Nov 24 14:25:54 2013 -0500 --> Updated search and navigation scanning ahead
+88fe1e9 - RileyvanRyswyk, Sun Nov 24 14:25:23 2013 -0500 --> Added field size
+5a7d5c9 - RileyvanRyswyk, Sun Nov 24 14:25:11 2013 -0500 --> Updated localization in different corners
+f52351e - RileyvanRyswyk, Sun Nov 24 14:24:24 2013 -0500 --> Fix getLowestReading of NXTRemoteUltrasonicPoller
+51e3113 - RileyvanRyswyk, Sat Nov 23 15:24:38 2013 -0500 --> Removed LCD ultrasonic printout
+59a2165 - RileyvanRyswyk, Sat Nov 23 14:44:45 2013 -0500 --> For Testing
+8e00c3d - RileyvanRyswyk, Sat Nov 23 14:34:55 2013 -0500 --> Comment Fix
+54c45b9 - RileyvanRyswyk, Sat Nov 23 14:34:42 2013 -0500 --> Integrating the new communicator into Manager
+3e38b3d - RileyvanRyswyk, Sat Nov 23 12:23:25 2013 -0500 --> Ultrasonic Poller now seems to be working.  Will make sure everything we need works.
+2225298 - danielle-mustillo, Sat Nov 23 01:58:51 2013 -0500 --> Wrote up the code to perform ultrasonic poller on the external NXT. Throws an exception 31 for the moment. Will be debugged tomorrow.
+7de3564 - danielle-mustillo, Fri Nov 22 21:53:08 2013 -0500 --> Reformatted code.
+db766e9 - danielle-mustillo, Fri Nov 22 21:17:33 2013 -0500 --> Added to deprication status.
+1d0c319 - danielle-mustillo, Fri Nov 22 17:52:21 2013 -0500 --> Worked on the new remote ultrasonic sensor. Still needs a considerable amount of work. Created a new package for items on the Slave NXT brick.
+156585e - danielle-mustillo, Fri Nov 22 16:00:11 2013 -0500 --> Formatted the code.
+29b192b - danielle-mustillo, Fri Nov 22 15:55:05 2013 -0500 --> Small changes.
+c9acf0d - danielle-mustillo, Fri Nov 22 15:40:57 2013 -0500 --> Merge branch 'master' of https://github.com/danielle-mustillo/ECSE-211-Team-5.git
+66a6f76 - danielle-mustillo, Fri Nov 22 15:40:46 2013 -0500 --> Added the commit log to the repo. Will be updated.
+d51db9d - RileyvanRyswyk, Fri Nov 22 13:30:13 2013 -0500 --> Updates on remote NXT
+482268b - RileyvanRyswyk, Fri Nov 22 11:25:20 2013 -0500 --> Updated Claw and Forklift
+7c209aa - RileyvanRyswyk, Fri Nov 22 11:25:07 2013 -0500 --> Reset function added when stopping the brick.
+15a1fd5 - RileyvanRyswyk, Fri Nov 22 11:24:47 2013 -0500 --> Search update.  Not tested yet as it requires improved remote motors. also LCD screen was updated to include more info.
+7b581fb - Nicole, Thu Nov 21 17:55:13 2013 -0500 --> Updated Localization for different corners
+bf304c3 - danielle-mustillo, Wed Nov 20 16:05:04 2013 -0500 --> Finished testing the collect sequence. There is a concurrency error in the forklift motors for the moment. Code will be written to stop this.
+e732830 - danielle-mustillo, Wed Nov 20 03:22:22 2013 -0500 --> Small change to UltrasonicMotor that was not done earlier. This should avoid thrown exceptions.
+66ff60a - danielle-mustillo, Wed Nov 20 03:19:44 2013 -0500 --> Cleaned up and fixed potential bugs in Recognize and Collect classes. Added constant value to Settings
+d81a774 - danielle-mustillo, Wed Nov 20 03:18:50 2013 -0500 --> Corrected small annotation in position.
+d1c8482 - danielle-mustillo, Wed Nov 20 02:31:11 2013 -0500 --> Created a prototype for the Search, Recognize and Collect sequence. Needs heavy debugging.
+e331ce0 - danielle-mustillo, Tue Nov 19 22:16:02 2013 -0500 --> Debugged the claw and ultrasonic motors. They should work relatively ok now. The code should be changed to reflect the new mechanism.
+6600b41 - danielle-mustillo, Tue Nov 19 22:02:01 2013 -0500 --> Forklift debugged, now it should work consistently and rotate to the right height.
+84ffe62 - danielle-mustillo, Tue Nov 19 19:56:54 2013 -0500 --> Added a useful method in colorPoller to allow Recognize.java to work. Also added a supporting enum.
+41dd7c9 - danielle-mustillo, Tue Nov 19 19:56:21 2013 -0500 --> Changed the Recognize.java to work with the newly mounted colorsensor. Removed the ultrasonic logic which was overly complicated for the moment.
+f5f1192 - danielle-mustillo, Tue Nov 19 19:52:50 2013 -0500 --> The Launcher is modified to test the scanning function in navigation.
+645b97a - danielle-mustillo, Tue Nov 19 19:52:17 2013 -0500 --> Worked on fixing the object detection and scan ahead algorithm. Should scan ahead. May not work however. Needs to be tested.
+bf2777f - danielle-mustillo, Tue Nov 19 19:15:13 2013 -0500 --> Created a useful method in ultrasonic poller to determine which ultrasonic  poller is the lowest value. Will be used to orient robot towards that.
+f3bec86 - danielle-mustillo, Tue Nov 19 18:25:57 2013 -0500 --> Few bug fixes for navigation.
+29197f9 - danielle-mustillo, Tue Nov 19 15:35:41 2013 -0500 --> Fixed an issue with the external motors timing out. The robot now grabs an object and lifts it. However, no intelligence has been provided to find when it must lift.
+1e699c0 - RileyvanRyswyk, Tue Nov 19 12:07:15 2013 -0500 --> Odo Correction Test
+ee59ffe - danielle-mustillo, Mon Nov 18 13:26:14 2013 -0500 --> Made small change to Navigation, hopefully to implement scanAhead properly.
+4e13809 - RileyvanRyswyk, Mon Nov 18 10:09:42 2013 -0500 --> Odometry Correction Update
+facbcfc - RileyvanRyswyk, Sun Nov 17 17:05:30 2013 -0500 --> Odometry Correction
+281e6b4 - RileyvanRyswyk, Sun Nov 17 13:52:10 2013 -0500 --> Line Localization now Works
+e0d057d - danielle-mustillo, Sat Nov 16 13:38:57 2013 -0500 --> Cleaned up some items on Search, collect, dropoff and recognize. Prepared for future changes.
+d4829f5 - RileyvanRyswyk, Fri Nov 15 21:57:35 2013 -0500 --> Localization Tweaks
+5325f7f - danielle-mustillo, Fri Nov 15 18:43:38 2013 -0500 --> Cleaned up lingering commented-out code on UltrasonicPoller and UltrasonicMotor. Added functionality to poll only one us at a time if facing forward).
+bb8646b - RileyvanRyswyk, Fri Nov 15 12:19:58 2013 -0500 --> Navigation fixed
+528141f - RileyvanRyswyk, Fri Nov 15 12:02:47 2013 -0500 --> LCD Info Fixes, Angle helper updated and localization tweaked
+4cf9c0c - RileyvanRyswyk, Fri Nov 15 11:54:04 2013 -0500 --> LCD Info for odometer information
+fc10fb1 - RileyvanRyswyk, Fri Nov 15 11:47:29 2013 -0500 --> Localization Fixs
+918cb39 - RileyvanRyswyk, Fri Nov 15 11:38:28 2013 -0500 --> Forklift Simplications (incl delay) and other tweaks
+25f7701 - RileyvanRyswyk, Fri Nov 15 10:18:00 2013 -0500 --> Updated Bluetooth (Attempt 3)
+a6c76c1 - danielle-mustillo, Fri Nov 15 02:13:32 2013 -0500 --> Added some comments for Recognize.java. Should be more readable now. Also removed useless logic where appropriate.
+07aa23c - danielle-mustillo, Thu Nov 14 23:51:20 2013 -0500 --> The recognize function was worked on however it does not work at this moment. Ultrasonic poller was cut down to one sensor for the moment. Small changes in navigatio and controllerManager. Launcher was changed to match the test.
+3dd1957 - danielle-mustillo, Thu Nov 14 21:26:33 2013 -0500 --> Modified the code so we can conduct the Size View US Test
+f61a524 - danielle-mustillo, Thu Nov 14 21:06:03 2013 -0500 --> Formatted USP class.
+3e59222 - danielle-mustillo, Thu Nov 14 21:05:38 2013 -0500 --> Wrote useful method in ultrasonicPoller that will reset and check the status of the USP.
+01fdd0d - danielle-mustillo, Thu Nov 14 21:00:06 2013 -0500 --> Modified forklift so the commands issued by other classes will always work, regardless of the state of the forklift. Avoids errors later on.
+94ec2b4 - danielle-mustillo, Thu Nov 14 20:22:45 2013 -0500 --> The forklift will now be used to detect obstacles and blue blocks. The method to do this is that it will go to a default height and detect the objects in the range and compare that with the values at its default height. The difference of these two will uniquely identify the obstacle. This has all been documented elsewhere. The work done sofar on this forklift is minimal just to allow this to happen. Also boolean identifiers of the forklift current state was added for convenience.
+bc18f99 - danielle-mustillo, Thu Nov 14 20:20:09 2013 -0500 --> Began working on a search algorithm. Added a useful method in ultrasonicPoller for the moment. The Navigation class was modified to accomodate the Recogintion step.
+af45e56 - danielle-mustillo, Thu Nov 14 20:17:36 2013 -0500 --> Began an implementation of a scanning feature for the robot. The robot side ultrasonic sensors should be able to move back and forward now.
+a5a8492 - danielle-mustillo, Thu Nov 14 20:16:14 2013 -0500 --> Created a default path for the robot to navigate around in its search algorithm. Its a very primitive search algorithm.
+d335dd3 - danielle-mustillo, Thu Nov 14 20:15:27 2013 -0500 --> Started the implementation of a colorPoller detector system. May be used or may be discarded.
+c3ec89a - danielle-mustillo, Thu Nov 14 18:55:39 2013 -0500 --> Added some default ocations to head toduring dropoff. Small corrections made to all the other classes. Test..
+7b3cf99 - danielle-mustillo, Thu Nov 14 17:38:29 2013 -0500 --> Merge branch 'master' of https://github.com/danielle-mustillo/ECSE-211-Team-5.git
+6c29f0a - danielle-mustillo, Thu Nov 14 17:38:16 2013 -0500 --> Made some forklift and ultrasonic changes
+361f8f7 - RileyvanRyswyk, Thu Nov 14 17:37:39 2013 -0500 --> Line Poller Update
+359586f - danielle-mustillo, Thu Nov 14 17:06:47 2013 -0500 --> Made a multi-threaded implementation of USPoller. Needs to be threaded though.
+35b55ee - danielle-mustillo, Thu Nov 14 03:36:16 2013 -0500 --> Added some intelligence to Dropoff.java. Should fix the issue with Dropoff. The try-catch blocks in Collect were moved to the hardwareAbstraction package.
+e984d8d - danielle-mustillo, Thu Nov 14 03:34:49 2013 -0500 --> Added some useful methods in claw/forklift.java. Cleaned up some of the code worked on today. Added annotations of locations where more work must be done. @bug was used to in-code javadocs to explain the bugs in different methods.
+ac60709 - Nicole, Wed Nov 13 22:44:45 2013 -0500 --> Heavy changes were made today. Collect and dropoff were modified to work with the curent implementation of the hardware. Many lines of code were commented out for the moment. ControllerMananger.java was modified to start the state. Communicator.java had its remoteMotors modifeid to match the hardware design. Launcher should work aswell. Robot currently localizes and then moves to a location.
+ac0607d - danielle-mustillo, Wed Nov 13 21:33:46 2013 -0500 --> Got Navigation to work, working on localization and navigation integration together.
+7f7e762 - danielle-mustillo, Wed Nov 13 20:46:29 2013 -0500 --> Added commentary.
+c11fa23 - danielle-mustillo, Wed Nov 13 20:29:58 2013 -0500 --> UltrasonicLocalization should work now. Ready to be tested.
+3eafe30 - danielle-mustillo, Wed Nov 13 20:29:29 2013 -0500 --> Added RConsole for debugging purposes. Seems to work fine for localization.
+90c407e - danielle-mustillo, Wed Nov 13 20:29:02 2013 -0500 --> Fixed printing issue. Small bug fix.
+897fefe - RileyvanRyswyk, Wed Nov 13 15:58:24 2013 -0500 --> Updates
+63ee6c0 - danielle-mustillo, Mon Nov 11 15:49:35 2013 -0500 --> Updated ObstacleAvoidance.java method to scanAhead() method. It now should work, pending a final revision. Added a helper method (and documented it) in Position to allow scanAhead() to work. scan() still needs work.
+2b128aa - danielle-mustillo, Mon Nov 11 14:30:27 2013 -0500 --> Updated the Point.java class with a useful getter. ObstacleAvoidance.java has holes that were documented.
+05f5ab2 - danielle-mustillo, Mon Nov 11 14:18:58 2013 -0500 --> Cleaned up some of the comments in Responder.java.
+f20e37c - RileyvanRyswyk, Sun Nov 10 23:26:46 2013 -0500 --> NXT-NXT communicator fixes
+be49c7f - danielle-mustillo, Sun Nov 10 16:27:31 2013 -0500 --> Collect and dropoff commentation updated.
+659e3d6 - RileyvanRyswyk, Sun Nov 10 15:04:53 2013 -0500 --> CollerPoller fix
+3ab0d7d - RileyvanRyswyk, Sun Nov 10 13:45:04 2013 -0500 --> Navigation Fix
+16df094 - RileyvanRyswyk, Sun Nov 10 11:58:03 2013 -0500 --> Localization testing
+301d077 - RileyvanRyswyk, Sun Nov 10 11:24:40 2013 -0500 --> hardwareViewer export modification
+cd97374 - danielle-mustillo, Sun Nov 10 01:34:26 2013 -0500 --> Developed further the collect and dropoff controllers. Needed to implement a new state in order to avoid overlapping executions of a single activity. Settings and Point were updated for convenience. Navigation was updated to alter route.
+d5026b7 - danielle-mustillo, Sun Nov 10 01:07:22 2013 -0500 --> Added bluetooth results in settings. Now it is globally accessible in a logical place.
+d79fb50 - danielle-mustillo, Sun Nov 10 00:25:05 2013 -0500 --> Implemented simple collection logic. Maintains state. Still needs work determining if "dropoff" or "search" must be called.
+9fb7aa6 - danielle-mustillo, Sat Nov 9 23:55:42 2013 -0500 --> Made protoype of Claw and Forklift. Simple methods. Must be adjusted
+fae15dc - RileyvanRyswyk, Sat Nov 9 21:09:13 2013 -0500 --> Angle.java fixed
+a0b85ab - danielle-mustillo, Sat Nov 9 20:58:04 2013 -0500 --> Created a ultrasonicPoller as per request from Riley. To be tested. Prints to RConsole using bluetooth. To be removed when final project is to be handed in.
+5f1ee10 - RileyvanRyswyk, Sat Nov 9 20:24:11 2013 -0500 --> fixed angle class problem
+21fba80 - RileyvanRyswyk, Sat Nov 9 20:15:48 2013 -0500 --> Odo test
+c7aa7cf - danielle-mustillo, Sat Nov 9 20:04:12 2013 -0500 --> Created a protoype of a bluetoothTransmission class. It is implemented using a static method that can be called from the main. Will have to be reconfigured and tested however.
+61dbb95 - RileyvanRyswyk, Sat Nov 9 19:58:56 2013 -0500 --> Odometer fix
+930cf76 - RileyvanRyswyk, Sat Nov 9 19:54:01 2013 -0500 --> Drive direction fix
+442d5e8 - RileyvanRyswyk, Sat Nov 9 19:07:52 2013 -0500 --> Odometer Tweaking
+50d88f6 - RileyvanRyswyk, Sat Nov 9 18:22:05 2013 -0500 --> Navigation
+3209a5c - RileyvanRyswyk, Sat Nov 9 18:17:39 2013 -0500 --> The second half
+08074a3 - RileyvanRyswyk, Sat Nov 9 13:23:33 2013 -0500 --> Localization + bug fixes
+a10c376 - danielle-mustillo, Fri Nov 8 22:08:52 2013 -0500 --> Created the RS485 connection and Responder. Settings had to be changed to account for the RemoteMotors (changed from NXTRegulatedMotor). The ports used on the slave are all UltrasonicSensors as the code for a remote ColorSensor is not supported.
+5b3c6b9 - RileyvanRyswyk, Fri Nov 8 13:17:13 2013 -0500 --> Mostly Localization
+10f8768 - RileyvanRyswyk, Thu Nov 7 14:54:17 2013 -0500 --> Updated Navigation
+f9ea3e7 - danielle-mustillo, Thu Nov 7 14:30:38 2013 -0500 --> Created the ultrasonic poller and obstacle avoidance. Many things left undone in obstacle avoidance. The API documents may have to be changed.
+9bdd4c1 - danielle-mustillo, Thu Nov 7 13:05:08 2013 -0500 --> CollerPoller updated to reflect Settings.frontColorSensor
+ba74248 - danielle-mustillo, Thu Nov 7 12:56:35 2013 -0500 --> Small changes in Navigation. Ignore changes in odometer and position.
+0069541 - danielle-mustillo, Thu Nov 7 12:30:55 2013 -0500 --> Merge branch 'master' of https://github.com/danielle-mustillo/ECSE-211-Team-5.git
+00f63a7 - RileyvanRyswyk, Thu Nov 7 11:53:01 2013 -0500 --> Updates
+7f645c9 - danielle-mustillo, Thu Nov 7 10:56:26 2013 -0500 --> Small edits to pause Navigation when executing scanAhead.
+60469c5 - danielle-mustillo, Thu Nov 7 10:41:00 2013 -0500 --> Made navigation based upon previous code of Team 15. Created method stubs for the moment.
+869d8a5 - danielle-mustillo, Wed Nov 6 15:38:43 2013 -0500 --> Created getter and setter.
+1fe602b - danielle-mustillo, Wed Nov 6 15:38:28 2013 -0500 --> Point class was created. Please note the X and Y values and their orientation. Programming Guide Specifications contains a quick note on the orientation definitions.
+1e9a465 - danielle-mustillo, Wed Nov 6 15:37:30 2013 -0500 --> Copied over the code from Team 15, began writing the timedOut() method. Questions will be noted.
+cecd597 - danielle-mustillo, Wed Nov 6 14:13:01 2013 -0500 --> Begun a ColorPoller class based on code that already exists.
+98c378a - danielle-mustillo, Wed Nov 6 13:20:59 2013 -0500 --> Should now be compilable as a Lejos project.
+4c2b783 - danielle-mustillo, Wed Nov 6 13:11:17 2013 -0500 --> Configured .project/.classpath file to be compilable in eclipse. Master branch should now be compilable on your local machine.
+4bac7e9 - RileyvanRyswyk, Wed Nov 6 00:31:29 2013 -0500 --> A start, but much more work required
+b07e8bd - RileyvanRyswyk, Sat Nov 2 18:54:59 2013 -0400 --> Revert "Group 15 Lab 2,4,5"
+fb0fee6 - RileyvanRyswyk, Sat Nov 2 18:49:26 2013 -0400 --> Group 15 Lab 2,4,5
+28dcc7a - danielle-mustillo, Sat Nov 2 15:16:55 2013 -0400 --> Create README.md

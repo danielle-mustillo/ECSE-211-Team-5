@@ -1,0 +1,13 @@
+#! bin/bash/
+# The following reference was used to create these commands: http://git-scm.com/book/en/Git-Basics-Viewing-the-Commit-History
+
+git log --stat > gitLogGeneral.txt
+git log -p > gitLogComplete.txt
+git log --pretty=format:"%h - %an, %ad --> %s" > gitLogOverview.txt
+git log --pretty=format:"%ad --> %h - %H" > gitLogIndex.txt
+
+
+#The first command will log a brief summary of the code changed per commit. Very standard.
+#The second command will show a line-by-line log of every item changed per commit. Not letter per letter however. 
+#The third command will show a detailed overview with the short-hash, the author info (name, date) and the commit message.
+#The fourth will provide a index should the viewer want to reference the short hash to the full hash. 
