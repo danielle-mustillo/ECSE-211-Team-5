@@ -88,6 +88,7 @@ public class Navigation implements TimerListener {
 					// TODO comment back this code. Problematic code for the
 					// moment.
 					if (!scannedAhead && manager.cm.getState() != State.DROP_OFF) {
+						Sound.buzz();
 						manager.cm.setState(State.PAUSE);
 						Sound.beep();
 						RConsole.println("Scanning Ahead");

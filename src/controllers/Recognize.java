@@ -6,6 +6,7 @@ import hardwareAbstraction.Claw;
 import hardwareAbstraction.ColorPoller.ObjectDetected;
 import hardwareAbstraction.Forklift;
 import hardwareAbstraction.Forklift.ForkliftState;
+import hardwareAbstraction.UltrasonicMotor;
 import manager.Manager;
 
 public class Recognize extends Controller {
@@ -25,9 +26,21 @@ private Manager manager;
 		manager.sm.nav.alternateRoute(true);
 
 		// Setup forklift to sample objects. 
-		sleep(Forklift.setHeight(ForkliftState.GROUND));
+		UltrasonicMotor.setDefaultPosition();
+		Forklift.setHeight(ForkliftState.GROUND);
 		sleep(Claw.grabObject());
-
+		
+		// Go forward a few cm to get right up to the block.
+		Position currentPos = manager.sm.odo.getPosition();
+		int travelDistance = 5;
+		manager.sm.nav.addToRoute(currentPos.addDistanceToPosition(travelDistance));
+		manager.cm.setState(State.JUST_TRAVEL);
+		
+		// while traveling, wait around
+		while(!manager.sm.nav.getRoute().empty()) {
+			sleep(200);
+		}
+		manager.cm.setState(State.PAUSE);
 		// sample the object ahead of it, wait for the sample to finish
 		manager.hm.colorPoller.start();
 		sleep(5000);
@@ -38,8 +51,8 @@ private Manager manager;
 			sleep(Claw.releaseObject());
 			
 			//go forward a certain distance to "grab" the block.
-			Position currentPos = manager.sm.odo.getPosition();
-			final int travelDistance = Settings.tipOfClawToUSDistance - Settings.centerOfClawToUSDistance;
+			currentPos = manager.sm.odo.getPosition();
+			travelDistance = Settings.tipOfClawToUSDistance - Settings.backOfClawToUSDistance;
 			manager.sm.nav.addToRoute(currentPos.addDistanceToPosition(travelDistance));
 			manager.cm.setState(State.JUST_TRAVEL);
 			

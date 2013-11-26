@@ -13,8 +13,8 @@ import lejos.nxt.remote.RemoteMotor;
  */
 public class Claw {
 	static NXTRemoteMotor claw = Settings.clawMotor;
-	static int value = 70; // 45 degrees. needs to be tested.
-	static int start = 5; // this is the starting angle. Slightly more "closed" than start. 
+	static int value = 55; // 45 degrees. needs to be tested.
+//	static int start = 5; // this is the starting angle. Slightly more "closed" than start. 
 	
 	/**
 	 * This method grabs an object. Returns a default time to sleep (2s)
@@ -24,7 +24,7 @@ public class Claw {
 		RConsole.println("grabbing object");
 		claw.setAcceleration(200);
 		claw.setSpeed(150);
-		claw.rotateTo(start, true);
+		claw.rotateTo(90, true);
 		return 2000;
 	}
 	
@@ -35,7 +35,7 @@ public class Claw {
 		RConsole.println("releasing object");
 		claw.setAcceleration(200);
 		claw.setSpeed(150);
-		claw.rotateTo(-value+start, true);
+		claw.rotateTo(-value, true);
 		return 2000;
 	}
 }

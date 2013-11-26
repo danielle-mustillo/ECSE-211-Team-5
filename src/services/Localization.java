@@ -158,7 +158,7 @@ public class Localization implements TimerListener {
 			stop();
 			updatePosition();
 			adjustForStartingCorner();
-			manager.cm.setState(State.TESTING);
+			manager.cm.setState(State.SEARCH);
 		}
 	}
 	

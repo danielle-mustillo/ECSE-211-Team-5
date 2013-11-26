@@ -77,7 +77,7 @@ public class Settings {
 	/**
 	 * Starting corner of the robot, set by {@link BluetoothTransmission}
 	 */
-	public static StartingCorner startingCorner = StartingCorner.BOTTOM_RIGHT;
+	public static StartingCorner startingCorner = StartingCorner.BOTTOM_LEFT;
 	/**
 	 * Playing field width (in X direction)
 	 */
@@ -114,5 +114,5 @@ public class Settings {
 	/**
 	 * the distance from the middle of the claw to the front of the ultrasonic sensor
 	 */
-	public static final int centerOfClawToUSDistance = 7;
+	public static final int backOfClawToUSDistance = 2;
 }

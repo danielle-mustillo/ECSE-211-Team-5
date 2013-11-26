@@ -40,28 +40,29 @@ public class Launcher {
 		
 		Manager manager = new Manager();
 		Button.waitForPress();
-		Claw.grabObject();
+		Claw.releaseObject();
 		try {
 			Thread.sleep(Forklift.setHeight(ForkliftState.SCAN_HEIGHT_LOW));
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+//		manager.sm.odoCorrection.start();
+		
+//		manager.sm.nav.start();
 		
 		
 		
+		manager.sm.localization.start();
 		
-//		manager.sm.localization.start();
-//		
-//		while(manager.cm.getState() == State.LOCALIZING) {
-//			manager.um.nap(150);
-//		}
+		while(manager.cm.getState() == State.LOCALIZING) {
+			manager.um.nap(150);
+		}
 		
+//		manager.cm.setState(State.SEARCH);
 		
-		manager.cm.setState(State.SEARCH);
 		
 //		manager.sm.odo.adjustPosition(180, 0, Math.PI);
-//		manager.sm.odoCorrection.start();
-//		manager.sm.nav.start();
+		
 //		
 //		manager.cm.setState(State.SEARCH);
 		
