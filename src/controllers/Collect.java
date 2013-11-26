@@ -58,6 +58,8 @@ private static boolean setup = false;
 //		}
 //		if (manager.sm.nav.getRoute().empty()) {
 			// grab and lift
+		manager.cm.setState(State.PAUSE);
+		
 			sleep(Claw.grabObject());
 			sleep(Forklift.setHeight(ForkliftState.LIFT_HEIGHT));
 
