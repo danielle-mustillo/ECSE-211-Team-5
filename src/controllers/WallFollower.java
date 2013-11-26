@@ -27,6 +27,7 @@ private Manager manager;
 		currPos = manager.sm.odo.getPosition();
 		manager.sm.nav.addToRoute(currPos.addDisAndAngleToPosition(20, Math.PI/2));
 		
+		//TODO if the route is found not to be the above stated point, then it MIGHT have to exit. To check this.
 		while(!manager.sm.nav.getRoute().empty()) {
 			sleep(200);
 		}
