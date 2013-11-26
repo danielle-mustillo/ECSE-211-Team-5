@@ -25,7 +25,7 @@ private Manager manager;
 		
 		manager.cm.setState(State.JUST_TRAVEL);
 		currPos = manager.sm.odo.getPosition();
-		manager.sm.nav.addToRoute(currPos.addDisAndAngleToPosition(20, Math.PI));
+		manager.sm.nav.addToRoute(currPos.addDisAndAngleToPosition(20, Math.PI/2));
 		
 		while(!manager.sm.nav.getRoute().empty()) {
 			sleep(200);
@@ -33,7 +33,7 @@ private Manager manager;
 		
 		manager.cm.setState(State.JUST_TRAVEL);
 		currPos = manager.sm.odo.getPosition();
-		manager.sm.nav.addToRoute(currPos.addDisAndAngleToPosition(20, Math.PI));
+		manager.sm.nav.addToRoute(currPos.addDisAndAngleToPosition(20, Math.PI/2));
 		
 		while(!manager.sm.nav.getRoute().empty()) {
 			sleep(200);

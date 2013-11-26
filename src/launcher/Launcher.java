@@ -40,11 +40,13 @@ public class Launcher {
 		
 		Manager manager = new Manager();
 		Button.waitForPress();
+		Claw.grabObject();
 		try {
 			Thread.sleep(Forklift.setHeight(ForkliftState.SCAN_HEIGHT_LOW));
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
 		
 		
 		
