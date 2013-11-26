@@ -136,6 +136,7 @@ public class Localization implements TimerListener {
 	/**
 	 * Controls Localization.
 	 * Calls relevant helper methods depending on stage of localization 
+	 * (ultrasonic->prepareLineLocalization->lineLocalization->updatePosition&adjustForStartingCorner)
 	 */
 	public void timedOut() {
 		// ultrasonic localization not complete. 
