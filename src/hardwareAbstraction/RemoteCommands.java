@@ -2,11 +2,16 @@ package hardwareAbstraction;
 
 /**
  * 
- * Contains a list of integer commands to communicate to the remote motors
+ * Contains a list of integer commands to communicate to the {@link NXTRemoteMotor} and {@link NXTRemoteUltrasonicPoller}. 
+ * <p> 
+ * 0-49 is reserved for RemoteMotor
+ * <p>
+ * 50+ is reserved from Remote Ultrasonic Poller
  * 
  * Code Sourced from Lejos Forums (http://www.lejos.org/forum/viewtopic.php?f=7&t=2620)
  * 
  * @author cs07cc4
+ * @authro Danielle
  *
  */
 

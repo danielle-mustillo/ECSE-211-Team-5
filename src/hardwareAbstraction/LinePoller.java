@@ -9,23 +9,59 @@ import utilities.Settings;
 
 /**
  * Detects grid lines with two rear floor facing color sensors
- * other threads should call enteringLine to know when a new line has been detected
+ * other threads should call {@link enteringLine} to know when a new line has been detected
+ * <p>
+ * Uses a mean and difference filter to detect the lines.  Once {@link enteringLine} has been called, 
+ * its control variable will be reset and it will no longer return true until a new line has been crossed
  * @author Riley
  *
  */
 
 public class LinePoller implements TimerListener {
 
+	/**
+	 * Period to update the sensors and run the detection algorithm.  default 15 ms
+	 */
 	private final int UPDATE_PERIOD = 15;
+	/**
+	 * Threshold for the detection algorithm.  Most lines are well above 70, and maximum noise is less than 40
+	 */
 	private final int THRESHOLD = 50;
+	/**
+	 * boolean variable for storing whether a sensor is on a line or not
+	 */
 	private boolean[] sensorOnLine;
+	/**
+	 * boolean variable for keeping track of whether a sensor has entered a new line.  This is used by {@link enteringLine}
+	 */
 	private boolean[] sensorEnteringLine;
+	/**
+	 * Array of line Color sensors
+	 */
 	private ColorSensor[] sensor = new ColorSensor[2];
+	/**
+	 * Timer for timer listener
+	 */
 	private Timer timer;
+	/**
+	 * Array of readings. stores 4 readings for each sensor
+	 */
 	public int[][] readings;
+	/**
+	 * identifier for the left sensor
+	 */
 	private int left = 0;
+	/**
+	 * identifier for the right sensor
+	 */
 	private int right = 1;
 	
+	/**
+	 * Initializes the two color sensors as specified in {@link Settings}
+	 * as well it initializes the arrays required.
+	 * <p>
+	 * it sets the floodlight to Red for each sensor, and starts the timer
+	 */
 	public LinePoller() {
 		sensor[right] = Settings.rearRightColorSensor;
 		sensor[left] = Settings.rearLeftColorSensor;
@@ -41,6 +77,7 @@ public class LinePoller implements TimerListener {
 	
 	/**
 	 * Starts line polling
+	 * And populates array with readings
 	 */
 	public void start() {		
 		//Populate Readings Array
@@ -56,6 +93,11 @@ public class LinePoller implements TimerListener {
 		timer.start();
 	}
 	
+	/**
+	 * Takes new {@link getRawLightValue() } reading and stores it in the readings array by calling {@link addReading()}
+	 * <p>
+	 * then calls {@link detectLine() } for each sensor
+	 */
 	public void timedOut() {
 		addReading(left, sensor[left].getRawLightValue()/2);
 		addReading(right, sensor[right].getRawLightValue()/2);
@@ -64,6 +106,11 @@ public class LinePoller implements TimerListener {
 		detectLine(left);
 	}
 	
+	/**
+	 * Adds a new reading to the readings array for the passed sensor.  it will be put in the 0th index.
+	 * @param sensor id of the sensor the reading was from
+	 * @param reading value of reading
+	 */
 	private void addReading(int sensor, int reading) {
 		readings[sensor][3] = readings[sensor][2];
 		readings[sensor][2] = readings[sensor][1];
@@ -72,7 +119,11 @@ public class LinePoller implements TimerListener {
 	}
 	
 	/**
-	 * Filters and differences the data
+	 * Uses mean and difference filtering to detect a line.
+	 * <p>
+	 * if a new line is detected (using {@link THRESHOLD}), it will set {@link sensorOnLine[sensor] } to true and {@link sensorEnteringLine[sensor]} to true 
+	 * <p>
+	 * if the end of a line was detected it will reset {@link sensorOnLine[sensor] } and {@link sensorEnteringLine[sensor]} to false.
 	 * @param sensor
 	 */
 	private void detectLine(int sensor) {
@@ -97,7 +148,10 @@ public class LinePoller implements TimerListener {
 	}
 		
 	/**
-	 * Returns true if the sensor has just detected a black line
+	 * Returns true if the sensor has detected a new black line, 
+	 * is still on the line and the method has not yet been called since the line's detction.
+	 * Once called and if {@link sensorEnteringLine[sensor]} is true, 
+	 * it will reset {@link sensorEnteringLine[sensor]}.
 	 * 
 	 * @param sensor | left = 0 & right = 1
 	 * @return
@@ -110,7 +164,13 @@ public class LinePoller implements TimerListener {
 		}
 		return false;
 	}
-	
+	/**
+	 * Sets the floodlight color of the color sensor.  
+	 * It will make sure the floodlight is set by ensuring {@link getRawLightValue} does not return -1.  
+	 * The method will not return until the sensor outputs valid data (i.e. not -1)
+	 * @param sensor
+	 * @param color
+	 */
 	public void setFloodlight(int sensor, int color) {
 		this.sensor[sensor].setFloodlight(color);
 		do {
