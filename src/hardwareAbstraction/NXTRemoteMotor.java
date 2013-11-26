@@ -5,15 +5,34 @@ import java.io.IOException;
 import lejos.nxt.comm.RConsole;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.RegulatedMotorListener;
-
+/**
+ * 
+ * Class for handling the remote motor abstraction layer on the master brick.  
+ * {@link RemoteCommands} interface to send the appropriate command id via [@link NXTRemoteCommand} over RS485.
+ * 
+ * The receiving end implements {@link NXTRegulatedMotor} to carry out the actual commands, once they have been interpreted.
+ * 
+ * Code Sourced from Lejos Forums (http://www.lejos.org/forum/viewtopic.php?f=7&t=2620)
+ * 
+ * @author cs07cc4
+ *
+ */
 public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
+	/**
+	 * Motor id.  (1,2,3) -> (a,b,c)
+	 */
 	private int id;
 
 	private NXTRemoteCommand motorCommand;
 
 	// private ListenerConnection listenerConnection=null;
 
+	/**
+	 * Initializes id and motorCommand
+	 * @param nxtCommand {@link NXTRemoteCommand} object required for remote motor functionality
+	 * @param id id of the motor (1,2,3) -> (a,b,c)
+	 */
 	public NXTRemoteMotor(NXTRemoteCommand nxtCommand, int id) {
 
 		this.id = id;
@@ -21,6 +40,10 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 		// this.listenerConnection=listenersConnection;
 	}
 
+	/**
+	 * Stops regulation
+	 * @return returns success of action
+	 */
 	public boolean suspendRegulation() {
 		boolean suspended = false;
 		motorCommand.send(id, SUSPEND_REGULATION);
@@ -35,6 +58,9 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 		return suspended;
 	}
 
+	/**
+	 * Floats the motor.  No electromagnetic resistance.
+	 */
 	@Override
 	public void flt() {
 		RConsole.println("flt");
@@ -42,6 +68,10 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	}
 
+	/**
+	 * Gets the current roatation speed of the motor
+	 * @return returns the current rotation speed of the motor
+	 */
 	@Override
 	public int getRotationSpeed() {
 		int speed = 0;
@@ -57,6 +87,10 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 		return speed;
 	}
 
+	/**
+	 * Gets the tacho count of the motor
+	 * @return returns current tacho count
+	 */
 	@Override
 	public int getTachoCount() {
 		RConsole.println("getTachoCount");
@@ -72,6 +106,9 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 		return tachoCount;
 	}
 
+	/**
+	 * Resets the motor's tacho count 
+	 */
 	@Override
 	public void resetTachoCount() {
 		RConsole.println("resetTachoCount");
@@ -79,6 +116,10 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	}
 
+	/**
+	 * Gets the limit angle of the motor (angle relative to starting point)
+	 * @returns returns the limit angle
+	 */
 	@Override
 	public int getLimitAngle() {
 		RConsole.println("getLimitAngle");
@@ -95,6 +136,10 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 		return angle;
 	}
 
+	/**
+	 * Gets the maximum speed supported by the motor
+	 * @returns maximum speed supported by the motor
+	 */
 	@Override
 	public float getMaxSpeed() {
 		RConsole.println("getMaxSpeed=");
@@ -110,6 +155,10 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 		return speed;
 	}
 
+	/**
+	 * Gets the current speed of the motor
+	 * @returns returns the current speed of the motor  
+	 */
 	@Override
 	public int getSpeed() {
 		RConsole.println("getSpeed=");
@@ -125,6 +174,10 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 		return speed;
 	}
 
+	/**
+	 * checks if the motor is stalled
+	 * @returns returns true if the motor is stalled, otherwise false.
+	 */
 	@Override
 	public boolean isStalled() {
 		RConsole.println("isStalled");
@@ -141,6 +194,10 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	}
 
+	/**
+	 * Tells the motor to rotate a certain angle
+	 * @param angle the angle to rotate
+	 */
 	@Override
 	public void rotate(int angle) {
 		RConsole.println("rotate");
@@ -148,6 +205,12 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	}
 
+	/**
+	 * Tells the motor to rotate to a certain angle. immediate return not yet implemented.  
+	 * Returns once the command is sent
+	 * @param angle the angle to rotate 
+	 * @param immediateReturn whether to return immediately or wait until the rotation is finished
+	 */
 	@Override
 	public void rotate(int angle, boolean immediateReturn) {
 		RConsole.println("rotate");
@@ -155,17 +218,31 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	}
 
+	/**
+	 * Tells the motor to rotate to an angle with respect to its initial starting angle.
+	 * @param angle the angle to rotateTo
+	 */
 	@Override
 	public void rotateTo(int angle) {
 		RConsole.println("rotateTo");
 		motorCommand.send(id, ROTATE_TO, angle, false);
 	}
 
+	/**
+	 * Tells the motor to rotate to an angle with respect to its initial starting angle. 
+	 * ImmediateReturn not implemented yet. methods returns once the command is sent 
+	 * @param angle the angle to rotateTo
+	 * @param immediateReturn if false the method will not return until the rotation is complete. otherwise it will return right away
+	 */
 	@Override
 	public void rotateTo(int angle, boolean immediateReturn) {
 		motorCommand.send(id, ROTATE_TO, angle, immediateReturn);
 	}
 
+	/**
+	 * Sets the acceleration of the motor
+	 * @param accel integer value for acceleration
+	 */
 	@Override
 	public void setAcceleration(int accel) {
 
@@ -173,6 +250,10 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	}
 
+	/**
+	 * Sets the speed of the motor
+	 * @param speed speed to set the motor speed to
+	 */
 	@Override
 	public void setSpeed(int speed) {
 		RConsole.println("setSpeed " + speed);
@@ -180,12 +261,18 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	}
 
+	/**
+	 * Tells the motor to rotate in the backwards direction
+	 */
 	@Override
 	public void backward() {
 		motorCommand.send(id, BACKWARD);
 
 	}
 
+	/**
+	 * Tells the motor to rotate in the forwards direction
+	 */
 	@Override
 	public void forward() {
 
@@ -193,6 +280,10 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	}
 
+	/**
+	 * Checks to see if the motor is moving
+	 * @return returns true if the motor is moving, false otherwise.
+	 */
 	@Override
 	public boolean isMoving() {
 		RConsole.println("isMoving=");
@@ -209,30 +300,45 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 		return isMoving;
 	}
 
+	/**
+	 * Stops the motor from moving
+	 */
 	@Override
 	public void stop() {
 		motorCommand.send(id, STOP);
 
 	}
 
+	/**
+	 * Does nothing.  Just overrides super method
+	 */
 	@Override
 	public void addListener(RegulatedMotorListener arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Does nothing. Just overrides super method
+	 */
 	@Override
 	public void flt(boolean arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Does nothing. Just overrides super method
+	 */
 	@Override
 	public void stop(boolean arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Does nothing. Just overrides super method
+	 */
 	@Override
 	public void waitComplete() {
 		// TODO Auto-generated method stub
