@@ -73,7 +73,7 @@ public class Settings {
 	/**
 	 * Array of points corresponding to the green zone, set by {@link BluetoothTransmission}
 	 */
-	public static Point[] greenZoneCoords = new Point[2]; //TODO remove once BT is working.
+	public static Point[] greenZoneCoords = {new Point(30,30), new Point(00,00)}; //TODO remove once BT is working.
 	/**
 	 * Starting corner of the robot, set by {@link BluetoothTransmission}
 	 */

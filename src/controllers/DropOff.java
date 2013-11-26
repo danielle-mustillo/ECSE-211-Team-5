@@ -36,14 +36,14 @@ private Stack<Point> route;
 			manager.cm.setState(State.DROP_OFF);
 			
 			//store old route temporarily, make a new route for the moment. 
-			this.route = this.manager.sm.nav.getRoute();
-			this.manager.sm.nav.setRoute(new Stack<Point>());
+			manager.sm.nav.alternateRoute(true);
 			
 			//go to the green zone
 			this.manager.sm.nav.addToRoute(new Point(Settings.greenZoneCoords[0]));
 		} 
 		else {
-			/*now the robot should attempt to head to greenZone. 
+			/*
+			 * now the robot should attempt to head to greenZone. 
 			 * so nothing is done here, everything is done in background. 
 			 */
 			
@@ -55,7 +55,7 @@ private Stack<Point> route;
 				
 				//go back to previous state
 				this.initialized = false;
-				this.manager.sm.nav.setRoute(route);
+				this.manager.sm.nav.alternateRoute(false);
 				this.manager.cm.setState(State.SEARCH);
 			}
 		}
