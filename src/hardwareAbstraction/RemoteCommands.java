@@ -47,4 +47,5 @@ public interface RemoteCommands {
 	public static final int PING_RIGHT = 59;
 	public static final int PING_ALL = 60;
 	public static final int PING_SEQUENTIAL = 61;
+	public static final int PING_SIDES = 62;
 }

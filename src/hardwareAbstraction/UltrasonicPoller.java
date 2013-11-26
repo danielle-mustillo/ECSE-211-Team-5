@@ -46,6 +46,8 @@ public interface UltrasonicPoller {
 	
 	public void pingSequential();
 	
+	public void pingSides();
+	
 	/**
 	 * Stops this instance of the ultrasonic poller Start must be called to
 	 * start reading again.

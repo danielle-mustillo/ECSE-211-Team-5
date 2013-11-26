@@ -369,6 +369,11 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
 				usp.setUSPState(USPState.PING_SEQUENTIAL);
 				break;
 			}
+			case PING_SIDES: {
+				RConsole.println("PING_SIDES");
+				usp.setUSPState(USPState.PING_SIDES);
+				break;
+			}
 			
 		}
    }

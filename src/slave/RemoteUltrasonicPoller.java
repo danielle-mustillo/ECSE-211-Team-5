@@ -84,11 +84,13 @@ public class RemoteUltrasonicPoller implements TimerListener {
 	 * {@link PING_RIGHT} - Pings only the right ultrasonic
 	 * <p>
 	 * {@link PING_SEQUENTIAL} - Pings all the ultrasonic sensors, but only one at a time (each sensor is polled every 3 * {@link pollRate}
+	 * <p>
+	 * {@link PING_SIDES} - Pings only the two ultrasonic sensors on the sides, ignoring the center one. 
 	 * @author Danielle
 	 *
 	 */
 	public enum USPState {
-		PING_CENTER, PING_ALL, PING_LEFT, PING_RIGHT, PING_SEQUENTIAL;
+		PING_CENTER, PING_ALL, PING_LEFT, PING_RIGHT, PING_SEQUENTIAL, PING_SIDES;
 	}
 	
 	/**
@@ -158,6 +160,9 @@ public class RemoteUltrasonicPoller implements TimerListener {
 			}
 			counter += 1;
 			counter = counter % 3;
+		} else if(state == USPState.PING_SIDES) {
+			leftUS.run();
+			rightUS.run();
 		} else { //if state is PING_ALL
 			centerUS.run();
 			leftUS.run();
@@ -209,10 +214,31 @@ public class RemoteUltrasonicPoller implements TimerListener {
 	 * this by checking for any negative numbers in the readings.
 	 */
 	public boolean isSetup() {
-		if (readings[2][4] == -1 || readings[0][4] == -1 || readings[1][4] == -1)
-			return false;
-		else
-			return true;
+		if(state == USPState.PING_ALL || state == USPState.PING_SEQUENTIAL)
+			if (readings[left][4] == -1 || readings[center][4] == -1 || readings[right][4] == -1)
+				return false;
+			else
+				return true;
+		else if(state == USPState.PING_CENTER)
+			if (readings[center][4] == -1)
+				return false;
+			else
+				return true;
+		else if(state == USPState.PING_LEFT)
+			if (readings[left][4] == -1)
+				return false;
+			else
+				return true;
+		else if(state == USPState.PING_RIGHT)
+			if (readings[right][4] == -1)
+				return false;
+			else
+				return true;
+		else //if state is PING_SIDES
+			if (readings[left][4] == -1 || readings[right][4] == -1)
+				return false;
+			else
+				return true;
 	}
 
 	/**

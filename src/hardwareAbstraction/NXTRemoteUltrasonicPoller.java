@@ -147,4 +147,10 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 		RConsole.println("ping sequential USP");
 		sensorCommand.send(id, PING_SEQUENTIAL);
 	}
+	
+	@Override
+	public void pingSides() {
+		RConsole.println("ping side USP's");
+		sensorCommand.send(id, PING_SIDES);
+	}
 }
