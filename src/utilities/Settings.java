@@ -111,6 +111,8 @@ public class Settings {
 	 * the distance from the end of the claw to the front of the ultrasonic sensor
 	 */
 	public static final int tipOfClawToUSDistance = 18; //TODO measure this. 
-	
+	/**
+	 * the distance from the middle of the claw to the front of the ultrasonic sensor
+	 */
 	public static final int centerOfClawToUSDistance = 7;
 }
