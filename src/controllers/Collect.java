@@ -74,7 +74,7 @@ private static boolean setup = false;
 				manager.cm.setState(State.SEARCH);
 			
 			//clean up method.
-			setup = false;
+//			setup = false;
 //		}
 	}
 	
