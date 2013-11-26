@@ -54,7 +54,7 @@ private Manager manager;
 		} else {
 			//reset old route
 			manager.sm.nav.alternateRoute(false);
-			manager.cm.setState(State.SEARCH); // TODO change to wall follower.
+			manager.cm.setState(State.WALL_FOLLOWER); // TODO change to wall follower.
 		}
 		manager.hm.colorPoller.stop();
 	}

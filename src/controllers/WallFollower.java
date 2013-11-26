@@ -17,27 +17,23 @@ private Manager manager;
 		manager.sm.nav.alternateRoute(true);
 		
 		//drive backwards about 10 cm.
-		manager.hm.drive.setSpeeds(-20, 0);
-		sleep(500);
+		manager.hm.drive.setSpeeds(-60, 0);
+		sleep(1000);
 		manager.hm.drive.stop();
 		
 		Position currPos;
 		
-		manager.cm.setState(State.PAUSE);
-		manager.sm.nav.turnToComplete(90);
 		manager.cm.setState(State.JUST_TRAVEL);
 		currPos = manager.sm.odo.getPosition();
-		manager.sm.nav.addToRoute(currPos.addDistanceToPosition(20));
+		manager.sm.nav.addToRoute(currPos.addDisAndAngleToPosition(20, Math.PI));
 		
 		while(!manager.sm.nav.getRoute().empty()) {
 			sleep(200);
 		}
 		
-		manager.cm.setState(State.PAUSE);
-		manager.sm.nav.turnToComplete(-90);
 		manager.cm.setState(State.JUST_TRAVEL);
 		currPos = manager.sm.odo.getPosition();
-		manager.sm.nav.addToRoute(currPos.addDistanceToPosition(20));
+		manager.sm.nav.addToRoute(currPos.addDisAndAngleToPosition(20, Math.PI));
 		
 		while(!manager.sm.nav.getRoute().empty()) {
 			sleep(200);

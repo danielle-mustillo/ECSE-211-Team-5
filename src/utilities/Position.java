@@ -54,4 +54,10 @@ public class Position extends Point {
 		double posY = this.y + distance * Math.sin(this.theta);
 		return new Point(posX, posY);
 	}
+	
+	public Point addDisAndAngleToPosition(double distance, double angle) {
+		double posX = this.x + distance * Math.cos(Angle.principleAngle(angle - this.theta));
+		double posY = this.y + distance * Math.cos(Angle.principleAngle(angle - this.theta));
+		return new Point(posX, posY);
+	}
 }
