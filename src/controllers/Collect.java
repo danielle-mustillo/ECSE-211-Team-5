@@ -67,11 +67,10 @@ private static boolean setup = false;
 			// or dropping off).
 			manager.cm.setStored(manager.cm.getStored() + 1);
 			// reset old route and add next destination to it
-			manager.sm.nav.setRoute(oldRoute);
-			if (manager.cm.getStored() >= Settings.maxBlockCapacity)
+//			if (manager.cm.getStored() >= Settings.maxBlockCapacity)
 				manager.cm.setState(State.DROP_OFF);
-			else
-				manager.cm.setState(State.SEARCH);
+//			else
+//				manager.cm.setState(State.SEARCH);
 			
 			//clean up method.
 //			setup = false;

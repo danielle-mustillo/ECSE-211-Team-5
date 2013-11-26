@@ -15,7 +15,7 @@ public class Forklift {
 	static NXTRemoteMotor lift = Settings.liftMotor;
 	static int liftHeight = 15; // 15 cm upwards. Should be ok
 	static int scanHeight = 10; // 10 cm upwards. Needs to be tested. 
-	static int scanHeightLow = 8; // 7 cm upwards. Needs to be tested. 
+	static int scanHeightLow = 9; // 9 cm upwards. Needs to be tested. 
 	private static double radius = 1; //radius of "spool". Must be tested. 
 	public static ForkliftState state = ForkliftState.GROUND; //sensor starts on the ground.
 //	/**

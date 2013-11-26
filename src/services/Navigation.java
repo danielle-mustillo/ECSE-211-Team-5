@@ -72,7 +72,7 @@ public class Navigation implements TimerListener {
 
 				// update the new headings to travel to
 				setupDeltaPositonAndHeading();
-
+				
 				// see if we need to make a big turn
 				if (Math.abs(dH) > 0.1) {
 					// if we need to turn more than 0.2 rads or 0.1 for
@@ -87,7 +87,7 @@ public class Navigation implements TimerListener {
 					// travelTo that destination.
 					// TODO comment back this code. Problematic code for the
 					// moment.
-					if (!scannedAhead) {
+					if (!scannedAhead && manager.cm.getState() != State.DROP_OFF) {
 						manager.cm.setState(State.PAUSE);
 						Sound.beep();
 						RConsole.println("Scanning Ahead");
@@ -95,7 +95,10 @@ public class Navigation implements TimerListener {
 
 						manager.hm.drive.stop();
 						UltrasonicMotor.setForwardPosition();
-						manager.hm.ultrasonicPoller.pingSequential();
+						if(manager.cm.getStored() > 0)
+							manager.hm.ultrasonicPoller.pingSides();
+						else
+							manager.hm.ultrasonicPoller.pingSequential();
 						manager.hm.ultrasonicPoller.resetUSP();
 						while (!manager.hm.ultrasonicPoller.isSetup()) {
 
@@ -105,7 +108,7 @@ public class Navigation implements TimerListener {
 						int lowest = manager.hm.ultrasonicPoller
 								.getLowestReading();
 
-						if (lowest < Settings.tipOfClawToUSDistance + 7) {
+						if (lowest < Settings.tipOfClawToUSDistance + 5) {
 							// reassign the lowest to something useful now
 							// (aka not zeros).
 							lowest = manager.hm.ultrasonicPoller
