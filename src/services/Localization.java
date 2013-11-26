@@ -143,7 +143,7 @@ public class Localization implements TimerListener {
 			ultrasonicLocalization();
 		} 
 //		//not finished line localization
-		else if(leftLineCount < 4 || rightLineCount < 8) {
+		else if(leftLineCount < 4 || rightLineCount < 4) {
 			//move to correct starting orientation for line localization
 			if(!lineLocalization) {
 				prepareLineLocalization();
