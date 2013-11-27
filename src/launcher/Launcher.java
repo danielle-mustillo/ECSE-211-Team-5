@@ -61,7 +61,7 @@ public class Launcher {
 			manager.um.nap(150);
 		}
 		Forklift.setHeight(ForkliftState.SCAN_HEIGHT_LOW);
-		manager.sm.odoCorrection.start();
+//		manager.sm.odoCorrection.start();
 		Claw.grabObject();
 //		manager.cm.setState(State.SEARCH);
 		
