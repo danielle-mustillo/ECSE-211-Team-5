@@ -77,4 +77,9 @@ private Manager manager;
 		Thread.sleep(num);
 		} catch(InterruptedException e) {}
 	}
+
+	@Override
+	public void alert() {
+		//does nothing.
+	}
 }

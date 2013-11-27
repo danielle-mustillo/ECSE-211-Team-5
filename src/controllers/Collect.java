@@ -82,5 +82,10 @@ private static boolean setup = false;
 		Thread.sleep(num);
 		} catch(InterruptedException e) {}
 	}
+
+	@Override
+	public void alert() {
+		//does nothing.
+	}
 	
 }

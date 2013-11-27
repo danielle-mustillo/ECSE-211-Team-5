@@ -63,4 +63,9 @@ private boolean left;
 			sleep(200);
 		}
 	}
+
+	@Override
+	public void alert() {
+		//alert does nothing.
+	}
 }
