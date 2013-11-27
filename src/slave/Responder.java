@@ -10,7 +10,7 @@ import lejos.nxt.comm.RConsole;
 import lejos.nxt.comm.RS485;
 
 /**
- * The responder class responds to the LCP requests sent by the Communicator.java class. 
+ * The responder class responds to the LCP requests sent by the {@link Communicator} class. 
  * Uses RS-485.
  * 
  * 

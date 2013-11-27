@@ -11,8 +11,17 @@ package hardwareAbstraction;
 public interface UltrasonicPoller {
 	public int pollRate = 100;
 	public boolean running = false;
+	/**
+	 * Id corresponding to the left ultrasonic Sensor
+	 */
 	public int left = 0;
+	/**
+	 * Id corresponding to the center Ultrasonic Sensor
+	 */
 	public int center = 1;
+	/**
+	 * Id corresponding to the right Ultrasonic Sensor
+	 */
 	public int right = 2;
 
 	/**
@@ -36,16 +45,34 @@ public interface UltrasonicPoller {
 	 */
 	public boolean isSetup();
 
+	/**
+	 * Mode where the {@link RemoteUltrasonicPoller} will only ping the left Ultrasonic sensor
+	 */
 	public void pingLeft();
 	
+	/**
+	 * Mode where the {@link RemoteUltrasonicPoller} will only ping the right Ultrasonic sensor
+	 */
 	public void pingRight();
 	
+	/**
+	 * Mode where the {@link RemoteUltrasonicPoller} will only ping the center Ultrasonic sensor
+	 */
 	public void pingCenter();
 	
+	/**
+	 * Mode where the {@link RemoteUltrasonicPoller} will ping all the Ultrasonic sensors at the same time
+	 */
 	public void pingAll();
 	
+	/**
+	 * Mode where the {@link RemoteUltrasonicPoller} will ping all the Ultrasonic sensor, but only one at a time
+	 */
 	public void pingSequential();
 	
+	/**
+	 * Mode where the {@link RemoteUltrasonicPoller} will only ping the left and right Ultrasonic sensor
+	 */
 	public void pingSides();
 	
 	/**
@@ -57,8 +84,8 @@ public interface UltrasonicPoller {
 	/**
 	 * Returns the filtered data for the sensor (median filtering)
 	 * 
-	 * @param sensor
-	 * @return
+	 * @param sensor id of the sensor 
+	 * @return filter data
 	 */
 	public int getUSReading(int sensor);
 

@@ -4,9 +4,9 @@ package hardwareAbstraction;
  * 
  * Contains a list of integer commands to communicate to the {@link NXTRemoteMotor} and {@link NXTRemoteUltrasonicPoller}. 
  * <p> 
- * 0-49 is reserved for RemoteMotor
+ * 0-49 is reserved for RemoteMotor.  These commands correspond to the available methods of the {@link NXTRegulatedMotor}
  * <p>
- * 50+ is reserved from Remote Ultrasonic Poller
+ * 50+ is reserved from Remote Ultrasonic Poller.  These commands correspond to the available methods of the {@link UltrasonicPoller} interface.
  * 
  * Code Sourced from Lejos Forums (http://www.lejos.org/forum/viewtopic.php?f=7&t=2620)
  * 

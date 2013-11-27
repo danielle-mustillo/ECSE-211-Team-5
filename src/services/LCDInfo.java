@@ -8,7 +8,7 @@ import lejos.util.Timer;
 import lejos.util.TimerListener;
 import manager.Manager;
 /**
- * Prints Information to the LCD display of the NXT. This includes {@link Odmeter} x, y, theta; a debug value, and the next point in the Route of {@link Navigation}.
+ * Prints Information to the LCD display of the NXT. This includes {@link Odometer} x, y, theta; a debug value, and the next point in the Route of {@link Navigation}.
  * 
  * It is a modified version of the code supplied in Lab 4
  * @author Riley
@@ -22,7 +22,7 @@ public class LCDInfo implements TimerListener{
 	
 	/**
 	 * LCDInfo constructor
-	 * @param odo
+	 * @param manager 
 	 */
 	public LCDInfo(Manager manager) {
 		this.manager = manager;
@@ -32,7 +32,10 @@ public class LCDInfo implements TimerListener{
 	}
 	
 	/**
-	 * main update loop.  x, y are in mm.  Theta is in degrees
+	 * Main update loop. 
+	 * Updates the Odometer values, debug value, and next Point in the route in {@link Navigation} value on the LCD screen
+	 * <p>
+	 *  x, y are in mm.  Theta is in degrees
 	 */
 	public void timedOut() { 
 //		Position pos = manager.sm.odo.getPosition();
