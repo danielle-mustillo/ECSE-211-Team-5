@@ -8,7 +8,7 @@ import lejos.robotics.RegulatedMotorListener;
 /**
  * 
  * Class for handling the remote motor abstraction layer on the master brick.  
- * {@link RemoteCommands} interface to send the appropriate command id via [@link NXTRemoteCommand} over RS485.
+ * {@link RemoteCommands} interface to send the appropriate command id via {@link NXTRemoteCommand} over RS485.
  * 
  * The receiving end implements {@link NXTRegulatedMotor} to carry out the actual commands, once they have been interpreted.
  * 
