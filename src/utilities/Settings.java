@@ -66,14 +66,25 @@ public class Settings {
 	 * Robots Role id, set by {@link BluetoothTransmission}
 	 */
 	public static int role;
+	
+	
+	
+	public static final int roleDestroyer = 0;
+	public static final int roleBuilder = 1;
+	
+	
 	/**
 	 * Array of points corresponding to the red zone, set by {@link BluetoothTransmission}
 	 */
-	public static Point[] redZoneCoords;
+	public static Point[] redZoneCoords = {new Point(60, 60), new Point(90,90)};
+	
+	public static Tile redZone = new Tile(redZoneCoords[0], redZoneCoords[1]);
 	/**
 	 * Array of points corresponding to the green zone, set by {@link BluetoothTransmission}
 	 */
 	public static Point[] greenZoneCoords = {new Point(90,60), new Point(00,00)}; //TODO remove once BT is working.
+	
+	public static Tile greenZone = new Tile(greenZoneCoords[0], greenZoneCoords[1]);
 	/**
 	 * Starting corner of the robot, set by {@link BluetoothTransmission}
 	 */
