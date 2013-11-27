@@ -66,9 +66,12 @@ public class ColorPoller implements TimerListener {
 		Color color = cs.getColor();
 		red = color.getRed();
 		blue = color.getBlue();
-		double proportion = ((double) red ) / blue;
-		proportion *= 100;
-		addReading((int) proportion);
+		if(red > 15 && blue > 15) {
+			double proportion = ((double) red ) / blue;
+			proportion *= 100;
+			addReading((int) proportion);
+		} else
+			addReading(0);
 	}
 
 	/**
@@ -113,7 +116,12 @@ public class ColorPoller implements TimerListener {
 	 */
 	public ObjectDetected getObjectReading() {
 		double average = ( readings[4] + readings[3] + readings[2] + readings[1] + readings[0] ) / 5;
-		return average <= 0.6  ? ObjectDetected.OBSTACLE : ObjectDetected.BLUE_BLOCK;
+		if(average > 150)
+			return ObjectDetected.OBSTACLE;
+		else if(average < 40)
+			return ObjectDetected.FLOOR;
+		else 
+			return ObjectDetected.BLUE_BLOCK;
 	}
 	
 	/**
@@ -122,6 +130,6 @@ public class ColorPoller implements TimerListener {
 	 *
 	 */
 	public enum ObjectDetected {
-		OBSTACLE, BLUE_BLOCK
+		OBSTACLE, BLUE_BLOCK, FLOOR
 	}
 }

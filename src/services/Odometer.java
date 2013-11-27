@@ -40,13 +40,25 @@ public class Odometer implements TimerListener {
 	 * Used to find dx, dy and dtheta
 	 */
 	private double [] oldDH, dDH;
+	
+	char[][] avoidNecessary;
+	
+	private Manager manager;
 
 	/**
 	 * Initializes x, y, theta.
 	 * Initializes timer, and starts the timer
 	 * @param manager
 	 */
-	public Odometer(Manager manager) {		
+	public Odometer(Manager manager) {
+		this.manager = manager;
+		this.avoidNecessary = new char[2][2];
+		this.avoidNecessary[0] = new char[2];
+		this.avoidNecessary[0][0] = 'n';
+		this.avoidNecessary[0][1] = 'n';
+		this.avoidNecessary[1] = new char[2];
+		this.avoidNecessary[1][0] = 'n';
+		this.avoidNecessary[1][1] = 'n';
 		x = 0.0;
 		y = 0.0;
 		theta = 0.0;
@@ -82,6 +94,18 @@ public class Odometer implements TimerListener {
 		oldDH[0] += dDH[0];
 		oldDH[1] += dDH[1];
 		
+		
+//		avoidNecessary[1] = avoidNecessary[0];
+//		avoidNecessary[0] = Settings.redZone.withinProximityOfTile(getPosition(), 30);
+//
+//		if(avoidNecessary[0][0] == 'y' && avoidNecessary[1][0] == 'n') {
+//			//the safe points to go to get to that destination.
+//			Point[] trajectory = Settings.redZone.computeAvoidanceTrajectory(getPosition(), avoidNecessary[0], 30);
+//			
+//			//add all these coordinates back into the stack.
+//			for(Point intermediate : trajectory)
+//				manager.sm.nav.addToRoute(intermediate);
+//		}
 	}
 	
 	/**

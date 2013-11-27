@@ -71,9 +71,9 @@ public class BluetoothTransmission {
 			break;
 			case 2 : Settings.startingCorner = StartingCorner.BOTTOM_RIGHT; 
 			break;
-			case 3 : Settings.startingCorner = StartingCorner.TOP_LEFT; 
+			case 4 : Settings.startingCorner = StartingCorner.TOP_LEFT; 
 			break;
-			case 4 : Settings.startingCorner = StartingCorner.TOP_RIGHT; 
+			case 3 : Settings.startingCorner = StartingCorner.TOP_RIGHT; 
 			break;
 			}
 			

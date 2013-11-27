@@ -75,4 +75,7 @@ public class Point  {
 		return true;
 	}
 	
+	public double distance(Point xy) {
+		return Math.sqrt(Math.pow(this.x - xy.x, 2) + Math.pow(this.y - xy.y, 2));
+	}
 }

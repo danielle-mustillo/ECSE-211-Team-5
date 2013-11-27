@@ -73,6 +73,14 @@ public class Navigation implements TimerListener {
 				// update the new headings to travel to
 				setupDeltaPositonAndHeading();
 				
+				//TODO manhatten distance.
+//				if(Math.abs(dH) > 0.1) {
+//					double x = manager.sm.odo.getX();
+//					addToRoute(new Point(x, nextDestination.y));
+//					addToRoute(nextDestination);
+//				}
+				
+				
 				// see if we need to make a big turn
 				if (Math.abs(dH) > 0.1) {
 					// if we need to turn more than 0.2 rads or 0.1 for
@@ -257,10 +265,10 @@ public class Navigation implements TimerListener {
 		angle = Angle.principleAngle(angle);
 		// set dH to the difference of theta and currentTheta adjust to [-PI,
 		// PI]
-		double dH = Angle.minimumAngle(currentPos.theta, angle);
+		double dH = Angle.minimumAngle(manager.sm.odo.getTheta(), angle);
 
 		while (Math.abs(dH) > 0.01) {
-			dH = Angle.minimumAngle(currentPos.theta, angle);
+			dH = Angle.minimumAngle(manager.sm.odo.getTheta(), angle);
 			turnTo(dH);
 			manager.um.nap(70);
 		}

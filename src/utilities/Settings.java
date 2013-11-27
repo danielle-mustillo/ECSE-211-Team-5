@@ -69,7 +69,7 @@ public class Settings {
 	
 	
 	
-	public static final int roleDestroyer = 0;
+	public static final int roleDestroyer = 2;
 	public static final int roleBuilder = 1;
 	
 	

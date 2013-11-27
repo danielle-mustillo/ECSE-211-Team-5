@@ -42,11 +42,11 @@ public class Launcher {
 		Button.waitForPress();
 		Claw.releaseObject();
 		try {
-			Thread.sleep(Forklift.setHeight(ForkliftState.SCAN_HEIGHT_LOW));
+			Thread.sleep(Forklift.setHeight(ForkliftState.LIFT_HEIGHT));
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-//		manager.sm.odoCorrection.start();
+		
 		
 //		manager.sm.nav.start();
 		
@@ -57,7 +57,7 @@ public class Launcher {
 		while(manager.cm.getState() == State.LOCALIZING) {
 			manager.um.nap(150);
 		}
-		
+		manager.sm.odoCorrection.start();
 //		manager.cm.setState(State.SEARCH);
 		
 		
