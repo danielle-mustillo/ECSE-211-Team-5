@@ -83,9 +83,4 @@ private Stack<Point> route;
 		} catch (InterruptedException e) {
 		}
 	}
-
-	@Override
-	public void alert() {
-		//does nothign.
-	}
 }

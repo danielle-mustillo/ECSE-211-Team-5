@@ -9,10 +9,12 @@ public class Search extends Controller  {
 	private Manager manager;
 	private int defaultPath;
 	private final int middle = 1;
+	public boolean skip;
 	
 	public Search(Manager manager) {
 		this.defaultPath = 0;
 		this.manager = manager;
+		this.skip = false;
 	}
 	
 	public void run() {
@@ -61,5 +63,4 @@ public class Search extends Controller  {
 			this.defaultPath %= 4;
 		}
 	}
-	
 }
