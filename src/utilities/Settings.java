@@ -82,7 +82,7 @@ public class Settings {
 	/**
 	 * Array of points corresponding to the green zone, set by {@link BluetoothTransmission}
 	 */
-	public static Point[] greenZoneCoords = {new Point(90,60), new Point(00,00)}; //TODO remove once BT is working.
+	public static Point[] greenZoneCoords = {new Point(180,180), new Point(210,210)}; //TODO remove once BT is working.
 	
 	public static Tile greenZone = new Tile(greenZoneCoords[0], greenZoneCoords[1]);
 	/**

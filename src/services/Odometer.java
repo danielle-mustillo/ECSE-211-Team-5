@@ -1,5 +1,7 @@
 package services;
 
+import controllers.State;
+import lejos.nxt.Sound;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
 import manager.*;
@@ -95,17 +97,21 @@ public class Odometer implements TimerListener {
 		oldDH[1] += dDH[1];
 		
 		
-//		avoidNecessary[1] = avoidNecessary[0];
-//		avoidNecessary[0] = Settings.redZone.withinProximityOfTile(getPosition(), 30);
-//
-//		if(avoidNecessary[0][0] == 'y' && avoidNecessary[1][0] == 'n') {
-//			//the safe points to go to get to that destination.
-//			Point[] trajectory = Settings.redZone.computeAvoidanceTrajectory(getPosition(), avoidNecessary[0], 30);
-//			
-//			//add all these coordinates back into the stack.
-//			for(Point intermediate : trajectory)
-//				manager.sm.nav.addToRoute(intermediate);
-//		}
+		avoidNecessary[1] = avoidNecessary[0];
+		avoidNecessary[0] = Settings.redZone.withinProximityOfTile(getPosition(), 30);
+		
+		if(avoidNecessary[0][0] == 'y' && avoidNecessary[1][0] == 'n') {
+			State state = manager.cm.getState();
+			manager.cm.setState(State.PAUSE);
+			Sound.beepSequence();
+			//the safe points to go to get to that destination.
+			Point[] trajectory = Settings.redZone.computeAvoidanceTrajectory(getPosition(), avoidNecessary[0], 30);
+			
+			//add all these coordinates back into the stack.
+			for(Point intermediate : trajectory)
+				manager.sm.nav.addToRoute(intermediate);
+			manager.cm.setState(state);
+		}
 	}
 	
 	/**

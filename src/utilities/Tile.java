@@ -1,6 +1,8 @@
 package utilities;
 
 import java.util.List;
+
+import lejos.nxt.Sound;
 /**
  * Currently not implemented
  * @author
@@ -15,6 +17,9 @@ public class Tile {
 	private Point secondCorner;
 	
 	public Tile(Point first, Point second) {
+		this.firstCorner = first;
+		this.secondCorner = second;
+		
 		this.leftFace = new Point[8];
 		this.topFace = new Point[8];
 		this.rightFace = new Point[8];
@@ -35,8 +40,6 @@ public class Tile {
 	public char[] withinProximityOfTile(Position pos, double distance) {
 		int resolution = 6;
 		for(int i = 0; i < resolution; ++i) {
-			//the angle to try, a proportion of 360 degrees.
-			double angle = (double) i / resolution * (2 * Math.PI);
 			for(Point point : bottomFace) {
 				Point position = new Point(pos.x, pos.y);
 				double dis = point.distance(position);
@@ -85,27 +88,13 @@ public class Tile {
 		return ch;
 	}
 	
-	
-	
-	public char directionToGoInitially(Position pos ) {
-		Point xy = new Point(pos.x, pos.y);
-		return 'c';
-//		Point 
-//		Point topRight = new Point(secondCorner.x, firstCorner.y);
-//		Point bottomLeft = new Point(firstCorner.x, secondCorner.y);
-//		double first = xy.distanceToPoint(firstCorner);
-//		double second = 
-	}
-	
-	public double[] computeSize() {
+	private double[] computeSize() {
 		double dX = Math.abs( firstCorner.x - secondCorner.x );
 		double dY = Math.abs( firstCorner.y - secondCorner.y );
 		double[] output = {dX, dY};
 		return output;
 	}
 	
-	//STILL needs work, draw it out!!
-	//computes the trajectory in a stack fashion
 	public Point[] computeAvoidanceTrajectory(Position pos, char[] ch, int distance) {
 		double[] size = computeSize();
 		
@@ -114,27 +103,32 @@ public class Tile {
 		else {
 			double length = 0;
 			double angle = 0;
+			Point first = new Point(0,0);
 			switch(ch[1]) {
 			case 'l' : 
 				length = size[1];
 				angle = Math.PI / 2;
+				first = pos.goToDistanceAndAngle(distance, Math.PI);
 				break;
 			case 'r' : 
 				length = size[1];
 				angle = Math.PI / 2;
+				first = pos.goToDistanceAndAngle(distance, 0);
 				break;
 			case 't' : 
 				length = size[0];
 				angle = 0;
+				first = pos.goToDistanceAndAngle(distance, Math.PI / 2);
 				break;
 			case 'b' :
 				length = size[0];
 				angle = 0;
+				first = pos.goToDistanceAndAngle(distance, 3 * Math.PI / 2);
 				break;
 			}
-			Point first = pos.addDisAndAngleToPosition(10, Math.PI);
+			
 			Point second = pos.goToDistanceAndAngle(length + 3 * distance, angle);
-			Point[] points = new Point[3];
+			Point[] points = new Point[2];
 			points[1] = first;
 			points[0] = second;
 			return points;

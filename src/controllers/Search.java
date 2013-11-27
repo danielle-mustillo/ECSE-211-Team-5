@@ -2,6 +2,8 @@ package controllers;
 
 import hardwareAbstraction.UltrasonicMotor;
 import utilities.Point;
+import utilities.Position;
+import utilities.Settings;
 import manager.Manager;
 
 public class Search extends Controller  {
@@ -40,15 +42,20 @@ public class Search extends Controller  {
 	 */
 	private void defaultRouter() {
 		if(manager.sm.nav.getRoute().empty()) {
+			Point go = new Point(0,0);
+			double xInterest0 = Settings.greenZoneCoords[0].x;
+			double xInterest1 = Settings.greenZoneCoords[1].x;
+			double yInterest0 = Settings.greenZoneCoords[0].y;
+			double yInterest1 = Settings.greenZoneCoords[0].y;
 			switch(this.defaultPath) {
-			case 0 : manager.sm.nav.addToRoute(new Point(00,30));
+			case 0 : go = new Point(xInterest0 - 30, yInterest0 - 30);
 			break;
-			case 1 : manager.sm.nav.addToRoute(new Point(30,30));
+			case 1 : go = new Point(xInterest0 - 30, yInterest1 + 30);
 			break;
-			case 2 : manager.sm.nav.addToRoute(new Point(30,00));
+			case 2 : go = new Point(xInterest1 + 30, yInterest1 + 30);
 			break;
 			//wont run on the crack
-			case 3 : manager.sm.nav.addToRoute(new Point(00,00)); 
+			case 3 : go = new Point(xInterest1 + 30, yInterest0 - 30); 
 			break;
 			case 4 : manager.sm.nav.addToRoute(new Point(15,135));
 			break;
@@ -61,6 +68,9 @@ public class Search extends Controller  {
 			}
 			this.defaultPath += 1;
 			this.defaultPath %= 4;
+			if(Settings.redZone.withinProximityOfTile(new Position(go.x, go.y, 0), 30) != null)
+				manager.sm.nav.addToRoute(go);
 		}
+		
 	}
 }
