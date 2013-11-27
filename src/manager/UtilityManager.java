@@ -5,11 +5,31 @@ import hardwareAbstraction.NXTRemoteCommand;
 import hardwareAbstraction.NXTRemoteMotor;
 import utilities.*;
 
+/**
+ * Initiates the RS485 Connection and the Bluetooth Connection to the server.
+ * It will set the appropriate match parameters in {@link Settings}
+ * <p>
+ * It will also initialize the appropriate {@link NXTRemoteMotor} motors and sets them in {@link Settings}
+ * @author Riley
+ *
+ */
 public class UtilityManager {
 	
+	/**
+	 * Link to the other functions of the robot
+	 */
 	public Manager manager;
-	public Communicator comLink; 
+	/**
+	 * RS 485 Connection
+	 */
+	public Communicator comLink;
+	/**
+	 * Not implemented
+	 */
 	public Map map;
+	/**
+	 * Object that handles the RS485 messaging on the master brick
+	 */
 	public NXTRemoteCommand command;
 	
 	
@@ -47,7 +67,7 @@ public class UtilityManager {
 	/**
 	 * Converts an array to string
 	 * @param arr
-	 * @return
+	 * @return String of [arr[0], arr[1],...]
 	 */
 	public String arrayToString(double[] arr) {
 		String output = "[";
