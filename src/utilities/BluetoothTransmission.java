@@ -79,19 +79,33 @@ public class BluetoothTransmission {
 			
 			for(int i = 0; i < Settings.greenZoneCoords.length; i++) {
 				useless = stream.readChar();
-				int x = stream.readInt();
+				double x = stream.readInt()*Settings.TILE_SIZE ;
 				useless = stream.readChar();
-				int y = stream.readInt();
-				Settings.greenZoneCoords[i] = new Point(x,y);
+				double y = stream.readInt()*Settings.TILE_SIZE;
+				if(Settings.role == Settings.roleBuilder) {
+					Settings.greenZoneCoords[i] = new Point(x,y);
+				} else {
+					Settings.redZoneCoords[i] = new Point(x,y);
+				}
 			}
 			
 			for(int i = 0; i < Settings.redZoneCoords.length; i++) {
 				useless = stream.readChar();
-				int x = stream.readInt();
+				double x = stream.readInt()*Settings.TILE_SIZE;
 				useless = stream.readChar();
-				int y = stream.readInt();
-				Settings.redZoneCoords[i] = new Point(x,y);
+				double y = stream.readInt()*Settings.TILE_SIZE;
+				if(Settings.role == Settings.roleDestroyer) {
+					Settings.greenZoneCoords[i] = new Point(x,y);
+				} else {
+					Settings.redZoneCoords[i] = new Point(x,y);
+				}
 			}
+			
+			Settings.redZone = new Tile(Settings.redZoneCoords[0], Settings.redZoneCoords[1]);
+			Settings.greenZone = new Tile(Settings.greenZoneCoords[0], Settings.greenZoneCoords[1]);
+			
+			Settings.role = 1;
+			
 		} catch (IOException e) {
 			catchBug("Bluetooth recieve failed: " + e.getMessage());
 		}

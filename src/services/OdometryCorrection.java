@@ -27,15 +27,15 @@ public class OdometryCorrection implements TimerListener  {
 	/**
 	 * Max distance to adjust x or y
 	 */
-	public final int MAX_CHANGE_DISTANCE = 8;
+	public final int MAX_CHANGE_DISTANCE = 5;
 	/**
 	 * Max angle to adjust theta;
 	 */
-	public final int MAX_CHANGE_ANGLE = 30;
+	public final double MAX_CHANGE_ANGLE = 0.2;
 	/**
 	 * Max distance from the center of the tile to still correct
 	 */
-	public final int MAX_DISTANCE_FROM_TILE_CENTER = 3;
+	public final int MAX_DISTANCE_FROM_TILE_CENTER = 2;
 	/**
 	 * Max distance between points to correct (i.e. max distance between left sensor detection position and right senosr detection position)
 	 */

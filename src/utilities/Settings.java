@@ -65,7 +65,7 @@ public class Settings {
 	/**
 	 * Robots Role id, set by {@link BluetoothTransmission}
 	 */
-	public static int role;
+	public static int role = 1;
 	
 	
 	
@@ -76,7 +76,7 @@ public class Settings {
 	/**
 	 * Array of points corresponding to the red zone, set by {@link BluetoothTransmission}
 	 */
-	public static Point[] redZoneCoords = {new Point(60, 60), new Point(90,90)};
+	public static Point[] redZoneCoords = {new Point(240, 240), new Point(90,90)};
 	
 	public static Tile redZone = new Tile(redZoneCoords[0], redZoneCoords[1]);
 	/**
@@ -92,11 +92,11 @@ public class Settings {
 	/**
 	 * Playing field width (in X direction)
 	 */
-	public static final int FIELD_X = 8;
+	public static final int FIELD_X = 12;
 	/**
 	 * Playing field length (in y direction)
 	 */
-	public static final int FIELD_Y = 8;
+	public static final int FIELD_Y = 12;
 	
 	/**
 	 * Line sensor distance from odometry centre

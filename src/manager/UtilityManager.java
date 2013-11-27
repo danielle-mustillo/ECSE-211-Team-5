@@ -36,7 +36,7 @@ public class UtilityManager {
 	public UtilityManager(Manager manager) {
 		this.manager = manager;
 		
-		//BluetoothTransmission.getBluetoothData();
+		
 		this.comLink = new Communicator(Settings.NXTSlaveName);
 		this.command = new NXTRemoteCommand(comLink);
 		

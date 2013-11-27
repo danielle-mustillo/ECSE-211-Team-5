@@ -11,6 +11,7 @@ import hardwareAbstraction.NXTRemoteMotor;
 import hardwareAbstraction.UltrasonicMotor;
 import hardwareAbstraction.UltrasonicPoller;
 import hardwareAbstraction.NXTRemoteUltrasonicPoller;
+import utilities.BluetoothTransmission;
 import utilities.Communicator;
 import utilities.Point;
 import controllers.State;
@@ -39,7 +40,9 @@ public class Launcher {
 //		RConsole.openUSB(20000);
 		
 		Manager manager = new Manager();
-		Button.waitForPress();
+		//For speed to localizes in time
+		BluetoothTransmission.getBluetoothData();
+		//Button.waitForPress();
 		Claw.releaseObject();
 		try {
 			Thread.sleep(Forklift.setHeight(ForkliftState.LIFT_HEIGHT));
