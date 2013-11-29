@@ -99,20 +99,6 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 		
 	}
 
-
-	@Override
-/*	public int getLowestReading() {
-		int reading = -1;
-		RConsole.println("getLowestReading from USP");
-		sensorCommand.send(id, GET_LOWEST_READING);
-		try {
-			reading = sensorCommand.getInt();
-		} catch (IOException e) {
-			//no exception expected here. 
-		}
-		return reading;	
-	}
-*/
 	/**
 	 * Uses {@link getUSReading()} to get the filtered reading for the left, center and right ultrasonic sensor
 	 * @return the smallest of the readings from the 3 ultrasonic sensors
@@ -208,6 +194,9 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 		sensorCommand.send(id, PING_SEQUENTIAL);
 	}
 	
+	/**
+	 * Sends command to {@link RemoteUltrasonicPoller} to ping the two side ultrasonic sensors. 
+	 */
 	@Override
 	public void pingSides() {
 		RConsole.println("ping side USP's");

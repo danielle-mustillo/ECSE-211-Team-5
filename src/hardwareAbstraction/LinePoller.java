@@ -1,8 +1,6 @@
 package hardwareAbstraction;
 
 import lejos.nxt.ColorSensor;
-import lejos.nxt.Sound;
-import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
 import utilities.Settings;

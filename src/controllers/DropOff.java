@@ -23,9 +23,6 @@ public class DropOff extends Controller {
 		this.initialized = false;
 	}
 
-	/**
-	 * The
-	 */
 	public void run() {
 		/*
 		 * When the controller is first called, setup the dropoff controller.

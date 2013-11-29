@@ -1,12 +1,7 @@
 package services;
 
-import hardwareAbstraction.Claw;
-import hardwareAbstraction.Forklift;
-import hardwareAbstraction.Forklift.ForkliftState;
 import hardwareAbstraction.UltrasonicMotor;
-
 import java.util.Stack;
-
 import utilities.*;
 import controllers.State;
 import lejos.nxt.Sound;
@@ -19,153 +14,103 @@ import manager.*;
  * 
  * Navigates the robot along a route, which is contained in this class the route
  * is set by the search and drop off controllers.
- * 
- * Further work required with scanAhead()
- * 
- * @author Danielle, Riley
- * 
+ * <p>
+ * The navigation routine works in the following fashion 1. The robot will check
+ * if there are waypoints for the robot to head towards. These waypoints would
+ * be defined by other classes, specifically the controllers. 2. The robot will
+ * turn towards that waypoint until its approximately lined up. 3. The robot
+ * will scan ahead, either just driving, adding points to the stack or calling
+ * the {@link Recognize} controller. 4. Once the robot got to the destination,
+ * the next waypoint will be popped from the stack.
+ * <p>
+ * This class makes heavy use of the {@link Odometer} class to decide what to do
+ * (rotate, drive, etc) and the {@link hardwareAbstraction.Drive} hardware abstraction class to
+ * control the motors. The helper classes {@link utilities.Angle} is used to do angle
+ * processing and {@link utilities.Point} to store the different waypoints to go to.
  */
 public class Navigation implements TimerListener {
 	private Manager manager;
-	private Point nextDestination;
+
+	// properties of the controller
 	private Timer time;
 	private final int UPDATE_PERIOD = 100;
 	private final int MAX_FORWARD_SPEED = 8;
 	private final int MAX_ROTATE_SPEED = 35;
 
-	private Stack<Point> route;
+	// the next points to go to.
+	private Point nextDestination;
+	private Stack<Point> route; //contains the waypoints.
 	private Stack<Point> storedRoute;
-	
+
+	// odometry values.
 	private Position currentPos;
 	private double dX;
 	private double dY;
 	private double dH;
 
+	// control of the side ultrasonic sensors.
 	private boolean scannedAhead;
 
 	public Navigation(Manager manager) {
-		RConsole.println("Navigation initialized");
 		this.manager = manager;
 		this.route = initializeRoute();
 		this.currentPos = new Position();
 		this.time = new Timer(UPDATE_PERIOD, this);
 	}
 
-	// TODO an initializer of default points should be constructed here.
 	private Stack<Point> initializeRoute() {
 		return new Stack<Point>();
 	}
 
+	/**
+	 * This method conducts the actual navigation. The issue with navigation
+	 * however is that a considerable amount of scanning and point setting must
+	 * be done here. This is not ideal. Furthermore, the final product
+	 * experienced a considerable amount of problems as a result of new changes.
+	 * The robot attempted to "overnavigate" to points and spent much time
+	 * rotating around a destination it intended to go to.
+	 */
 	@Override
 	public void timedOut() {
+		// the controller only activates when told to.
 		if (manager.cm.getState() == State.SEARCH
 				|| manager.cm.getState() == State.DROP_OFF
 				|| manager.cm.getState() == State.RECOGNIZE
 				|| manager.cm.getState() == State.JUST_TRAVEL) {
-			
+
+			// if there is nothing on the stack of destinations, do nothing.
 			if (route.empty()) {
 				// nothing is done
 			} else {
+				// pull up the next point to go to.
 				nextDestination = route.peek();
-				// if navigation must be done
 
 				// update the new headings to travel to
 				setupDeltaPositonAndHeading();
-				
-				//TODO manhatten distance.
-//				if(Math.abs(dH) > 0.1) {
-//					double x = manager.sm.odo.getX();
-//					addToRoute(new Point(x, nextDestination.y));
-//					addToRoute(nextDestination);
-//				}
-				
-				
+
 				// see if we need to make a big turn
 				if (Math.abs(dH) > 0.1) {
-					// if we need to turn more than 0.2 rads or 0.1 for
-					// completing a turn, call the turnTo method
-					// otherwise we can adjust small angle errors by slowing
-					// one wheel down slightly
+					/*
+					 * if we need to turn more than 0.2 rads or 0.1 for
+					 * completing a turn, call the turnTo method otherwise we
+					 * can adjust small angle errors by slowing one wheel down
+					 * slightly
+					 */
 					turnTo(dH);
 				} else if (Math.abs(dX) > 1 || Math.abs(dY) > 1) {
-					// RConsole.println(""+Math.abs(dX)+" "+Math.abs(dY));
-					// scan ahead only once facing the correct orientation,
-					// then
-					// travelTo that destination.
-					// TODO comment back this code. Problematic code for the
-					// moment.
-					if (!scannedAhead && manager.cm.getState() != State.DROP_OFF) {
-						Sound.buzz();
-						manager.cm.setState(State.PAUSE);
-						Sound.beep();
-						RConsole.println("Scanning Ahead");
+					
+					/*
+					 * This controller will for the moment not scan ahead if the
+					 * robot currently is in drop_off controller. However, this
+					 * is bugged and not the correct functionality for the
+					 * moment. Future work would require the robot scan ahead
+					 * with only the two side ultrasonic sensors when the robot
+					 * is carrying at least one block.
+					 */
+					if (!scannedAhead
+							&& manager.cm.getState() != State.DROP_OFF) {
 						scannedAhead = true;
-
-						manager.hm.drive.stop();
-						UltrasonicMotor.setForwardPosition();
-						if(manager.cm.getStored() > 0)
-							manager.hm.ultrasonicPoller.pingSides();
-						else
-							manager.hm.ultrasonicPoller.pingSequential();
-						manager.hm.ultrasonicPoller.resetUSP();
-						while (!manager.hm.ultrasonicPoller.isSetup()) {
-
-							manager.um.nap(200);
-						}
-
-						int lowest = manager.hm.ultrasonicPoller
-								.getLowestReading();
-
-						if (lowest < Settings.tipOfClawToUSDistance + 5) {
-							// reassign the lowest to something useful now
-							// (aka not zeros).
-							lowest = manager.hm.ultrasonicPoller
-									.getUSReading(1);
-
-							RConsole.println("Read less than 20");
-							Sound.beepSequenceUp();
-							// TODO comment this back in when recognize
-							// works.
-							manager.cm.setState(State.RECOGNIZE);
-
-						} else if (lowest < 50) {
-
-							RConsole.println("Read less than 50");
-							RConsole.println("Pushing the following to the stack"
-									+ manager.sm.odo
-											.getPosition()
-											.addDistanceToPosition(
-													lowest - Settings.tipOfClawToUSDistance));
-
-							route.push(manager.sm.odo
-									.getPosition()
-									.addDistanceToPosition(
-											lowest
-													- Settings.tipOfClawToUSDistance));
-
-							UltrasonicMotor.setDefaultPosition();
-							manager.hm.ultrasonicPoller.resetUSP();
-
-							while (!manager.hm.ultrasonicPoller.isSetup()) {
-								manager.um.nap(200);
-							}
-
-							manager.cm.setState(State.SEARCH);
-							Sound.beepSequence();
-						} else {
-							
-							UltrasonicMotor.setDefaultPosition();
-							manager.hm.ultrasonicPoller.pingAll();
-							manager.hm.ultrasonicPoller.resetUSP();
-
-							while (!manager.hm.ultrasonicPoller.isSetup()) {
-								manager.um.nap(200);
-							}
-
-							manager.cm.setState(State.SEARCH);
-							Sound.beep();
-							// do no processing, just continue along searching
-						}
+						manager.sm.obstacleAvoidance.scanAhead();
 					} else {
 						travelTo();
 						RConsole.println("Not scanning ahead");
@@ -173,7 +118,7 @@ public class Navigation implements TimerListener {
 				} else {
 
 					// stop the motors, reset scanning state and get next
-					// destination.
+					// destination (if there is one).
 					manager.hm.drive.stop();
 					scannedAhead = false;
 					if (!route.empty())
@@ -184,11 +129,17 @@ public class Navigation implements TimerListener {
 		}
 	}
 
+	/**
+	 * Pauses this service by stopping the timer.
+	 */
 	public void pause() {
 		this.time.stop();
 		this.time = null;
 	}
 
+	/**
+	 * Restarts this service by re-initalizing the timer.
+	 */
 	public void start() {
 		RConsole.println("Navigation started");
 		this.time = new Timer(UPDATE_PERIOD, this);
@@ -196,20 +147,29 @@ public class Navigation implements TimerListener {
 	}
 
 	/**
-	 * This method will store the old route temporarily and shift to a new route. This is used when certain operations need a specific route, but we don't want the old points of interest destroyed. 
-	 * @param alternate	If true, the alternate route is engaged. Else the main route is engaged. 
+	 * This method will store the old route temporarily and shift to a new
+	 * route. This is used when certain operations need a specific route, but we
+	 * don't want the old points of interest destroyed.
+	 * 
+	 * @param alternate
+	 *            If true, the alternate route is engaged. Else the main route
+	 *            is engaged.
 	 */
 	public void alternateRoute(boolean alternate) {
-		if(alternate) {
+		if (alternate) {
 			storedRoute = route;
 			route = new Stack<Point>();
 		} else {
 			route = storedRoute;
 			storedRoute = new Stack<Point>();
 		}
-		
+
 	}
-	
+
+	/**
+	 * Set's up the odometry class variables as necessary. This is what
+	 * navigation compares against. Relies heavily on the odometer.
+	 */
 	private void setupDeltaPositonAndHeading() {
 		currentPos = manager.sm.odo.getPosition();
 
@@ -228,6 +188,10 @@ public class Navigation implements TimerListener {
 		dH = Angle.minimumAngle(currentPos.theta, theta);
 	}
 
+	/**
+	 * Travels to a destination by driving forward. Also does small amounts of
+	 * angle correction as well.
+	 */
 	public void travelTo() {
 		/*
 		 * For minor angle corrections
@@ -248,6 +212,13 @@ public class Navigation implements TimerListener {
 
 	}
 
+	/**
+	 * Does the majority of the angle correction. Stops the forward motion of
+	 * the robot and simply rotates.
+	 * 
+	 * @param dH
+	 *            The angle to turn to. This sets the drive controller.
+	 */
 	public void turnTo(double dH) {
 
 		// if angle error greater than 0.6 deg
@@ -259,6 +230,13 @@ public class Navigation implements TimerListener {
 		}
 	}
 
+	/**
+	 * This method rotates the robot forcefully. It ignores whatever waypoints
+	 * the robots have.
+	 * 
+	 * @param angle
+	 *            The specific angle to turn to.
+	 */
 	public void turnToComplete(double angle) {
 
 		angle = Angle.principleAngle(angle);
@@ -276,6 +254,14 @@ public class Navigation implements TimerListener {
 
 	}
 
+	/**
+	 * This method allows the robot to slightly adjust its forward speeds to
+	 * adjust for small angle discrepancies without calling the turnTo method.
+	 * Much more graceful movement.
+	 * 
+	 * @param dH	The angle the robot is off from its desired angle.
+	 * @return	The speed to rotate. This is passed directly to {@link hardwareAbstraction.Drive}
+	 */
 	public int calculateRotationSpeed(double dH) {
 		if (Math.abs(dH) > 0.01) {
 			// if error positive and greater than 0.2 rad -> max speed CCW
@@ -332,26 +318,11 @@ public class Navigation implements TimerListener {
 	}
 
 	/**
-	 * This method will export the route currently programmed and resets it to
-	 * an empty route.
-	 * 
-	 * @return
+	 * Adds a {@link utilities.Point} to the route. Resets scan ahead because this will be the next point to travel to. It is executed right away.
+	 * @param xy	The point to travel to.
 	 */
-	public Stack<Point> exportAndResetRoute() {
-		Stack<Point> export = this.route;
-		this.route = new Stack<Point>();
-		return export;
-	}
-
 	public void addToRoute(Point xy) {
 		this.scannedAhead = false;
 		this.route.push(xy);
-	}
-	
-	private void sleep(int time){
-		try {
-			Thread.sleep(time);
-		} catch (InterruptedException e) {
-		}
 	}
 }
