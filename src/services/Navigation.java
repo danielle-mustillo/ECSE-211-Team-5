@@ -61,7 +61,6 @@ public class Navigation implements TimerListener {
 		if (manager.cm.getState() == State.SEARCH
 				|| manager.cm.getState() == State.DROP_OFF
 				|| manager.cm.getState() == State.RECOGNIZE
-				|| manager.cm.getState() == State.TESTING
 				|| manager.cm.getState() == State.JUST_TRAVEL) {
 			
 			if (route.empty()) {

@@ -4,12 +4,8 @@ import hardwareAbstraction.Claw;
 import hardwareAbstraction.Forklift;
 import hardwareAbstraction.Forklift.ForkliftState;
 
-import java.util.Stack;
-
 import utilities.Point;
 import utilities.Settings;
-import lejos.nxt.Sound;
-import lejos.nxt.comm.RConsole;
 import manager.Manager;
 
 /**
