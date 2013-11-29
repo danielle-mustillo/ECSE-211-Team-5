@@ -40,7 +40,6 @@ public class Collect extends Controller {
 			manager.cm.setState(State.DROP_OFF);
 		else
 			manager.cm.setState(State.DROP_OFF);
-		// manager.cm.setState(State.SEARCH);
 	}
 
 	public static void sleep(int num) {

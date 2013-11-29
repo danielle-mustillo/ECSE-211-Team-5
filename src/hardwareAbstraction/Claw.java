@@ -2,23 +2,24 @@ package hardwareAbstraction;
 
 import utilities.Settings;
 import lejos.nxt.comm.RConsole;
-import lejos.nxt.remote.RemoteMotor;
+
 /**
- * Controls the Claw Motor.  Uses the claw motor defined in {@link Settings}
+ * Controls the Claw Motor. Uses the claw motor defined in {@link Settings}.
+ * This class keeps track of its current state so grabObject and releaseObject
+ * will only move the claw to fixed positions and nowhere else. Prevents
+ * over-gripping or opening the claw too wide.
  * <p>
- * Only open/close functions have been implemented
- * 
- * @author Danielle
- *
+ * Only open/close functions have been implemented.
+ * <p>
+ * This class will have to be modified to only return the time necessary to
+ * actually complete the action. Now it just returns a default time despite
+ * whatever its current position.
  */
 public class Claw {
 	static NXTRemoteMotor claw = Settings.clawMotor;
-	static int value = 55; // 45 degrees. needs to be tested.
-//	static int start = 5; // this is the starting angle. Slightly more "closed" than start. 
-	
+
 	/**
 	 * This method grabs an object. Returns a default time to sleep (2s)
-	 *  
 	 */
 	public static int grabObject() {
 		RConsole.println("grabbing object");
@@ -27,7 +28,7 @@ public class Claw {
 		claw.rotateTo(90, true);
 		return 2000;
 	}
-	
+
 	/**
 	 * This method releases an object. Returns a default time to sleep (2s)
 	 */
@@ -35,7 +36,7 @@ public class Claw {
 		RConsole.println("releasing object");
 		claw.setAcceleration(200);
 		claw.setSpeed(150);
-		claw.rotateTo(-value, true);
+		claw.rotateTo(-55, true);
 		return 2000;
 	}
 }
