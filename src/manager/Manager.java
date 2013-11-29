@@ -1,7 +1,5 @@
 package manager;
 
-import lejos.nxt.comm.RConsole;
-
 /**
  * Initializes all other manager classes.  
  * And provides an instance of itself to each sub manager. 

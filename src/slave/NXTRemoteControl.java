@@ -1,7 +1,6 @@
 package slave;
 
 import hardwareAbstraction.RemoteCommands;
-import hardwareAbstraction.UltrasonicPoller;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

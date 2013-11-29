@@ -6,18 +6,9 @@ package launcher;
 import hardwareAbstraction.Claw;
 import hardwareAbstraction.Forklift;
 import hardwareAbstraction.Forklift.ForkliftState;
-import hardwareAbstraction.NXTRemoteCommand;
-import hardwareAbstraction.NXTRemoteMotor;
-import hardwareAbstraction.UltrasonicMotor;
-import hardwareAbstraction.UltrasonicPoller;
-import hardwareAbstraction.NXTRemoteUltrasonicPoller;
 import utilities.BluetoothTransmission;
-import utilities.Communicator;
-import utilities.Point;
 import controllers.State;
 import lejos.nxt.Button;
-import lejos.nxt.Sound;
-import lejos.nxt.comm.RConsole;
 import manager.Manager;
 
 /**

@@ -7,10 +7,8 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 import lejos.nxt.LCD;
-import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.NXTConnection;
-import lejos.nxt.comm.RConsole;
 
 /**
  * This class will open a bluetooth connection to the PC server. It will also
@@ -74,7 +72,7 @@ public class BluetoothTransmission {
 		try {
 			Settings.role = stream.readInt();
 
-			char useless = stream.readChar();
+			stream.readChar();
 			int startingCorner = stream.readInt();
 			// TODO figure out which numbers correspond to which corners. And
 			// their values.
@@ -94,9 +92,9 @@ public class BluetoothTransmission {
 			}
 
 			for (int i = 0; i < Settings.greenZoneCoords.length; i++) {
-				useless = stream.readChar();
+				stream.readChar();
 				double x = stream.readInt() * Settings.TILE_SIZE;
-				useless = stream.readChar();
+				stream.readChar();
 				double y = stream.readInt() * Settings.TILE_SIZE;
 				if (Settings.role == Settings.roleBuilder) {
 					Settings.greenZoneCoords[i] = new Point(x, y);
@@ -106,9 +104,9 @@ public class BluetoothTransmission {
 			}
 
 			for (int i = 0; i < Settings.redZoneCoords.length; i++) {
-				useless = stream.readChar();
+				stream.readChar();
 				double x = stream.readInt() * Settings.TILE_SIZE;
-				useless = stream.readChar();
+				stream.readChar();
 				double y = stream.readInt() * Settings.TILE_SIZE;
 				if (Settings.role == Settings.roleDestroyer) {
 					Settings.greenZoneCoords[i] = new Point(x, y);

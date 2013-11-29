@@ -2,12 +2,6 @@ package slave;
 
 import lejos.nxt.LCD;
 import lejos.nxt.MotorPort;
-import lejos.nxt.comm.Bluetooth;
-import lejos.nxt.comm.LCPResponder;
-import lejos.nxt.comm.NXTCommConnector;
-import lejos.nxt.comm.NXTConnection;
-import lejos.nxt.comm.RConsole;
-import lejos.nxt.comm.RS485;
 
 /**
  * The responder class responds to the LCP requests sent by the

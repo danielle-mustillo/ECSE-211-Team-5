@@ -2,7 +2,6 @@ package utilities;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 
 import lejos.nxt.LCD;
 import lejos.nxt.comm.RS485;

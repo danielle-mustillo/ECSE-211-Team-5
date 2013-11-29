@@ -1,8 +1,5 @@
 package utilities;
 
-import java.util.List;
-
-import lejos.nxt.Sound;
 
 /**
  * This class provides the functionality of a tile, specific for different zones

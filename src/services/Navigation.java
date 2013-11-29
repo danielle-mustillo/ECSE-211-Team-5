@@ -1,10 +1,8 @@
 package services;
 
-import hardwareAbstraction.UltrasonicMotor;
 import java.util.Stack;
 import utilities.*;
 import controllers.State;
-import lejos.nxt.Sound;
 import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
 import lejos.util.TimerListener;

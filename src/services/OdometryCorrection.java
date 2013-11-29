@@ -1,6 +1,5 @@
 package services;
 
-import utilities.Point;
 import utilities.Position;
 import utilities.Settings;
 import lejos.nxt.Sound;

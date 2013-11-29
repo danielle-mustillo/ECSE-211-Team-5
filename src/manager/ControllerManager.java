@@ -1,6 +1,5 @@
 package manager;
 
-import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
 import controllers.*;

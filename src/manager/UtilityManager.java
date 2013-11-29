@@ -1,6 +1,5 @@
 package manager;
 
-import lejos.nxt.comm.RConsole;
 import hardwareAbstraction.NXTRemoteCommand;
 import hardwareAbstraction.NXTRemoteMotor;
 import utilities.*;

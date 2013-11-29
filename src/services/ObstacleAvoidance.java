@@ -1,12 +1,9 @@
 package services;
 
 import hardwareAbstraction.UltrasonicMotor;
-import utilities.Point;
-import utilities.Position;
 import utilities.Settings;
 import controllers.State;
 import lejos.nxt.Sound;
-import lejos.nxt.comm.RConsole;
 import manager.*;
 
 /**
@@ -15,17 +12,10 @@ import manager.*;
  * {@link Navigation} for the moment. 
  */
 public class ObstacleAvoidance {
-	private hardwareAbstraction.UltrasonicPoller poller;
-	private int threshold;
-	private int safetyThreshold;
 	private Manager manager;
 
 	public ObstacleAvoidance(Manager manager) {
 		this.manager = manager;
-		poller = manager.hm.ultrasonicPoller;
-		// TODO test these values, find appropriate values for our robot.
-		this.threshold = 20;
-		this.safetyThreshold = 5;
 	}
 
 	/**
@@ -67,7 +57,6 @@ public class ObstacleAvoidance {
 			lowest = manager.hm.ultrasonicPoller.getUSReading(1);
 
 			// let the user know something was found.
-			RConsole.println("Read less than 20");
 			Sound.beepSequenceUp();
 			manager.cm.setState(State.RECOGNIZE);
 		} else if (lowest < 50) {

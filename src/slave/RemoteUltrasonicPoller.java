@@ -1,15 +1,9 @@
 package slave;
 
-import hardwareAbstraction.UltrasonicMotor;
-import controllers.State;
-import utilities.Settings;
-import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
-import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
 import lejos.util.TimerListener;
-import manager.Manager;
 
 /**
  * This class serves as a higher level abstraction of a ultrasonic sensor. It is
@@ -176,19 +170,6 @@ public class RemoteUltrasonicPoller implements TimerListener {
 			leftUS.run();
 			rightUS.run();
 		}
-	}
-
-	/**
-	 * For debugging purposes.
-	 * 
-	 * @return
-	 */
-	private String toStringLastValues() {
-		String out = "";
-		out += " L: " + getUSReading(left);
-		out += " C: " + getUSReading(center);
-		out += " R: " + getUSReading(right);
-		return out;
 	}
 
 	/**

@@ -1,6 +1,5 @@
 package manager;
 
-import lejos.nxt.comm.RConsole;
 import controllers.State;
 import hardwareAbstraction.*;
 

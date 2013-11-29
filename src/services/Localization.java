@@ -1,9 +1,7 @@
 package services;
 
-import hardwareAbstraction.Forklift;
 import controllers.State;
 import utilities.*;
-import lejos.nxt.LCD;
 import lejos.nxt.Sound;
 import lejos.nxt.comm.RConsole;
 import lejos.util.Timer;
