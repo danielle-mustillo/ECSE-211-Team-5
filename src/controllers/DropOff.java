@@ -13,61 +13,66 @@ import lejos.nxt.comm.RConsole;
 import manager.Manager;
 
 /**
- * This class will dropoff the block at the destination required. 
- * It will navigate to the green zone location and drop off the block.
- * @author danielle
+ * This class will dropoff the block at the destination required. It will
+ * navigate to the green zone location and drop off the block there.
  */
 public class DropOff extends Controller {
 
-private Manager manager;
-private boolean initialized;
-private Stack<Point> route;
-	
+	private Manager manager;
+	private boolean initialized;
+
 	public DropOff(Manager manager) {
 		this.manager = manager;
 		this.initialized = false;
 	}
-	
-	/** 
-	 * @bug this method throws exceptions, which must be found and eliminated. 
+
+	/**
+	 * The
 	 */
 	public void run() {
-		//upon initialization,
-
-		if(!initialized) {
+		/*
+		 * When the controller is first called, setup the dropoff controller.
+		 * This is to be reset when control is passed away from this controller.
+		 */
+		if (!initialized) {
 			initialized = true;
-			
-			//store old route temporarily, make a new route for the moment. 
+
+			// store old route temporarily, make a new route for the moment.
 			manager.sm.nav.alternateRoute(true);
 
-			//go to the green zone
-			this.manager.sm.nav.addToRoute(new Point(Settings.greenZoneCoords[0]));
+			// go to the green zone by allowing this controller to be called
+			// many times.
+			this.manager.sm.nav.addToRoute(new Point(
+					Settings.greenZoneCoords[0]));
 			manager.cm.setState(State.DROP_OFF);
-		} 
-		else {
+		} else {
 			/*
-			 * now the robot should attempt to head to greenZone. 
-			 * so nothing is done here, everything is done in background. 
+			 * Now the robot should attempt to head to greenZone. so nothing is
+			 * done for the moment. Everything is done in background.When the
+			 * robot gets to the greenZone, the following code is executed here.
 			 */
-			
-			// when the robot gets to the greenZone, 
-			if(manager.sm.nav.getRoute().empty()) {
+			if (manager.sm.nav.getRoute().empty()) {
+				// only execute this code once.
 				manager.cm.setState(State.PAUSE);
-				
-				//drop off the block
-				
+
+				// drop off the block by dropping the forklift and releasing the
+				// object
 				sleep(Forklift.setHeight(ForkliftState.GROUND));
 				sleep(Claw.releaseObject());
-				
-				//back away from the block. 
+
+				// back away from the block.
 				manager.hm.drive.setSpeeds(-100, 0);
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 				}
 				manager.hm.drive.stop();
-				
-				//go back to previous state
+
+				/*
+				 * Go back to previous state. The forklift and claw will return
+				 * to the previous state. Store the previous route and go back
+				 * to Searching.
+				 */
 				Claw.grabObject();
 				sleep(Forklift.setHeight(ForkliftState.SCAN_HEIGHT_LOW));
 				this.initialized = false;
