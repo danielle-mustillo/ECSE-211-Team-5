@@ -1,3 +1,726 @@
+commit 78fe380aefe0bcd44938819cc74d13bc560958a4
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Fri Nov 29 01:53:26 2013 -0500
+
+    Added the javadocs as generated from the eclipse tool.
+
+ doc/allclasses-frame.html                          | 127 +++
+ doc/allclasses-noframe.html                        | 127 +++
+ doc/constant-values.html                           | 792 +++++++++++++++++
+ doc/controllers/Collect.html                       | 321 +++++++
+ doc/controllers/Controller.html                    | 239 +++++
+ doc/controllers/ControllerInterface.html           | 209 +++++
+ doc/controllers/DropOff.html                       | 335 +++++++
+ doc/controllers/Recognize.html                     | 345 ++++++++
+ doc/controllers/Search.html                        | 441 ++++++++++
+ doc/controllers/State.html                         | 429 +++++++++
+ doc/controllers/WallFollower.html                  | 374 ++++++++
+ doc/controllers/class-use/Collect.html             | 144 +++
+ doc/controllers/class-use/Controller.html          | 243 ++++++
+ doc/controllers/class-use/ControllerInterface.html | 222 +++++
+ doc/controllers/class-use/DropOff.html             | 144 +++
+ doc/controllers/class-use/Recognize.html           | 144 +++
+ doc/controllers/class-use/Search.html              | 144 +++
+ doc/controllers/class-use/State.html               | 250 ++++++
+ doc/controllers/class-use/WallFollower.html        | 144 +++
+ doc/controllers/package-frame.html                 |  64 ++
+ doc/controllers/package-summary.html               | 207 +++++
+ doc/controllers/package-tree.html                  | 171 ++++
+ doc/controllers/package-use.html                   | 207 +++++
+ doc/deprecated-list.html                           | 146 ++++
+ doc/hardwareAbstraction/Claw.html                  | 324 +++++++
+ .../ColorPoller.ObjectDetected.html                | 349 ++++++++
+ doc/hardwareAbstraction/ColorPoller.html           | 514 +++++++++++
+ doc/hardwareAbstraction/Drive.html                 | 421 +++++++++
+ .../Forklift.ForkliftState.html                    | 366 ++++++++
+ doc/hardwareAbstraction/Forklift.html              | 460 ++++++++++
+ doc/hardwareAbstraction/LinePoller.html            | 611 +++++++++++++
+ doc/hardwareAbstraction/NXTRemoteCommand.html      | 462 ++++++++++
+ doc/hardwareAbstraction/NXTRemoteMotor.html        | 896 +++++++++++++++++++
+ .../NXTRemoteUltrasonicPoller.html                 | 686 +++++++++++++++
+ doc/hardwareAbstraction/RemoteCommands.html        | 819 +++++++++++++++++
+ doc/hardwareAbstraction/UltrasonicMotor.html       | 353 ++++++++
+ .../UltrasonicPoller.USPosition.html               | 341 ++++++++
+ doc/hardwareAbstraction/UltrasonicPoller.html      | 628 +++++++++++++
+ doc/hardwareAbstraction/class-use/Claw.html        | 180 ++++
+ .../class-use/ColorPoller.ObjectDetected.html      | 226 +++++
+ doc/hardwareAbstraction/class-use/ColorPoller.html | 180 ++++
+ doc/hardwareAbstraction/class-use/Drive.html       | 209 +++++
+ .../class-use/Forklift.ForkliftState.html          | 222 +++++
+ doc/hardwareAbstraction/class-use/Forklift.html    | 180 ++++
+ doc/hardwareAbstraction/class-use/LinePoller.html  | 180 ++++
+ .../class-use/NXTRemoteCommand.html                | 240 +++++
+ .../class-use/NXTRemoteMotor.html                  | 233 +++++
+ .../class-use/NXTRemoteUltrasonicPoller.html       | 180 ++++
+ .../class-use/RemoteCommands.html                  | 217 +++++
+ .../class-use/UltrasonicMotor.html                 | 180 ++++
+ .../class-use/UltrasonicPoller.USPosition.html     | 206 +++++
+ .../class-use/UltrasonicPoller.html                | 180 ++++
+ doc/hardwareAbstraction/package-frame.html         |  76 ++
+ doc/hardwareAbstraction/package-summary.html       | 233 +++++
+ doc/hardwareAbstraction/package-tree.html          | 170 ++++
+ doc/hardwareAbstraction/package-use.html           | 348 ++++++++
+ doc/help-doc.html                                  | 223 +++++
+ doc/index-files/index-1.html                       | 204 +++++
+ doc/index-files/index-10.html                      | 256 ++++++
+ doc/index-files/index-11.html                      | 243 ++++++
+ doc/index-files/index-12.html                      | 183 ++++
+ doc/index-files/index-13.html                      | 170 ++++
+ doc/index-files/index-14.html                      | 254 ++++++
+ doc/index-files/index-15.html                      | 343 ++++++++
+ doc/index-files/index-16.html                      | 392 +++++++++
+ doc/index-files/index-17.html                      | 246 ++++++
+ doc/index-files/index-18.html                      | 211 +++++
+ doc/index-files/index-19.html                      | 191 ++++
+ doc/index-files/index-2.html                       | 167 ++++
+ doc/index-files/index-20.html                      | 158 ++++
+ doc/index-files/index-21.html                      | 151 ++++
+ doc/index-files/index-22.html                      | 151 ++++
+ doc/index-files/index-3.html                       | 273 ++++++
+ doc/index-files/index-4.html                       | 203 +++++
+ doc/index-files/index-5.html                       | 158 ++++
+ doc/index-files/index-6.html                       | 179 ++++
+ doc/index-files/index-7.html                       | 294 +++++++
+ doc/index-files/index-8.html                       | 148 ++++
+ doc/index-files/index-9.html                       | 200 +++++
+ doc/index.html                                     |  73 ++
+ doc/launcher/Launcher.html                         | 277 ++++++
+ doc/launcher/class-use/Launcher.html               | 144 +++
+ doc/launcher/package-frame.html                    |  32 +
+ doc/launcher/package-summary.html                  | 157 ++++
+ doc/launcher/package-tree.html                     | 153 ++++
+ doc/launcher/package-use.html                      | 144 +++
+ doc/manager/ControllerManager.html                 | 531 +++++++++++
+ doc/manager/HardwareManager.html                   | 444 ++++++++++
+ doc/manager/Manager.html                           | 323 +++++++
+ doc/manager/ServiceManager.html                    | 442 ++++++++++
+ doc/manager/UtilityManager.html                    | 382 ++++++++
+ doc/manager/class-use/ControllerManager.html       | 180 ++++
+ doc/manager/class-use/HardwareManager.html         | 180 ++++
+ doc/manager/class-use/Manager.html                 | 462 ++++++++++
+ doc/manager/class-use/ServiceManager.html          | 180 ++++
+ doc/manager/class-use/UtilityManager.html          | 180 ++++
+ doc/manager/package-frame.html                     |  40 +
+ doc/manager/package-summary.html                   | 173 ++++
+ doc/manager/package-tree.html                      | 153 ++++
+ doc/manager/package-use.html                       | 232 +++++
+ doc/overview-frame.html                            |  54 ++
+ doc/overview-summary.html                          | 180 ++++
+ doc/overview-tree.html                             | 181 ++++
+ doc/package-list                                   |   7 +
+ doc/resources/inherit.gif                          | Bin 0 -> 57 bytes
+ doc/services/LCDInfo.html                          | 363 ++++++++
+ doc/services/Localization.html                     | 756 ++++++++++++++++
+ doc/services/Mapper.html                           | 558 ++++++++++++
+ doc/services/Navigation.html                       | 787 +++++++++++++++++
+ doc/services/ObstacleAvoidance.html                | 304 +++++++
+ doc/services/Odometer.html                         | 637 ++++++++++++++
+ doc/services/OdometryCorrection.html               | 700 +++++++++++++++
+ doc/services/class-use/LCDInfo.html                | 180 ++++
+ doc/services/class-use/Localization.html           | 180 ++++
+ doc/services/class-use/Mapper.html                 | 180 ++++
+ doc/services/class-use/Navigation.html             | 180 ++++
+ doc/services/class-use/ObstacleAvoidance.html      | 180 ++++
+ doc/services/class-use/Odometer.html               | 180 ++++
+ doc/services/class-use/OdometryCorrection.html     | 180 ++++
+ doc/services/package-frame.html                    |  44 +
+ doc/services/package-summary.html                  | 188 ++++
+ doc/services/package-tree.html                     | 153 ++++
+ doc/services/package-use.html                      | 213 +++++
+ doc/slave/NXTRemoteControl.html                    | 967 +++++++++++++++++++++
+ doc/slave/RemoteUltrasonicPoller.CenterUS.html     | 266 ++++++
+ doc/slave/RemoteUltrasonicPoller.LeftUS.html       | 266 ++++++
+ doc/slave/RemoteUltrasonicPoller.RightUS.html      | 266 ++++++
+ doc/slave/RemoteUltrasonicPoller.USPState.html     | 411 +++++++++
+ doc/slave/RemoteUltrasonicPoller.USPosition.html   | 346 ++++++++
+ doc/slave/RemoteUltrasonicPoller.html              | 828 ++++++++++++++++++
+ doc/slave/Responder.html                           | 272 ++++++
+ doc/slave/class-use/NXTRemoteControl.html          | 144 +++
+ .../class-use/RemoteUltrasonicPoller.CenterUS.html | 144 +++
+ .../class-use/RemoteUltrasonicPoller.LeftUS.html   | 144 +++
+ .../class-use/RemoteUltrasonicPoller.RightUS.html  | 144 +++
+ .../class-use/RemoteUltrasonicPoller.USPState.html | 221 +++++
+ .../RemoteUltrasonicPoller.USPosition.html         | 198 +++++
+ doc/slave/class-use/RemoteUltrasonicPoller.html    | 213 +++++
+ doc/slave/class-use/Responder.html                 | 144 +++
+ doc/slave/package-frame.html                       |  49 ++
+ doc/slave/package-summary.html                     | 185 ++++
+ doc/slave/package-tree.html                        | 170 ++++
+ doc/slave/package-use.html                         | 183 ++++
+ doc/stylesheet.css                                 |  29 +
+ doc/utilities/Angle.html                           | 306 +++++++
+ doc/utilities/BluetoothTransmission.html           | 392 +++++++++
+ doc/utilities/Communicator.html                    | 367 ++++++++
+ doc/utilities/Map.html                             | 233 +++++
+ doc/utilities/Point.html                           | 449 ++++++++++
+ doc/utilities/Position.html                        | 435 +++++++++
+ doc/utilities/Settings.html                        | 826 ++++++++++++++++++
+ doc/utilities/StartingCorner.html                  | 358 ++++++++
+ doc/utilities/Tile.html                            | 463 ++++++++++
+ doc/utilities/class-use/Angle.html                 | 144 +++
+ doc/utilities/class-use/BluetoothTransmission.html | 144 +++
+ doc/utilities/class-use/Communicator.html          | 208 +++++
+ doc/utilities/class-use/Map.html                   | 180 ++++
+ doc/utilities/class-use/Point.html                 | 531 +++++++++++
+ doc/utilities/class-use/Position.html              | 291 +++++++
+ doc/utilities/class-use/Settings.html              | 144 +++
+ doc/utilities/class-use/StartingCorner.html        | 205 +++++
+ doc/utilities/class-use/Tile.html                  | 188 ++++
+ doc/utilities/package-frame.html                   |  57 ++
+ doc/utilities/package-summary.html                 | 204 +++++
+ doc/utilities/package-tree.html                    | 165 ++++
+ doc/utilities/package-use.html                     | 280 ++++++
+ 166 files changed, 45264 insertions(+)
+
+commit f34ae925ce4ebe6b42b10c60c5b3111b7bca6e14
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Fri Nov 29 01:51:42 2013 -0500
+
+    Formatted all the classes, ran it through the format tool in eclipse and
+    removed the @author everywhere as this represents poor style. The git
+    logs should serve to backtrack the authors.
+
+ src/hardwareAbstraction/Claw.java                  |   3 -
+ src/hardwareAbstraction/ColorPoller.java           |   3 -
+ src/hardwareAbstraction/Drive.java                 |   1 -
+ src/hardwareAbstraction/Forklift.java              |   4 -
+ src/hardwareAbstraction/LinePoller.java            |   2 -
+ src/hardwareAbstraction/NXTRemoteCommand.java      |  57 +-
+ src/hardwareAbstraction/NXTRemoteMotor.java        |  90 +-
+ .../NXTRemoteUltrasonicPoller.java                 |  97 +-
+ src/hardwareAbstraction/RemoteCommands.java        |  17 +-
+ src/hardwareAbstraction/UltrasonicMotor.java       |   7 +-
+ src/hardwareAbstraction/UltrasonicPoller.java      |  52 +-
+ src/launcher/Launcher.java                         |  24 +-
+ src/manager/ControllerManager.java                 |  69 +-
+ src/manager/HardwareManager.java                   |  36 +-
+ src/manager/Manager.java                           |  30 +-
+ src/manager/ServiceManager.java                    |  20 +-
+ src/manager/UtilityManager.java                    |  40 +-
+ src/services/LCDInfo.java                          |  63 +-
+ src/services/Localization.java                     | 325 +++----
+ src/services/Odometer.java                         |  83 +-
+ src/services/OdometryCorrection.java               | 206 +++--
+ src/slave/NXTRemoteControl.java                    | 980 +++++++++++----------
+ src/slave/RemoteUltrasonicPoller.java              |   6 +-
+ src/utilities/Angle.java                           |  36 +-
+ src/utilities/BluetoothTransmission.java           |   3 -
+ src/utilities/Communicator.java                    |  25 +-
+ src/utilities/Map.java                             |   3 -
+ src/utilities/Point.java                           |  34 +-
+ src/utilities/Position.java                        |  23 +-
+ src/utilities/Settings.java                        |  72 +-
+ src/utilities/StartingCorner.java                  |   1 +
+ src/utilities/Tile.java                            |   1 -
+ 32 files changed, 1287 insertions(+), 1126 deletions(-)
+
+commit f061ff221e38faa380fad6a735526d3ea1cea334
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Fri Nov 29 00:54:37 2013 -0500
+
+    Cleaned up all warning signs. There should not be any more.
+
+ src/launcher/Launcher.java               |  9 ---------
+ src/manager/ControllerManager.java       |  1 -
+ src/manager/HardwareManager.java         |  1 -
+ src/manager/Manager.java                 |  2 --
+ src/manager/UtilityManager.java          |  1 -
+ src/services/Localization.java           |  2 --
+ src/services/Navigation.java             |  2 --
+ src/services/ObstacleAvoidance.java      | 11 -----------
+ src/services/OdometryCorrection.java     |  1 -
+ src/slave/NXTRemoteControl.java          |  1 -
+ src/slave/RemoteUltrasonicPoller.java    | 19 -------------------
+ src/slave/Responder.java                 |  6 ------
+ src/utilities/BluetoothTransmission.java | 12 +++++-------
+ src/utilities/Communicator.java          |  1 -
+ src/utilities/Tile.java                  |  3 ---
+ 15 files changed, 5 insertions(+), 67 deletions(-)
+
+commit 787b0b805097112db20bebc60cc29e6fef59db78
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Fri Nov 29 00:50:28 2013 -0500
+
+    Cleaned up the rest of the classes. Removed whatever methods were not
+    used. Commented everything else.
+
+ src/slave/NXTRemoteControl.java          |   4 +-
+ src/slave/RemoteUltrasonicPoller.java    | 150 +++++++++++++++++-------------
+ src/slave/Responder.java                 |  59 ++++--------
+ src/utilities/BluetoothTransmission.java | 101 ++++++++++++--------
+ src/utilities/Communicator.java          |  38 +-------
+ src/utilities/Map.java                   |  13 ++-
+ src/utilities/Point.java                 |   2 -
+ src/utilities/Position.java              |   4 -
+ src/utilities/Settings.java              |   5 -
+ src/utilities/StartingCorner.java        |   2 -
+ src/utilities/Tile.java                  | 155 ++++++++++++++++++++-----------
+ 11 files changed, 282 insertions(+), 251 deletions(-)
+
+commit 2148f89be113493f988d80230ab9ace8c7227a68
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Fri Nov 29 00:21:44 2013 -0500
+
+    Cleaned up all the classes, added comments where necessary. Left many
+    comments for unfinished elements.
+
+ src/controllers/DropOff.java                       |   3 -
+ src/hardwareAbstraction/Forklift.java              | 135 ++++--------
+ src/hardwareAbstraction/LinePoller.java            |   2 -
+ .../NXTRemoteUltrasonicPoller.java                 |  17 +-
+ src/hardwareAbstraction/UltrasonicMotor.java       |  62 ++----
+ src/launcher/Launcher.java                         | 123 +----------
+ src/services/HardwareViewer.java                   |  71 -------
+ src/services/LCDInfo.java                          |  59 +++---
+ src/services/Mapper.java                           | 170 +++++++--------
+ src/services/Navigation.java                       | 231 +++++++++------------
+ src/services/ObstacleAvoidance.java                | 166 ++++++++-------
+ 11 files changed, 374 insertions(+), 665 deletions(-)
+
+commit 8dd18557dd9c9cbe450e0e2e3bfa9331ba280eb3
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 28 23:03:10 2013 -0500
+
+    Cleaned up some small things.
+
+ src/controllers/Collect.java      |  1 -
+ src/hardwareAbstraction/Claw.java | 25 +++++++++++++------------
+ 2 files changed, 13 insertions(+), 13 deletions(-)
+
+commit 24e867e2693655d4f124b88ba611218621a0d13c
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 28 22:58:36 2013 -0500
+
+    Cleaned up the controllers package. Added class comments and method
+    comments where necessary.
+
+ src/controllers/DropOff.java      |   4 -
+ src/controllers/Recognize.java    |  67 +++++---
+ src/controllers/Search.java       | 331 ++++++++++++++++++++------------------
+ src/controllers/State.java        |  13 +-
+ src/controllers/WallFollower.java |  89 +++++++---
+ src/services/Navigation.java      |   1 -
+ 6 files changed, 297 insertions(+), 208 deletions(-)
+
+commit 2162359f38834d538851de06d9ca1fa44eaa7c60
+Merge: 5d17070 9dc13bb
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 28 22:09:05 2013 -0500
+
+    Merge branch 'Stable'
+    
+    Conflicts:
+    	src/controllers/Recognize.java
+
+commit 9dc13bbc095ce2b2c14b4e064e54b4f83a78c014
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Thu Nov 28 22:00:58 2013 -0500
+
+    Comments were added to the controllers.
+
+ src/controllers/Collect.java   | 93 ++++++++++++++----------------------------
+ src/controllers/DropOff.java   | 67 ++++++++++++++++--------------
+ src/controllers/Recognize.java | 74 ++++++++++++++++++++-------------
+ 3 files changed, 111 insertions(+), 123 deletions(-)
+
+commit 5d17070c0aab84ce05c050c6e38cae7e6ca7acd8
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Wed Nov 27 16:57:02 2013 -0500
+
+    FINAL
+
+ src/launcher/Launcher.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 78ca85ded431b3353c248da20057d527a1c73abb
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Wed Nov 27 11:18:04 2013 -0500
+
+    game day fixes. kind of working...
+
+ src/controllers/Search.java              | 171 +++++++++++++++++++++++++++----
+ src/launcher/Launcher.java               |   5 +-
+ src/manager/UtilityManager.java          |   2 +-
+ src/services/OdometryCorrection.java     |   6 +-
+ src/utilities/BluetoothTransmission.java |  26 +++--
+ src/utilities/Settings.java              |   8 +-
+ 6 files changed, 182 insertions(+), 36 deletions(-)
+
+commit 65c5812a7a877755e6d88a529341b75b0ee51753
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 27 06:39:56 2013 -0500
+
+    Created the stable branch.
+
+ README.md | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit d9c99b52d6d152d09a26cd5491b22b3642041c61
+Merge: bf7c983 05c5205
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 27 06:24:27 2013 -0500
+
+    Merge branch 'master' of https://github.com/danielle-mustillo/ECSE-211-Team-5.git
+
+commit bf7c983270ca4e25202a7f7abaef02a3ad3afec5
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 27 06:24:14 2013 -0500
+
+    This version seems unstable because navigation is unstable. Otherwise,
+    it should work virtually flawlessly. This build needs fully charged
+    BATTERIES on the slave and master to properly be tested. UNSTABLE.
+
+ src/controllers/Recognize.java | 73 ++++++++++++++++++++++++++++++++----------
+ src/controllers/Search.java    | 18 ++++++++---
+ src/launcher/Launcher.java     |  2 ++
+ src/services/Odometer.java     | 28 +++++++++-------
+ src/utilities/Settings.java    |  2 +-
+ src/utilities/Tile.java        | 32 ++++++++----------
+ 6 files changed, 103 insertions(+), 52 deletions(-)
+
+commit efd29c855cb420f7c1ff2661fa6f674a1d66b724
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Wed Nov 27 01:12:21 2013 -0500
+
+    Last night commits. Made the whole sequence work. This is STABLE.
+
+ src/hardwareAbstraction/ColorPoller.java |  18 +++-
+ src/launcher/Launcher.java               |   6 +-
+ src/services/Navigation.java             |  12 ++-
+ src/services/Odometer.java               |  26 +++++-
+ src/utilities/BluetoothTransmission.java |   4 +-
+ src/utilities/Point.java                 |   3 +
+ src/utilities/Position.java              |  26 ++++++
+ src/utilities/Settings.java              |   2 +-
+ src/utilities/Tile.java                  | 156 +++++++++++++++++++++++++++----
+ 9 files changed, 219 insertions(+), 34 deletions(-)
+
+commit 8a5677e5b825e2f705d0cf6b841217068dea9d20
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 26 19:57:37 2013 -0500
+
+    Added a tile object in Settings for the coordinates. Allows the tile
+    logic to be used.
+
+ src/utilities/Settings.java | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+commit 47093fcbb6116b71157a615f9ecfec2737188375
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 26 19:51:28 2013 -0500
+
+    Went back to the old version, alert was not needed. Removed intelligence
+    in Search previously put.
+
+ src/controllers/Collect.java             | 5 -----
+ src/controllers/ControllerInterface.java | 1 -
+ src/controllers/DropOff.java             | 5 -----
+ src/controllers/Recognize.java           | 5 -----
+ src/controllers/Search.java              | 3 ++-
+ src/controllers/WallFollower.java        | 5 -----
+ 6 files changed, 2 insertions(+), 22 deletions(-)
+
+commit 05c52051c7ae78ef38665a43989b579b32f025d5
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Tue Nov 26 19:46:32 2013 -0500
+
+    Javadoc Fixes
+
+ src/hardwareAbstraction/NXTRemoteMotor.java | 2 +-
+ src/services/LCDInfo.java                   | 9 ++++++---
+ src/slave/Responder.java                    | 2 +-
+ 3 files changed, 8 insertions(+), 5 deletions(-)
+
+commit 316394604c0fccba7b5330170e74c798fe15151e
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Tue Nov 26 19:37:04 2013 -0500
+
+    All Controllers commeneted
+
+ src/manager/ControllerManager.java | 53 ++++++++++++++++++++++++++++++++++++--
+ src/manager/HardwareManager.java   | 36 ++++++++++++++++++++++++++
+ src/manager/Manager.java           | 10 +++++++
+ src/manager/ServiceManager.java    | 38 ++++++++++++++++++++++++++-
+ src/manager/UtilityManager.java    | 24 +++++++++++++++--
+ 5 files changed, 156 insertions(+), 5 deletions(-)
+
+commit 0f5b8e839fc9c247dd728c3de807ed6c0d2ee540
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 26 19:05:36 2013 -0500
+
+    Added an alert message to the controllers. Will be useful if we ever
+    have to alert a controller to do something.
+
+ src/controllers/Collect.java             | 5 +++++
+ src/controllers/ControllerInterface.java | 1 +
+ src/controllers/DropOff.java             | 5 +++++
+ src/controllers/Recognize.java           | 5 +++++
+ src/controllers/WallFollower.java        | 5 +++++
+ 5 files changed, 21 insertions(+)
+
+commit ceb22a261a93fed2ce5c18aed8c0afb17ec03919
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Tue Nov 26 18:38:53 2013 -0500
+
+    Commented NXTRemoteMotor, RemoteCommands, UltrasonicMotor, UltrasonicPoller
+
+ src/hardwareAbstraction/NXTRemoteMotor.java   | 108 +++++++++++++++++++++++++-
+ src/hardwareAbstraction/RemoteCommands.java   |   4 +-
+ src/hardwareAbstraction/UltrasonicMotor.java  |  18 ++++-
+ src/hardwareAbstraction/UltrasonicPoller.java |  31 +++++++-
+ 4 files changed, 154 insertions(+), 7 deletions(-)
+
+commit 44c57dc0b09cfa48486e016418ee308a3ef4ad8b
+Merge: 043ad74 9c8ea31
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 26 18:32:53 2013 -0500
+
+    Merge branch 'master' of https://github.com/danielle-mustillo/ECSE-211-Team-5.git
+
+commit 043ad74b216bacddbcc3eb690dc8f72b40ded6ee
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 26 18:32:45 2013 -0500
+
+    Some updates. Nothing is radically different right now.
+
+ src/controllers/Recognize.java           | 21 +++++++++++---
+ src/controllers/WallFollower.java        | 47 ++++++++++++++++++++------------
+ src/hardwareAbstraction/Claw.java        |  8 +++---
+ src/hardwareAbstraction/ColorPoller.java |  2 +-
+ src/launcher/Launcher.java               | 19 +++++++------
+ src/services/Localization.java           |  2 +-
+ src/services/Navigation.java             |  1 +
+ src/utilities/Point.java                 | 21 ++++++++++++++
+ src/utilities/Settings.java              |  4 +--
+ src/utilities/Tile.java                  | 30 ++++++++++++++++++++
+ 10 files changed, 116 insertions(+), 39 deletions(-)
+
+commit 408462ed31526c71be90cc8e51cb766379dc1210
+Merge: c123a1f 3334688
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 26 15:14:49 2013 -0500
+
+    Merge branch 'master' of https://github.com/danielle-mustillo/ECSE-211-Team-5.git
+
+commit 9c8ea3179b7a022a1b2920e41a64369987557972
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Tue Nov 26 11:59:59 2013 -0500
+
+    Added detail to comment in Localization
+
+ src/services/Localization.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 3334688b35f6098ac5c40d321d2b2a85b61df7d5
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Tue Nov 26 11:42:46 2013 -0500
+
+    Fixed error with localization.  Should no longer spin forever
+
+ src/services/Localization.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit c123a1f28792ede85fcbd20cc96ff36be898889a
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 26 02:02:58 2013 -0500
+
+    Added a little note for myself.
+
+ src/controllers/WallFollower.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 344a2a63cdd7f7df533926a0b95ae5d3fa5cb8c1
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 26 01:58:24 2013 -0500
+
+    Small little tweaks made which should help performance. The claw starts
+    at at a grip a little tighter than before and the wall follower should
+    turn the correct angle.
+
+ src/controllers/WallFollower.java | 4 ++--
+ src/hardwareAbstraction/Claw.java | 7 ++++---
+ src/launcher/Launcher.java        | 2 ++
+ 3 files changed, 8 insertions(+), 5 deletions(-)
+
+commit 739ba4696816aac57cc9a6bb83a533eff479d52d
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Tue Nov 26 00:51:13 2013 -0500
+
+    Fixed the new method in Position. Added the JavaDocs to it.
+
+ src/utilities/Position.java | 46 ++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 35 insertions(+), 11 deletions(-)
+
+commit d2c5651956206cfdee0c5f6c2a7b37d0072aea92
+Merge: afe4361 9740f2d
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Mon Nov 25 23:51:58 2013 -0500
+
+    Merge branch 'master' of https://github.com/danielle-mustillo/ECSE-211-Team-5.git
+
+commit afe4361cd40f4e8c0da932881a75cf76a50457d6
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Mon Nov 25 23:51:45 2013 -0500
+
+    The whole sequence of search, recognize, collect and dropoff works. Good
+    job team! Working on Wall Following now. Color sensor needs to be
+    adjusted to meet real values.
+
+ src/controllers/Recognize.java           |  2 +-
+ src/controllers/WallFollower.java        | 12 ++++--------
+ src/hardwareAbstraction/ColorPoller.java |  4 ++--
+ src/utilities/Position.java              |  6 ++++++
+ 4 files changed, 13 insertions(+), 11 deletions(-)
+
+commit 9740f2dfb7d77103b58e2d786c663ade030f008c
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Mon Nov 25 22:58:13 2013 -0500
+
+    Commented NXTRemoteCommand, NXTRemoteUltrasonicPoller, and RemoteCommands
+
+ src/hardwareAbstraction/NXTRemoteCommand.java      | 46 +++++++++++++++++
+ .../NXTRemoteUltrasonicPoller.java                 | 60 ++++++++++++++++++++++
+ src/hardwareAbstraction/RemoteCommands.java        |  7 ++-
+ 3 files changed, 112 insertions(+), 1 deletion(-)
+
+commit 492dd4b0feed1ce0b0629bdbef40cb2aa8918143
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Mon Nov 25 22:55:14 2013 -0500
+
+    The program now detects blocks and will bring them to the destination,
+    IE the green zone. It will then drop off from it and continue searching.
+    Has to be tested with more than one block. Obstacle avoidance unknown.
+
+ src/controllers/Collect.java             |  7 +++---
+ src/controllers/DropOff.java             | 31 ++++++++++++++++++++---
+ src/controllers/WallFollower.java        | 43 ++++++++++++++++++++++++++++++++
+ src/hardwareAbstraction/ColorPoller.java |  2 +-
+ src/hardwareAbstraction/Forklift.java    |  2 +-
+ src/services/Navigation.java             | 11 +++++---
+ src/utilities/Settings.java              |  2 +-
+ 7 files changed, 83 insertions(+), 15 deletions(-)
+
+commit a8295dc98b90fe44b5d6c7485e0f8b95b46ddde2
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Mon Nov 25 22:05:32 2013 -0500
+
+    Line Poller Commented
+
+ src/hardwareAbstraction/LinePoller.java | 68 +++++++++++++++++++++++++++++++--
+ 1 file changed, 64 insertions(+), 4 deletions(-)
+
+commit fdd06280f1a018734f3d400c2998aece95e3cf75
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Mon Nov 25 21:46:37 2013 -0500
+
+    Commented out the LCDInfo since it threw some exceptions during DropOff.
+    Not a priority to fix this for the moment.
+
+ src/services/LCDInfo.java | 54 +++++++++++++++++++++++------------------------
+ 1 file changed, 27 insertions(+), 27 deletions(-)
+
+commit 69acb9d5249ee0c5ca5827d70ac562d4a1273451
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Mon Nov 25 21:45:59 2013 -0500
+
+    Added a new command to the Ultrasonic Poller which pings only the side
+    ultrasonic sensors.
+
+ .../NXTRemoteUltrasonicPoller.java                 |  6 ++++
+ src/hardwareAbstraction/RemoteCommands.java        |  1 +
+ src/hardwareAbstraction/UltrasonicPoller.java      |  2 ++
+ src/slave/NXTRemoteControl.java                    |  5 +++
+ src/slave/RemoteUltrasonicPoller.java              | 36 +++++++++++++++++++---
+ 5 files changed, 45 insertions(+), 5 deletions(-)
+
+commit 8eaca943b08c2ed4721b3fe3e9e094d7eb1d0c02
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Mon Nov 25 19:52:07 2013 -0500
+
+    Small fix to Navigation.
+
+ src/services/Navigation.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit 65afdd40bc40e834ac9ab4bdbc8b351018420d90
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Mon Nov 25 19:26:19 2013 -0500
+
+    Added a default coordinate for DropOff to go to when it has a block in
+    Settings. Should not throw a null pointer exception anymore. Still must
+    be tested. Small edits in Dropoff
+
+ src/controllers/DropOff.java | 8 ++++----
+ src/utilities/Settings.java  | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+commit d0193ee492398acbc6eea28446ea3fb4ffd2e312
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Mon Nov 25 19:20:15 2013 -0500
+
+    Added comment as per request from Riley.
+
+ src/utilities/Settings.java | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+commit 9334070b5a749c722973dff5d715f41463c0f005
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Mon Nov 25 19:15:51 2013 -0500
+
+    Commented irrelevant code.
+
+ src/controllers/Collect.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 95cd535f7ca3ae5fc65153fb8748b146a5f12923
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Mon Nov 25 19:12:24 2013 -0500
+
+    Added a useful method in navigation to avoid shuffling the route in
+    navigation. Also debugged the previous problem in Recognize where the
+    robot was not traveling forward a small distance (it was a state
+    problem).
+
+ src/controllers/Collect.java   |   2 +
+ src/controllers/Recognize.java |  64 ++++---------
+ src/controllers/State.java     |   2 +-
+ src/services/Navigation.java   | 213 +++++++++++++++++++++--------------------
+ 4 files changed, 132 insertions(+), 149 deletions(-)
+
+commit 17727fbfd03da242c25405eac874f14fd35585d0
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Mon Nov 25 14:27:48 2013 -0500
+
+    Commented Drive and Forklift
+
+ src/hardwareAbstraction/Drive.java    | 27 +++++++++++++++++++++------
+ src/hardwareAbstraction/Forklift.java | 25 ++++++++++++++++++++++---
+ 2 files changed, 43 insertions(+), 9 deletions(-)
+
+commit 49ecef40909a2eb5d6f3b3b7f99885118b0a3b80
+Author: RileyvanRyswyk <rileyvan@gmail.com>
+Date:   Mon Nov 25 12:26:54 2013 -0500
+
+    Commented Claw/Color Poller
+
+ src/hardwareAbstraction/Claw.java        | 16 ++++++++----
+ src/hardwareAbstraction/ColorPoller.java | 43 +++++++++++++++++++++++++++++---
+ 2 files changed, 51 insertions(+), 8 deletions(-)
+
+commit 7bcd511573eabedd97b4bf8bc2567c916efbc61a
+Author: Danielle Mustillo <danielle.mustillo@mail.mcgill.ca>
+Date:   Mon Nov 25 03:51:17 2013 -0500
+
+    The file logScript was generated in bash. This should generate the log files for our code. This is the git history. The script should generate the new log files (labeled git<name>.txt) as of the current date.
+
+ .DS_Store          |   Bin 0 -> 6148 bytes
+ gitLogComplete.txt | 32897 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ gitLogGeneral.txt  |  1587 +++
+ gitLogIndex.txt    |   129 +
+ gitLogOverview.txt |   129 +
+ logScript          |    13 +
+ 6 files changed, 34755 insertions(+)
+
 commit 2a6f7324a5957e8cc16977bc2bc775818e0e28a6
 Merge: 085fc12 34eb188
 Author: danielle-mustillo <danielle.mustillo@mail.mcgill.ca>

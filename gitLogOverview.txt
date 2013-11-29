@@ -1,3 +1,47 @@
+78fe380 - Danielle Mustillo, Fri Nov 29 01:53:26 2013 -0500 --> Added the javadocs as generated from the eclipse tool.
+f34ae92 - Danielle Mustillo, Fri Nov 29 01:51:42 2013 -0500 --> Formatted all the classes, ran it through the format tool in eclipse and removed the @author everywhere as this represents poor style. The git logs should serve to backtrack the authors.
+f061ff2 - Danielle Mustillo, Fri Nov 29 00:54:37 2013 -0500 --> Cleaned up all warning signs. There should not be any more.
+787b0b8 - Danielle Mustillo, Fri Nov 29 00:50:28 2013 -0500 --> Cleaned up the rest of the classes. Removed whatever methods were not used. Commented everything else.
+2148f89 - Danielle Mustillo, Fri Nov 29 00:21:44 2013 -0500 --> Cleaned up all the classes, added comments where necessary. Left many comments for unfinished elements.
+8dd1855 - Danielle Mustillo, Thu Nov 28 23:03:10 2013 -0500 --> Cleaned up some small things.
+24e867e - Danielle Mustillo, Thu Nov 28 22:58:36 2013 -0500 --> Cleaned up the controllers package. Added class comments and method comments where necessary.
+2162359 - Danielle Mustillo, Thu Nov 28 22:09:05 2013 -0500 --> Merge branch 'Stable'
+9dc13bb - Danielle Mustillo, Thu Nov 28 22:00:58 2013 -0500 --> Comments were added to the controllers.
+5d17070 - RileyvanRyswyk, Wed Nov 27 16:57:02 2013 -0500 --> FINAL
+78ca85d - RileyvanRyswyk, Wed Nov 27 11:18:04 2013 -0500 --> game day fixes. kind of working...
+65c5812 - Danielle Mustillo, Wed Nov 27 06:39:56 2013 -0500 --> Created the stable branch.
+d9c99b5 - Danielle Mustillo, Wed Nov 27 06:24:27 2013 -0500 --> Merge branch 'master' of https://github.com/danielle-mustillo/ECSE-211-Team-5.git
+bf7c983 - Danielle Mustillo, Wed Nov 27 06:24:14 2013 -0500 --> This version seems unstable because navigation is unstable. Otherwise, it should work virtually flawlessly. This build needs fully charged BATTERIES on the slave and master to properly be tested. UNSTABLE.
+efd29c8 - Danielle Mustillo, Wed Nov 27 01:12:21 2013 -0500 --> Last night commits. Made the whole sequence work. This is STABLE.
+8a5677e - Danielle Mustillo, Tue Nov 26 19:57:37 2013 -0500 --> Added a tile object in Settings for the coordinates. Allows the tile logic to be used.
+47093fc - Danielle Mustillo, Tue Nov 26 19:51:28 2013 -0500 --> Went back to the old version, alert was not needed. Removed intelligence in Search previously put.
+05c5205 - RileyvanRyswyk, Tue Nov 26 19:46:32 2013 -0500 --> Javadoc Fixes
+3163946 - RileyvanRyswyk, Tue Nov 26 19:37:04 2013 -0500 --> All Controllers commeneted
+0f5b8e8 - Danielle Mustillo, Tue Nov 26 19:05:36 2013 -0500 --> Added an alert message to the controllers. Will be useful if we ever have to alert a controller to do something.
+ceb22a2 - RileyvanRyswyk, Tue Nov 26 18:38:53 2013 -0500 --> Commented NXTRemoteMotor, RemoteCommands, UltrasonicMotor, UltrasonicPoller
+44c57dc - Danielle Mustillo, Tue Nov 26 18:32:53 2013 -0500 --> Merge branch 'master' of https://github.com/danielle-mustillo/ECSE-211-Team-5.git
+043ad74 - Danielle Mustillo, Tue Nov 26 18:32:45 2013 -0500 --> Some updates. Nothing is radically different right now.
+408462e - Danielle Mustillo, Tue Nov 26 15:14:49 2013 -0500 --> Merge branch 'master' of https://github.com/danielle-mustillo/ECSE-211-Team-5.git
+9c8ea31 - RileyvanRyswyk, Tue Nov 26 11:59:59 2013 -0500 --> Added detail to comment in Localization
+3334688 - RileyvanRyswyk, Tue Nov 26 11:42:46 2013 -0500 --> Fixed error with localization.  Should no longer spin forever
+c123a1f - Danielle Mustillo, Tue Nov 26 02:02:58 2013 -0500 --> Added a little note for myself.
+344a2a6 - Danielle Mustillo, Tue Nov 26 01:58:24 2013 -0500 --> Small little tweaks made which should help performance. The claw starts at at a grip a little tighter than before and the wall follower should turn the correct angle.
+739ba46 - Danielle Mustillo, Tue Nov 26 00:51:13 2013 -0500 --> Fixed the new method in Position. Added the JavaDocs to it.
+d2c5651 - Danielle Mustillo, Mon Nov 25 23:51:58 2013 -0500 --> Merge branch 'master' of https://github.com/danielle-mustillo/ECSE-211-Team-5.git
+afe4361 - Danielle Mustillo, Mon Nov 25 23:51:45 2013 -0500 --> The whole sequence of search, recognize, collect and dropoff works. Good job team! Working on Wall Following now. Color sensor needs to be adjusted to meet real values.
+9740f2d - RileyvanRyswyk, Mon Nov 25 22:58:13 2013 -0500 --> Commented NXTRemoteCommand, NXTRemoteUltrasonicPoller, and RemoteCommands
+492dd4b - Danielle Mustillo, Mon Nov 25 22:55:14 2013 -0500 --> The program now detects blocks and will bring them to the destination, IE the green zone. It will then drop off from it and continue searching. Has to be tested with more than one block. Obstacle avoidance unknown.
+a8295dc - RileyvanRyswyk, Mon Nov 25 22:05:32 2013 -0500 --> Line Poller Commented
+fdd0628 - Danielle Mustillo, Mon Nov 25 21:46:37 2013 -0500 --> Commented out the LCDInfo since it threw some exceptions during DropOff. Not a priority to fix this for the moment.
+69acb9d - Danielle Mustillo, Mon Nov 25 21:45:59 2013 -0500 --> Added a new command to the Ultrasonic Poller which pings only the side ultrasonic sensors.
+8eaca94 - Danielle Mustillo, Mon Nov 25 19:52:07 2013 -0500 --> Small fix to Navigation.
+65afdd4 - Danielle Mustillo, Mon Nov 25 19:26:19 2013 -0500 --> Added a default coordinate for DropOff to go to when it has a block in Settings. Should not throw a null pointer exception anymore. Still must be tested. Small edits in Dropoff
+d0193ee - Danielle Mustillo, Mon Nov 25 19:20:15 2013 -0500 --> Added comment as per request from Riley.
+9334070 - Danielle Mustillo, Mon Nov 25 19:15:51 2013 -0500 --> Commented irrelevant code.
+95cd535 - Danielle Mustillo, Mon Nov 25 19:12:24 2013 -0500 --> Added a useful method in navigation to avoid shuffling the route in navigation. Also debugged the previous problem in Recognize where the robot was not traveling forward a small distance (it was a state problem).
+17727fb - RileyvanRyswyk, Mon Nov 25 14:27:48 2013 -0500 --> Commented Drive and Forklift
+49ecef4 - RileyvanRyswyk, Mon Nov 25 12:26:54 2013 -0500 --> Commented Claw/Color Poller
+7bcd511 - Danielle Mustillo, Mon Nov 25 03:51:17 2013 -0500 --> The file logScript was generated in bash. This should generate the log files for our code. This is the git history. The script should generate the new log files (labeled git<name>.txt) as of the current date.
 2a6f732 - danielle-mustillo, Sun Nov 24 21:31:21 2013 -0500 --> Merge branch 'master' of https://github.com/danielle-mustillo/ECSE-211-Team-5.git
 085fc12 - danielle-mustillo, Sun Nov 24 21:29:17 2013 -0500 --> The code almost works now. The robot sometimes misses a block but that seems to be more of a hardware calibration and testing thing. The DropOff function still throws exceptions which must be handled. However, the Recognize function does not properly drive forward to get to the block and grab it. All functionality is there except for the drive forward to get the blue block between the sponges.
 34eb188 - RileyvanRyswyk, Sun Nov 24 20:51:28 2013 -0500 --> Utilities package comments
