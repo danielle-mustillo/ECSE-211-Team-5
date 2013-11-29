@@ -13,18 +13,22 @@ import lejos.nxt.comm.NXTConnection;
 import lejos.nxt.comm.RConsole;
 
 /**
- * This class will open a bluetooth connection to the PC server.  It will also read the match variables and set the appropriate variables in {@link Settings}.
+ * This class will open a bluetooth connection to the PC server. It will also
+ * read the match variables and set the appropriate variables in
+ * {@link Settings}.
+ * 
  * @author Danielle
- *
+ * 
  */
 public class BluetoothTransmission {
 	/**
 	 * Input Data Stream
 	 */
-	static DataInputStream stream; 
-	
+	static DataInputStream stream;
+
 	/**
-	 * Calls {@link getConnection() } and then {@link getInformation() }.  It will then call {@link close}
+	 * Calls {@link getConnection() } and then {@link getInformation() }. It
+	 * will then call {@link close}
 	 */
 	public static void getBluetoothData() {
 		Settings.greenZoneCoords = new Point[2];
@@ -33,9 +37,11 @@ public class BluetoothTransmission {
 		getInformation();
 		close();
 	}
-	
+
 	/**
-	 * Waits for a bluetooth connection to the server, and when one becomes available it will connect.
+	 * Waits for a bluetooth connection to the server, and when one becomes
+	 * available it will connect.
+	 * 
 	 * @return
 	 */
 	private static DataInputStream getConnection() {
@@ -45,7 +51,7 @@ public class BluetoothTransmission {
 		LCD.drawString("BT Connected", 0, 1);
 		return conn.openDataInputStream();
 	}
-	
+
 	/**
 	 * Closes the connection to the server
 	 */
@@ -55,67 +61,80 @@ public class BluetoothTransmission {
 		} catch (IOException e) {
 		}
 	}
+
 	/**
-	 * Reads the input stream for information, it will then set {@link Settings.role}, {@link Settings.startingCorner}, {@link Settings.greenZoneCoords}, and {@link Settings.redZoneCoords}
+	 * Reads the input stream for information, it will then set
+	 * {@link Settings.role}, {@link Settings.startingCorner},
+	 * {@link Settings.greenZoneCoords}, and {@link Settings.redZoneCoords}
 	 */
 	private static void getInformation() {
-		//TODO verify the input of the coordinates with the server. I am assuming the coordinates are sent as a series of 8 integers. The order is unknown. 
+		// TODO verify the input of the coordinates with the server. I am
+		// assuming the coordinates are sent as a series of 8 integers. The
+		// order is unknown.
 		try {
 			Settings.role = stream.readInt();
-			
+
 			char useless = stream.readChar();
 			int startingCorner = stream.readInt();
-			//TODO figure out which numbers correspond to which corners. And their values. 
-			switch(startingCorner) {
-			case 1 : Settings.startingCorner = StartingCorner.BOTTOM_LEFT; 
-			break;
-			case 2 : Settings.startingCorner = StartingCorner.BOTTOM_RIGHT; 
-			break;
-			case 4 : Settings.startingCorner = StartingCorner.TOP_LEFT; 
-			break;
-			case 3 : Settings.startingCorner = StartingCorner.TOP_RIGHT; 
-			break;
+			// TODO figure out which numbers correspond to which corners. And
+			// their values.
+			switch (startingCorner) {
+			case 1:
+				Settings.startingCorner = StartingCorner.BOTTOM_LEFT;
+				break;
+			case 2:
+				Settings.startingCorner = StartingCorner.BOTTOM_RIGHT;
+				break;
+			case 4:
+				Settings.startingCorner = StartingCorner.TOP_LEFT;
+				break;
+			case 3:
+				Settings.startingCorner = StartingCorner.TOP_RIGHT;
+				break;
 			}
-			
-			for(int i = 0; i < Settings.greenZoneCoords.length; i++) {
+
+			for (int i = 0; i < Settings.greenZoneCoords.length; i++) {
 				useless = stream.readChar();
-				double x = stream.readInt()*Settings.TILE_SIZE ;
+				double x = stream.readInt() * Settings.TILE_SIZE;
 				useless = stream.readChar();
-				double y = stream.readInt()*Settings.TILE_SIZE;
-				if(Settings.role == Settings.roleBuilder) {
-					Settings.greenZoneCoords[i] = new Point(x,y);
+				double y = stream.readInt() * Settings.TILE_SIZE;
+				if (Settings.role == Settings.roleBuilder) {
+					Settings.greenZoneCoords[i] = new Point(x, y);
 				} else {
-					Settings.redZoneCoords[i] = new Point(x,y);
+					Settings.redZoneCoords[i] = new Point(x, y);
 				}
 			}
-			
-			for(int i = 0; i < Settings.redZoneCoords.length; i++) {
+
+			for (int i = 0; i < Settings.redZoneCoords.length; i++) {
 				useless = stream.readChar();
-				double x = stream.readInt()*Settings.TILE_SIZE;
+				double x = stream.readInt() * Settings.TILE_SIZE;
 				useless = stream.readChar();
-				double y = stream.readInt()*Settings.TILE_SIZE;
-				if(Settings.role == Settings.roleDestroyer) {
-					Settings.greenZoneCoords[i] = new Point(x,y);
+				double y = stream.readInt() * Settings.TILE_SIZE;
+				if (Settings.role == Settings.roleDestroyer) {
+					Settings.greenZoneCoords[i] = new Point(x, y);
 				} else {
-					Settings.redZoneCoords[i] = new Point(x,y);
+					Settings.redZoneCoords[i] = new Point(x, y);
 				}
 			}
-			
-			Settings.redZone = new Tile(Settings.redZoneCoords[0], Settings.redZoneCoords[1]);
-			Settings.greenZone = new Tile(Settings.greenZoneCoords[0], Settings.greenZoneCoords[1]);
-			
+
+			Settings.redZone = new Tile(Settings.redZoneCoords[0],
+					Settings.redZoneCoords[1]);
+			Settings.greenZone = new Tile(Settings.greenZoneCoords[0],
+					Settings.greenZoneCoords[1]);
+
 			Settings.role = 1;
-			
+
 		} catch (IOException e) {
 			catchBug("Bluetooth recieve failed: " + e.getMessage());
 		}
 
 	}
-	
+
 	/**
 	 * The static helper method here just exits the system when commanded. It
 	 * displays a message on the NXT for the user.
 	 * <p>
+	 * 
 	 * @param bug
 	 *            A String object with the message on screen.
 	 */

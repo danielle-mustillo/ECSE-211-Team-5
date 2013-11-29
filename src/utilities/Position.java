@@ -2,10 +2,6 @@ package utilities;
 
 /**
  * Using the {@link Point} class as a base, Position adds an angle theta.
- * 
- * @author Riley
- * @author Danielle
- * 
  */
 public class Position extends Point {
 

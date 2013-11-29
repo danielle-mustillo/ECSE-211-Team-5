@@ -1,17 +1,12 @@
 package utilities;
 
-import hardwareAbstraction.NXTRemoteCommand;
 import hardwareAbstraction.NXTRemoteMotor;
 import lejos.nxt.ColorSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
-import lejos.nxt.UltrasonicSensor;
 /**
  * Contains most of the Motor/Sensor port settings, Physical Robot Parameters and match settings
- * @author Riley
- * @author Danielle
- *
  */
 public class Settings {
 	/**

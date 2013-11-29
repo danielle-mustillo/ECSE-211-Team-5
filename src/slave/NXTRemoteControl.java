@@ -473,7 +473,7 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
 }
    @Override
    /**
-    * Not used
+    * Not used. Left for future interest. 
     */
    public void rotationStarted(RegulatedMotor motor, int tachoCount, boolean stalled,
          long timeStamp) {
@@ -495,7 +495,7 @@ public class NXTRemoteControl extends Thread implements RemoteCommands, Regulate
    
    @Override
    /**
-    * Not used
+    * Not used. Left for future interest. 
     */
    public void rotationStopped(RegulatedMotor motor, int tachoCount, boolean stalled,
          long timeStamp) {

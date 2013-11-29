@@ -14,6 +14,11 @@ import lejos.nxt.comm.NXTConnection;
  * it. Only uses the motor and the ultrasonicSensors on the other NXT as it is
  * impossible to initialize a ColorSensor on the remote NXT.
  * <p>
+ * The first version of this class (as seen in the git commit logs) show that
+ * this class used the built in functions already provided in LEJOS. However,
+ * the built in functionality turned out to be unreliable and we have rewrote
+ * the functionality. This has greatly improved the reliability of the
+ * communication between the two classes.
  * @author Danielle Mustillo
  * @author Riley
  * 
@@ -43,39 +48,6 @@ public class Communicator {
 	       dis = con.openDataInputStream();
 	       dos = con.openDataOutputStream();
 	}
-	
-	
-	
-	
-//	/**
-//	 * The Communicator object that will just connect to the slaveNXT. Uses exclusively RS485 for a reliable connection. It initializes the motors from the remote brick.
-//	 * @param slaveNXT	A String with the name of the remoteNXT connected via RS485. 
-//	 */
-	/*public Communicator(String slaveNXT) {
-		RemoteNXT nxt = null;
-		try {
-			nxt = new RemoteNXT(slaveNXT, RS485.getConnector());
-			LCD.clear();
-            LCD.drawString("Connected",0,1);
-            Thread.sleep(2000);
-		} catch (IOException ioe) {
-			catchBug("RS485 Connection has Failed. See error: "
-					+ ioe.getMessage());
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		LCD.clear();
-		
-		Settings.forkliftMotor = nxt.C;
-		Settings.clawMotor = nxt.A;
-		Settings.ultrasonicMotor = nxt.B;
-		Settings.leftUltrasonic = new UltrasonicSensor(nxt.S3);
-		Settings.centerUltrasonic = new UltrasonicSensor(nxt.S1);
-		Settings.rightUltrasonic = new UltrasonicSensor(nxt.S2);
-		
-	}*/
 
 	/**
 	 * The static helper method here just exits the system when commanded. It

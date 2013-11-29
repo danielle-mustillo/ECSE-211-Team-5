@@ -1,8 +1,6 @@
 package utilities;
 /**
  * Helper class that uses a Point object to store a points x and y coordinates. As well it provides convenient helper methods  
- * @author Riley
- *
  */
 public class Point  {
 	public double x;
