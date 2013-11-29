@@ -1,6 +1,5 @@
 package utilities;
 
-
 /**
  * This class provides the functionality of a tile, specific for different zones
  * of interest to the robot. In this case, the only functionality of tile is to

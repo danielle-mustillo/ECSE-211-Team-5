@@ -5,7 +5,6 @@ import utilities.Settings;
 
 /**
  * This class handles the driving motors, it is a modified version of the TwoWheeledRobot class from Lab4. 
- * @author Riley
  *
  */
 public class Drive {

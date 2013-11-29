@@ -5,25 +5,27 @@ import java.io.IOException;
 import lejos.nxt.comm.RConsole;
 
 /**
- * Abstraction layer for the ultrasonic poller over RS485.  
- * Uses methods from {@link NXTRemoteCommand} to send and receive appropriate data.
- * Also implements {@link RemoteCommands} to assist with keeping track of command ids.  
- * Implements {@link UltrasonicPoller} to ensure all required methods are implemented as they were before.  
- * @author Danielle
- *
+ * Abstraction layer for the ultrasonic poller over RS485. Uses methods from
+ * {@link NXTRemoteCommand} to send and receive appropriate data. Also
+ * implements {@link RemoteCommands} to assist with keeping track of command
+ * ids. Implements {@link UltrasonicPoller} to ensure all required methods are
+ * implemented as they were before.
  */
-public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoller {
+public class NXTRemoteUltrasonicPoller implements RemoteCommands,
+		UltrasonicPoller {
 	/**
-	 * Id of the {@link RemoteUltrasonicPoller}.  Should be four
+	 * Id of the {@link RemoteUltrasonicPoller}. Should be four
 	 */
 	private int id;
 	/**
-	 * Class reference to the communication protocol abstraction layer class {@link NXTRemoteCommand}
+	 * Class reference to the communication protocol abstraction layer class
+	 * {@link NXTRemoteCommand}
 	 */
 	private NXTRemoteCommand sensorCommand;
-	
+
 	/**
 	 * Initializes id to the passed id. Sets reference to {@link sensorCommand}
+	 * 
 	 * @param nxtCommand
 	 * @param id
 	 */
@@ -31,7 +33,6 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 		this.id = id;
 		this.sensorCommand = nxtCommand;
 	}
-	
 
 	/**
 	 * Sends command to start {@link RemoteUltrasonicPoller}
@@ -41,7 +42,7 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 		RConsole.println("start USP");
 		sensorCommand.send(id, START_USP);
 	}
-	
+
 	/**
 	 * Sends command to stop {@link RemoteUltrasonicPoller}
 	 */
@@ -50,7 +51,7 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 		RConsole.println("stop USP");
 		sensorCommand.send(id, STOP_USP);
 	}
-	
+
 	/**
 	 * Sends command to reset the {@link RemoteUltrasonicPoller}
 	 */
@@ -60,9 +61,10 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 		sensorCommand.send(id, RESET_USP);
 	}
 
-
 	/**
-	 * Checks to see if the {@link RemoteUltrasonicPoller} is setup (readings array is full of values).
+	 * Checks to see if the {@link RemoteUltrasonicPoller} is setup (readings
+	 * array is full of values).
+	 * 
 	 * @return the boolean response from the slave NXT brick
 	 */
 	@Override
@@ -74,48 +76,52 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 			setup = sensorCommand.getBool();
 		} catch (IOException e) {
 			System.out.println("Recieve Error");
-			//no exception expected here. 
+			// no exception expected here.
 		}
 		return setup;
 	}
 
 	/**
-	 * Sends command to calculate the filtered reading for the passed sensor (0,1,2) -> (left,center,right)
+	 * Sends command to calculate the filtered reading for the passed sensor
+	 * (0,1,2) -> (left,center,right)
 	 * <p>
+	 * 
 	 * @return the filtered sensor reading (median filtering)
 	 */
 	@Override
 	public int getUSReading(int sensor) {
 		int reading = -1;
-		
+
 		sensorCommand.send(id, GET_US_READING, sensor);
 		try {
 			reading = sensorCommand.getInt();
 		} catch (IOException e) {
-			//no exception expected here. 
+			// no exception expected here.
 		}
 		RConsole.println("Reading" + String.valueOf(reading));
-		return reading;	
-		
+		return reading;
+
 	}
 
 	/**
-	 * Uses {@link getUSReading()} to get the filtered reading for the left, center and right ultrasonic sensor
+	 * Uses {@link getUSReading()} to get the filtered reading for the left,
+	 * center and right ultrasonic sensor
+	 * 
 	 * @return the smallest of the readings from the 3 ultrasonic sensors
 	 */
 	public int getLowestReading() {
 		int left = getUSReading(0);
 		int center = getUSReading(1);
 		int right = getUSReading(2);
-		
-		if(left <= center && left <= right) {
+
+		if (left <= center && left <= right) {
 			return left;
 		} else if (center <= right) {
 			return center;
 		} else {
 			return right;
 		}
-		
+
 	}
 
 	@Override
@@ -130,20 +136,22 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 		try {
 			reading = sensorCommand.getInt();
 		} catch (IOException e) {
-			//no exception expected here. 
+			// no exception expected here.
 		}
 		USPosition usPos = null;
-		switch(reading) {
-		case left : usPos = USPosition.LEFT;
-		break;
-		case center : usPos =  USPosition.CENTER;
-		break;
-		case right : usPos = USPosition.RIGHT;
-		break;
+		switch (reading) {
+		case left:
+			usPos = USPosition.LEFT;
+			break;
+		case center:
+			usPos = USPosition.CENTER;
+			break;
+		case right:
+			usPos = USPosition.RIGHT;
+			break;
 		}
 		return usPos;
 	}
-
 
 	@Override
 	/**
@@ -154,9 +162,9 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 		sensorCommand.send(id, PING_LEFT);
 	}
 
-
 	/**
-	 * Sends command to set the {@link RemoteUltrasonicPoller} to ping only the right Ultrasonic sensor
+	 * Sends command to set the {@link RemoteUltrasonicPoller} to ping only the
+	 * right Ultrasonic sensor
 	 */
 	@Override
 	public void pingRight() {
@@ -164,9 +172,9 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 		sensorCommand.send(id, PING_RIGHT);
 	}
 
-
 	/**
-	 * Sends command to set the {@link RemoteUltrasonicPoller} to ping only the center Ultrasonic Sensor
+	 * Sends command to set the {@link RemoteUltrasonicPoller} to ping only the
+	 * center Ultrasonic Sensor
 	 */
 	@Override
 	public void pingCenter() {
@@ -174,9 +182,9 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 		sensorCommand.send(id, PING_CENTER);
 	}
 
-
 	/**
-	 * Sends command to {@link RemoteUltrasonicPoller} to ping all three ultrasonic Sensors at the same time
+	 * Sends command to {@link RemoteUltrasonicPoller} to ping all three
+	 * ultrasonic Sensors at the same time
 	 */
 	@Override
 	public void pingAll() {
@@ -184,18 +192,19 @@ public class NXTRemoteUltrasonicPoller implements RemoteCommands, UltrasonicPoll
 		sensorCommand.send(id, PING_ALL);
 	}
 
-
 	/**
-	 * Sends command to {@link RemoteUltrasonicPoller} to ping all three ultrasonic sensors, but only one at a time
+	 * Sends command to {@link RemoteUltrasonicPoller} to ping all three
+	 * ultrasonic sensors, but only one at a time
 	 */
 	@Override
 	public void pingSequential() {
 		RConsole.println("ping sequential USP");
 		sensorCommand.send(id, PING_SEQUENTIAL);
 	}
-	
+
 	/**
-	 * Sends command to {@link RemoteUltrasonicPoller} to ping the two side ultrasonic sensors. 
+	 * Sends command to {@link RemoteUltrasonicPoller} to ping the two side
+	 * ultrasonic sensors.
 	 */
 	@Override
 	public void pingSides() {

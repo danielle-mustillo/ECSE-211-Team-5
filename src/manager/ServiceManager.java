@@ -3,10 +3,8 @@ package manager;
 import services.*;
 
 /**
- * Stores access to all the services of the robot.  Allows for convenient referencing in other classes 
- * 
- * @author Riley
- *
+ * Stores access to all the services of the robot. Allows for convenient
+ * referencing in other classes
  */
 public class ServiceManager {
 
@@ -39,12 +37,14 @@ public class ServiceManager {
 	 */
 	public Localization localization;
 	/**
-	 * Control the output on the LCD screen, useful for debugging purposes. 
+	 * Control the output on the LCD screen, useful for debugging purposes.
 	 */
 	public LCDInfo lcdInfo;
-	
+
 	/**
-	 * Initializes the services of the robot (All class objects).  This will start odometer and lcdInfo by default.
+	 * Initializes the services of the robot (All class objects). This will
+	 * start odometer and lcdInfo by default.
+	 * 
 	 * @param manager
 	 */
 	public ServiceManager(Manager manager) {
@@ -56,14 +56,14 @@ public class ServiceManager {
 		this.mapper = new Mapper(manager);
 		this.localization = new Localization(manager);
 		this.lcdInfo = new LCDInfo(manager);
-		//this.hwView = new HardwareViewer(manager);
+		// this.hwView = new HardwareViewer(manager);
 	}
-	
+
 	/**
 	 * Starts navigation service
 	 */
 	public void start() {
 		nav.start();
-		//hwView.start(75);
+		// hwView.start(75);
 	}
 }

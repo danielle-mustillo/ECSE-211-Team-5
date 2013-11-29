@@ -7,10 +7,6 @@ import utilities.Settings;
  * <p>
  * The following mechanism makes sure the robot only has one state at a time.
  * The robot will only go to different states once.
- * 
- * @author Riley
- * @author Danielle
- * 
  */
 public class Forklift {
 	static NXTRemoteMotor lift = Settings.liftMotor;

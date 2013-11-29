@@ -11,14 +11,11 @@ import utilities.Settings;
  * robot starts. Furthermore, this method will keep track of its position and
  * will not rotate twice in the same direction (ie two identical calls will not
  * have double rotation).
- * 
- * @author Riley
- * @author Danielle
- * 
  */
 public class UltrasonicMotor {
 	/**
-	 * Whether the Ultrasonic sensor face forward or not. default is true. Robot should start facing forward.
+	 * Whether the Ultrasonic sensor face forward or not. default is true. Robot
+	 * should start facing forward.
 	 */
 	public static boolean isForward = true;
 

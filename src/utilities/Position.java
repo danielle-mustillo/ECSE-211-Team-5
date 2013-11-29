@@ -70,7 +70,9 @@ public class Position extends Point {
 	 * 
 	 * @param distance
 	 *            A distance the robot should travel
-	 * @param angle An angle the robot wants to turn by (relative to its current angle). 
+	 * @param angle
+	 *            An angle the robot wants to turn by (relative to its current
+	 *            angle).
 	 * @return A point with the destination coordinates.
 	 */
 	public Point addDisAndAngleToPosition(double distance, double angle) {
@@ -80,30 +82,27 @@ public class Position extends Point {
 				* Math.sin(Angle.principleAngle(angle + this.theta));
 		return new Point(posX, posY);
 	}
-	
-	
+
 	/**
 	 * This method assumes the robot is at this position presently. It adds a
 	 * distance to this position, generating a new {@link Point} object. It also
 	 * adds the input angle to that position. This method is useful when the
 	 * robot needs to travel somewhere relative to its current position. Formula
 	 * used for newX position is x + deltaX where deltaX is distance *
-	 * cos(theta). Theta in this case is the 
-	 * input angle. A Point object is returned due to logical reasons (the angle
-	 * the robot ends up at its destination is not necessarily the same as the
-	 * angle it started with).
+	 * cos(theta). Theta in this case is the input angle. A Point object is
+	 * returned due to logical reasons (the angle the robot ends up at its
+	 * destination is not necessarily the same as the angle it started with).
 	 * <p>
 	 * 
 	 * @param distance
 	 *            A distance the robot should travel
-	 * @param angle An angle the robot wants to turn to (exactly). 
+	 * @param angle
+	 *            An angle the robot wants to turn to (exactly).
 	 * @return A point with the destination coordinates.
 	 */
 	public Point goToDistanceAndAngle(double distance, double angle) {
-		double posX = this.x + distance
-				* Math.cos(Angle.principleAngle(angle));
-		double posY = this.y + distance
-				* Math.sin(Angle.principleAngle(angle));
+		double posX = this.x + distance * Math.cos(Angle.principleAngle(angle));
+		double posY = this.y + distance * Math.sin(Angle.principleAngle(angle));
 		return new Point(posX, posY);
 	}
 }

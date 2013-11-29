@@ -11,9 +11,6 @@ import lejos.util.TimerListener;
  * functionality built in. The colorPoller will never have values below 0 during
  * normal operation. Therefore, negative numbers mean the colorPoller has not
  * been setup.
- * 
- * @author danielle
- * 
  */
 public class ColorPoller implements TimerListener {
 	/**

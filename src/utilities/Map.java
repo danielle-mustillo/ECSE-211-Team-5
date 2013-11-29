@@ -7,9 +7,6 @@ package utilities;
  * objects as the robot is navigating. This would interact with the
  * {@link Navigation} class to add points to the route. Due to time constraints,
  * there was not a considerable amount of work done on this topic.
- * 
- * @author
- * 
  */
 public class Map {
 

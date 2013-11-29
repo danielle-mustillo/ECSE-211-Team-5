@@ -9,10 +9,6 @@ import lejos.util.TimerListener;
  * This class serves as a higher level abstraction of a ultrasonic sensor. It is
  * wrapped in a poller class which will now handle the returned values and the
  * polling of that sensor
- * <p>
- * 
- * @author Danielle
- * @author Riley
  */
 public class RemoteUltrasonicPoller implements TimerListener {
 	private UltrasonicSensor[] us = new UltrasonicSensor[3];
@@ -437,7 +433,7 @@ public class RemoteUltrasonicPoller implements TimerListener {
 
 	/**
 	 * Has values for the 3 (left, center, right) positions of the ultrasonic
-	 * sensors. Avoids integer values as much as possible. 
+	 * sensors. Avoids integer values as much as possible.
 	 */
 	public enum USPosition {
 		LEFT, CENTER, RIGHT

@@ -11,8 +11,6 @@ import utilities.Settings;
  * <p>
  * Uses a mean and difference filter to detect the lines.  Once {@link enteringLine} has been called, 
  * its control variable will be reset and it will no longer return true until a new line has been crossed
- * @author Riley
- *
  */
 
 public class LinePoller implements TimerListener {

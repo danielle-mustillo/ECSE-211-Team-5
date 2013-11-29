@@ -1,4 +1,5 @@
 package utilities;
+
 /**
  * Identifier for the four starting corners
  */

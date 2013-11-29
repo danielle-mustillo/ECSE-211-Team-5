@@ -5,22 +5,26 @@ import java.io.IOException;
 import lejos.nxt.comm.RConsole;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.RegulatedMotorListener;
+
 /**
  * 
- * Class for handling the remote motor abstraction layer on the master brick.  
- * {@link RemoteCommands} interface to send the appropriate command id via {@link NXTRemoteCommand} over RS485.
+ * Class for handling the remote motor abstraction layer on the master brick.
+ * {@link RemoteCommands} interface to send the appropriate command id via
+ * {@link NXTRemoteCommand} over RS485.
  * 
- * The receiving end implements {@link NXTRegulatedMotor} to carry out the actual commands, once they have been interpreted.
+ * The receiving end implements {@link NXTRegulatedMotor} to carry out the
+ * actual commands, once they have been interpreted.
  * 
- * Code Sourced from Lejos Forums (http://www.lejos.org/forum/viewtopic.php?f=7&t=2620)
+ * Code Sourced from Lejos Forums
+ * (http://www.lejos.org/forum/viewtopic.php?f=7&t=2620)
  * 
  * @author cs07cc4
- *
+ * 
  */
 public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	/**
-	 * Motor id.  (1,2,3) -> (a,b,c)
+	 * Motor id. (1,2,3) -> (a,b,c)
 	 */
 	private int id;
 
@@ -30,8 +34,12 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	/**
 	 * Initializes id and motorCommand
-	 * @param nxtCommand {@link NXTRemoteCommand} object required for remote motor functionality
-	 * @param id id of the motor (1,2,3) -> (a,b,c)
+	 * 
+	 * @param nxtCommand
+	 *            {@link NXTRemoteCommand} object required for remote motor
+	 *            functionality
+	 * @param id
+	 *            id of the motor (1,2,3) -> (a,b,c)
 	 */
 	public NXTRemoteMotor(NXTRemoteCommand nxtCommand, int id) {
 
@@ -42,6 +50,7 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	/**
 	 * Stops regulation
+	 * 
 	 * @return returns success of action
 	 */
 	public boolean suspendRegulation() {
@@ -59,7 +68,7 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 	}
 
 	/**
-	 * Floats the motor.  No electromagnetic resistance.
+	 * Floats the motor. No electromagnetic resistance.
 	 */
 	@Override
 	public void flt() {
@@ -70,6 +79,7 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	/**
 	 * Gets the current roatation speed of the motor
+	 * 
 	 * @return returns the current rotation speed of the motor
 	 */
 	@Override
@@ -89,6 +99,7 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	/**
 	 * Gets the tacho count of the motor
+	 * 
 	 * @return returns current tacho count
 	 */
 	@Override
@@ -107,7 +118,7 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 	}
 
 	/**
-	 * Resets the motor's tacho count 
+	 * Resets the motor's tacho count
 	 */
 	@Override
 	public void resetTachoCount() {
@@ -118,7 +129,8 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	/**
 	 * Gets the limit angle of the motor (angle relative to starting point)
-	 * @returns returns the limit angle
+	 * 
+	 * @return returns the limit angle
 	 */
 	@Override
 	public int getLimitAngle() {
@@ -138,7 +150,8 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	/**
 	 * Gets the maximum speed supported by the motor
-	 * @returns maximum speed supported by the motor
+	 * 
+	 * @return maximum speed supported by the motor
 	 */
 	@Override
 	public float getMaxSpeed() {
@@ -157,7 +170,8 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	/**
 	 * Gets the current speed of the motor
-	 * @returns returns the current speed of the motor  
+	 * 
+	 * @return returns the current speed of the motor
 	 */
 	@Override
 	public int getSpeed() {
@@ -176,7 +190,8 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	/**
 	 * checks if the motor is stalled
-	 * @returns returns true if the motor is stalled, otherwise false.
+	 * 
+	 * @return returns true if the motor is stalled, otherwise false.
 	 */
 	@Override
 	public boolean isStalled() {
@@ -196,7 +211,9 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	/**
 	 * Tells the motor to rotate a certain angle
-	 * @param angle the angle to rotate
+	 * 
+	 * @param angle
+	 *            the angle to rotate
 	 */
 	@Override
 	public void rotate(int angle) {
@@ -206,10 +223,14 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 	}
 
 	/**
-	 * Tells the motor to rotate to a certain angle. immediate return not yet implemented.  
-	 * Returns once the command is sent
-	 * @param angle the angle to rotate 
-	 * @param immediateReturn whether to return immediately or wait until the rotation is finished
+	 * Tells the motor to rotate to a certain angle. immediate return not yet
+	 * implemented. Returns once the command is sent
+	 * 
+	 * @param angle
+	 *            the angle to rotate
+	 * @param immediateReturn
+	 *            whether to return immediately or wait until the rotation is
+	 *            finished
 	 */
 	@Override
 	public void rotate(int angle, boolean immediateReturn) {
@@ -219,8 +240,11 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 	}
 
 	/**
-	 * Tells the motor to rotate to an angle with respect to its initial starting angle.
-	 * @param angle the angle to rotateTo
+	 * Tells the motor to rotate to an angle with respect to its initial
+	 * starting angle.
+	 * 
+	 * @param angle
+	 *            the angle to rotateTo
 	 */
 	@Override
 	public void rotateTo(int angle) {
@@ -229,10 +253,15 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 	}
 
 	/**
-	 * Tells the motor to rotate to an angle with respect to its initial starting angle. 
-	 * ImmediateReturn not implemented yet. methods returns once the command is sent 
-	 * @param angle the angle to rotateTo
-	 * @param immediateReturn if false the method will not return until the rotation is complete. otherwise it will return right away
+	 * Tells the motor to rotate to an angle with respect to its initial
+	 * starting angle. ImmediateReturn not implemented yet. methods returns once
+	 * the command is sent
+	 * 
+	 * @param angle
+	 *            the angle to rotateTo
+	 * @param immediateReturn
+	 *            if false the method will not return until the rotation is
+	 *            complete. otherwise it will return right away
 	 */
 	@Override
 	public void rotateTo(int angle, boolean immediateReturn) {
@@ -241,7 +270,9 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	/**
 	 * Sets the acceleration of the motor
-	 * @param accel integer value for acceleration
+	 * 
+	 * @param accel
+	 *            integer value for acceleration
 	 */
 	@Override
 	public void setAcceleration(int accel) {
@@ -252,7 +283,9 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	/**
 	 * Sets the speed of the motor
-	 * @param speed speed to set the motor speed to
+	 * 
+	 * @param speed
+	 *            speed to set the motor speed to
 	 */
 	@Override
 	public void setSpeed(int speed) {
@@ -282,6 +315,7 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 
 	/**
 	 * Checks to see if the motor is moving
+	 * 
 	 * @return returns true if the motor is moving, false otherwise.
 	 */
 	@Override
@@ -310,7 +344,7 @@ public class NXTRemoteMotor implements RemoteCommands, RegulatedMotor {
 	}
 
 	/**
-	 * Does nothing.  Just overrides super method
+	 * Does nothing. Just overrides super method
 	 */
 	@Override
 	public void addListener(RegulatedMotorListener arg0) {

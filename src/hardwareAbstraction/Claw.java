@@ -1,7 +1,6 @@
 package hardwareAbstraction;
 
 import utilities.Settings;
-import lejos.nxt.comm.RConsole;
 
 /**
  * Controls the Claw Motor. Uses the claw motor defined in {@link Settings}.
@@ -22,7 +21,6 @@ public class Claw {
 	 * This method grabs an object. Returns a default time to sleep (2s)
 	 */
 	public static int grabObject() {
-		RConsole.println("grabbing object");
 		claw.setAcceleration(200);
 		claw.setSpeed(150);
 		claw.rotateTo(90, true);
@@ -33,7 +31,6 @@ public class Claw {
 	 * This method releases an object. Returns a default time to sleep (2s)
 	 */
 	public static int releaseObject() {
-		RConsole.println("releasing object");
 		claw.setAcceleration(200);
 		claw.setSpeed(150);
 		claw.rotateTo(-55, true);

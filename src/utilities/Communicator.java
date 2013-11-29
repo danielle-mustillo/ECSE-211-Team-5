@@ -18,9 +18,6 @@ import lejos.nxt.comm.NXTConnection;
  * the built in functionality turned out to be unreliable and we have rewrote
  * the functionality. This has greatly improved the reliability of the
  * communication between the two classes.
- * @author Danielle Mustillo
- * @author Riley
- * 
  */
 public class Communicator {
 	/**
@@ -33,25 +30,29 @@ public class Communicator {
 	private NXTCommConnector connector;
 	public DataInputStream dis;
 	public DataOutputStream dos;
+
 	/**
-	 * Master communicator.  Establishes and stores the RS485 connection to the slave NXT.  It will also open the input & output data streams
+	 * Master communicator. Establishes and stores the RS485 connection to the
+	 * slave NXT. It will also open the input & output data streams
+	 * 
 	 * @param extendedNXT
 	 */
 	public Communicator(String extendedNXT) {
-		
-	       connector = RS485.getConnector();
-	       con = connector.connect(extendedNXT, NXTConnection.RAW);
-	       if (con == null) 
-	       catchBug("RS485 Failed");
-	      
-	       dis = con.openDataInputStream();
-	       dos = con.openDataOutputStream();
+
+		connector = RS485.getConnector();
+		con = connector.connect(extendedNXT, NXTConnection.RAW);
+		if (con == null)
+			catchBug("RS485 Failed");
+
+		dis = con.openDataInputStream();
+		dos = con.openDataOutputStream();
 	}
 
 	/**
 	 * The static helper method here just exits the system when commanded. It
 	 * displays a message on the NXT for the user.
 	 * <p>
+	 * 
 	 * @param bug
 	 *            A String object with the message on screen.
 	 */

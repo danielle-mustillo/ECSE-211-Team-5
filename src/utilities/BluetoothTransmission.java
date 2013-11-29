@@ -14,9 +14,6 @@ import lejos.nxt.comm.NXTConnection;
  * This class will open a bluetooth connection to the PC server. It will also
  * read the match variables and set the appropriate variables in
  * {@link Settings}.
- * 
- * @author Danielle
- * 
  */
 public class BluetoothTransmission {
 	/**
